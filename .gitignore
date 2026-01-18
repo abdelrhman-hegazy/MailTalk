@@ -1,0 +1,8 @@
+
+.env
+node_modules
+.vscode
+jest.config.js
+coverage
+tsconfig.tsbuildinfo
+tests
