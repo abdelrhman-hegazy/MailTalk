@@ -1,7 +1,7 @@
 import pino from "pino";
 import { config } from "../../config";
 
-const isDev = config.enviroment.NODE_ENV;
+const isDev = config.environment.NODE_ENV;
 
 export const logger = pino({
   level: isDev ? "debug" : "info",

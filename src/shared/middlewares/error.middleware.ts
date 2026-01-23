@@ -1,14 +1,9 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { AppError } from "../errors/AppError";
 import { config } from "../../config";
 import { logger } from "../utils/logger";
 
-export const errorHandler = (
-  err: Error,
-  _req: Request,
-  res: Response,
-  _next: NextFunction,
-) => {
+export const errorHandler = (err: Error, _req: Request, res: Response) => {
   let statusCode = 500;
   let message = "Internal Server Error";
   let errorType = "INTERNAL_SERVER_ERROR";
@@ -27,7 +22,7 @@ export const errorHandler = (
     err.message,
   );
 
-  if (config.enviroment.NODE_ENV === "development") {
+  if (config.environment.NODE_ENV === "development") {
     return res.status(statusCode).json({
       success: false,
       message,
