@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["./dist", "eslint.config.mts"],
-  "include": ["src"],
+  "include": ["src","prisma/**/*"],
   "ts-node": {
     "transpileOnly": true,
     "files": true
