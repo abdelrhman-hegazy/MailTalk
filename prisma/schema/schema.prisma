@@ -3,8 +3,45 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String
+  password   String?
+  provider   Provider
+  providerId String?
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  profile    Profile? @relation("userProfile")
+}
+
+enum Provider {
+  EMAIL
+  GOOGLE
+  FACEBOOK
+  IPHONE
+}
+
+
+model Profile {
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  avatarUrl   String?
+  bio         String?
+  lastSeen    DateTime  @default(now())
+  isOnline    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation("userProfile", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+

@@ -8,4 +8,4 @@ tsconfig.tsbuildinfo
 tests
 dist/
 /src/generated/prisma
-.gitNotes
+others/*
