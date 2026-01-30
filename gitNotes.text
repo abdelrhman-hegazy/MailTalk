@@ -1,0 +1,46 @@
+chore >> tools / config / ci/cd
+feet >> new features
+fix >> bug fixes
+docs >> documentation
+style >> code formatting
+refactor >> code refactoring
+test >> adding tests
+
+الفلو الصح:
+master
+  |
+  └── development
+         |
+         └── feat/auth
+               └── feat/chat
+
+لما تعمل Feature جديد:
+git checkout development
+git pull origin development
+git checkout -b feat/auth
+
+تخلص Feature:
+git add .
+git commit -m "feat(auth): register user"
+git push origin feat/auth
+
+تعمل Merge:
+
+من GitHub (Pull Request) ✅ أفضل
+
+أو محليًا:
+
+git checkout development
+git merge feat/auth
+
+master؟
+
+ما يدخلش عليه غير:
+
+نسخة stable
+
+Release
+
+Graduation project demo
+
+❌ الغلطة اللي حصلت
