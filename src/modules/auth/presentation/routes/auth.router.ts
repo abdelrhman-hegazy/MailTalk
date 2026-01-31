@@ -1,5 +1,9 @@
 import express from "express";
-import { registerSchema, verificationSchema } from "../validators/auth.schema";
+import {
+  registerSchema,
+  verificationSchema,
+  loginSchema,
+} from "../validators/auth.schema";
 import { AuthModule } from "../../auth.module";
 import { validate } from "../../../../shared/middlewares/validate.middleware";
 const router = express.Router();
@@ -13,5 +17,6 @@ router.post(
   validate(verificationSchema),
   authController.verification,
 );
+router.post("/login", validate(loginSchema), authController.login);
 
 export { router as authRouter };

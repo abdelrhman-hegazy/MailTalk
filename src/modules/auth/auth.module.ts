@@ -1,11 +1,11 @@
 import { UserRepositoryPrisma } from "./infrastructure/repositories/user.repository.prisma";
-// import { JwtService } from "./infrastructure/services/jwt.service";
 import { BcryptService } from "./infrastructure/services/bcrypt.service";
 import { NodemailerService } from "./infrastructure/services/nodemailer.service";
 import { RegisterUsecase } from "./application/use-cases/register.usecase";
 import { AuthController } from "./presentation/controllers/auth.controller";
 import { VerificationUsecase } from "./application/use-cases/verification.usecase";
 import { JwtService } from "./infrastructure/services/jwt.service";
+import { LoginUsecase } from "./application/use-cases/login.usecase";
 
 export function AuthModule() {
   const userRepo = new UserRepositoryPrisma();
@@ -20,6 +20,7 @@ export function AuthModule() {
     tokenService,
     hashService,
   );
+  const login = new LoginUsecase(userRepo, tokenService, hashService);
 
-  return new AuthController(register, verification);
+  return new AuthController(register, verification, login);
 }

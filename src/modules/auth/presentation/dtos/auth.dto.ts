@@ -7,3 +7,8 @@ export interface VerificationDto {
   email: string;
   code: string;
 }
+
+export interface LoginDto {
+  email: string;
+  password: string;
+}

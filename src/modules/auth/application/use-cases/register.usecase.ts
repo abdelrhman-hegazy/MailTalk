@@ -13,7 +13,6 @@ export class RegisterUsecase {
 
   async execute(email: string, name: string, password: string) {
     const exists = await this.userRepo.findUserByEmail(email);
-    console.log("exists////////", exists);
     // Hash password
     const hashedPassword = await this.hashService.hash(password);
     // generate verification code
@@ -24,8 +23,6 @@ export class RegisterUsecase {
     // expire after 3 minutes
     const expiryDate = new Date();
     expiryDate.setMinutes(expiryDate.getMinutes() + 3);
-    console.log("verificationCode////////", verificationCode);
-    console.log("expiryDate////////", expiryDate);
     // Check if user already exists
     if (!exists) {
       // Create user
@@ -46,8 +43,7 @@ export class RegisterUsecase {
       //update hashed verification code and expiry date
       exists.verificationCode = hashedVerificationCode;
       exists.verificationCodeExpiry = expiryDate;
-      const updatedUser = await this.userRepo.updateUser(exists);
-      console.log("updatedUser////////", updatedUser);
+      await this.userRepo.updateUser(exists);
     }
     // send verification email
     await this.emailService.sendVerification(

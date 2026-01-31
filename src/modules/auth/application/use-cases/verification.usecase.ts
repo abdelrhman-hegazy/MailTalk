@@ -15,17 +15,17 @@ export class VerificationUsecase {
     // 1. Verify the email
     const exists = await this.userRepo.findUserByEmail(email);
     if (!exists) {
-      throw new AppError("User not found", 404, "USER_NOT_FOUND");
+      throw new AppError("User not found", 404, "not_found");
     }
     if (exists.isVerified) {
-      throw new AppError("User already verified", 400, "USER_ALREADY_VERIFIED");
+      throw new AppError("User already verified", 400, "already_verified");
     }
     // 2. Verify the verification code
     if (!exists.verificationCode) {
       throw new AppError(
         "No verification code found. Please request a new one.",
         400,
-        "NO_VERIFICATION_CODE",
+        "no_verification_code",
       );
     }
 
@@ -33,16 +33,11 @@ export class VerificationUsecase {
       code,
       exists.verificationCode,
     );
-    console.log("///////////////");
-    console.log(isVerified);
-    console.log(exists.verificationCodeExpiry);
-    console.log(new Date());
-    if (!isVerified || exists.verificationCodeExpiry < new Date()) {
-      throw new AppError(
-        "Invalid verification code",
-        400,
-        "INVALID_VERIFICATION_CODE",
-      );
+    if (!isVerified) {
+      throw new AppError("Invalid verification code", 400, "invalid_code");
+    }
+    if (exists.verificationCodeExpiry < new Date()) {
+      throw new AppError("Verification Code Is Expired", 400, "expired_code");
     }
     // 3. Update user status to verified
     const user = new User(
