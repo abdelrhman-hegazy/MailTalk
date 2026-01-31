@@ -8,6 +8,8 @@ export class User {
     public providerId: string | null,
     public isVerified: boolean,
     public createdAt: Date,
+    public verificationCode: string | null,
+    public verificationCodeExpiry: Date | null,
   ) {}
 
   verifyEmail() {

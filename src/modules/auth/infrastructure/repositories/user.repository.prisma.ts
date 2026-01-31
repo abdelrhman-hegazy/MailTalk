@@ -3,6 +3,9 @@ import { User } from "../../domain/entities/user.entity";
 import { UserRepository } from "../../domain/repositories/user.repository";
 
 export class UserRepositoryPrisma implements UserRepository {
+  async deleteAllUsers() {
+    await prisma.user.deleteMany();
+  }
   async createUser(user: User) {
     const data = await prisma.user.create({
       data: user,
@@ -27,12 +30,13 @@ export class UserRepositoryPrisma implements UserRepository {
     return data ? this.returnData(data) : null;
   }
   async updateUser(user: User) {
-    await prisma.user.update({
+    const data = await prisma.user.update({
       where: {
         id: user.id,
       },
       data: user,
     });
+    return data ? this.returnData(data) : null;
   }
   async getAllUsers(): Promise<User[]> {
     const data = await prisma.user.findMany();
@@ -48,6 +52,8 @@ export class UserRepositoryPrisma implements UserRepository {
       data.providerId,
       data.isVerified,
       data.createdAt,
+      data.verificationCode,
+      data.verificationCodeExpiry,
     );
   }
 }

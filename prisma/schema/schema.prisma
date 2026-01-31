@@ -21,6 +21,8 @@ model User {
   providerId String?
   isVerified Boolean  @default(false)
   createdAt  DateTime @default(now())
+  verificationCode String?
+  verificationCodeExpiry DateTime?
 
   profile    Profile? @relation("userProfile")
 }

@@ -10,6 +10,10 @@ export const registerSchema = zod.object({
     ),
 });
 
+export const verificationSchema = zod.object({
+  email: zod.string().email(),
+});
+
 export const loginSchema = zod.object({
   email: zod.string().email(),
   password: zod
