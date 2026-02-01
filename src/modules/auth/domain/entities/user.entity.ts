@@ -10,9 +10,6 @@ export class User {
     public createdAt: Date,
     public verificationCode: string | null,
     public verificationCodeExpiry: Date | null,
+    public refreshToken: string | null,
   ) {}
-
-  verifyEmail() {
-    this.isVerified = true;
-  }
 }

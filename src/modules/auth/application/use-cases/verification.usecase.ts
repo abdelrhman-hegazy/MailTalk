@@ -1,8 +1,9 @@
 import { UserRepository } from "../../domain/repositories/user.repository";
 import { JwtService } from "../../infrastructure/services/jwt.service";
-import { AppError } from "../../../../shared/utils/AppError";
+import { AppError } from "../../../../shared/utils";
 import { User } from "../../domain/entities/user.entity";
 import { HashService } from "../../domain/services/hash.service";
+
 export class VerificationUsecase {
   constructor(
     private userRepo: UserRepository,
@@ -11,17 +12,19 @@ export class VerificationUsecase {
   ) {}
 
   async execute(email: string, code: string) {
-    // TODO: Implement verification logic
-    // 1. Verify the email
-    const exists = await this.userRepo.findUserByEmail(email);
-    if (!exists) {
+    // 1. Find and validate user exists
+    const user = await this.userRepo.findUserByEmail(email);
+    if (!user) {
       throw new AppError("User not found", 404, "not_found");
     }
-    if (exists.isVerified) {
+
+    // 2. Check if already verified
+    if (user.isVerified) {
       throw new AppError("User already verified", 400, "already_verified");
     }
-    // 2. Verify the verification code
-    if (!exists.verificationCode) {
+
+    // 3. Validate verification code exists
+    if (!user.verificationCode) {
       throw new AppError(
         "No verification code found. Please request a new one.",
         400,
@@ -29,34 +32,41 @@ export class VerificationUsecase {
       );
     }
 
-    const isVerified = await this.hashService.compare(
+    // 4. Check code expiry first (before expensive hash comparison)
+    if (user.verificationCodeExpiry < new Date()) {
+      throw new AppError("Verification code has expired", 400, "expired_code");
+    }
+
+    // 5. Verify the code
+    const isCodeValid = await this.hashService.compare(
       code,
-      exists.verificationCode,
+      user.verificationCode,
     );
-    if (!isVerified) {
+    if (!isCodeValid) {
       throw new AppError("Invalid verification code", 400, "invalid_code");
     }
-    if (exists.verificationCodeExpiry < new Date()) {
-      throw new AppError("Verification Code Is Expired", 400, "expired_code");
-    }
-    // 3. Update user status to verified
-    const user = new User(
-      exists.id,
-      exists.email,
-      exists.name,
-      exists.password,
-      exists.provider,
-      exists.providerId,
-      true,
-      exists.createdAt,
-      null,
-      null,
-    );
-    await this.userRepo.updateUser(user);
-    // 4. Generate access and refresh tokens
+
+    // 6. Generate tokens
     const accessToken = this.tokenService.generateAccessToken(user.id);
     const refreshToken = this.tokenService.generateRefreshToken(user.id);
-    // 5. Return tokens
+
+    // 7. Update user to verified and clear verification data
+    const verifiedUser = new User(
+      user.id,
+      user.email,
+      user.name,
+      user.password,
+      user.provider,
+      user.providerId,
+      true, // isVerified
+      user.createdAt,
+      null, // verificationCode - cleared after successful verification
+      null, // verificationCodeExpiry - cleared after successful verification
+      refreshToken,
+    );
+
+    await this.userRepo.updateUser(verifiedUser);
+
     return { accessToken, refreshToken };
   }
 }

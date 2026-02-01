@@ -37,6 +37,7 @@ export class RegisterUsecase {
         new Date(),
         hashedVerificationCode,
         expiryDate,
+        null,
       );
       await this.userRepo.createUser(user);
     } else {

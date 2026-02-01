@@ -3,7 +3,7 @@ import { cleanObject } from "./cleanObject";
 import { ApiResponse } from "../types/api-response";
 
 interface sendResponseParams<T> extends ApiResponse<T> {
-  statusCode: number;
+  statusCode?: number;
   cookies?: {
     name: string;
     value: string;

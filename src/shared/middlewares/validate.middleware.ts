@@ -1,6 +1,6 @@
 import z, { ZodObject, ZodRawShape } from "zod";
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../utils/AppError";
+import { AppError } from "../utils";
 
 export const validate =
   <T extends ZodRawShape>(schema: ZodObject<T>) =>

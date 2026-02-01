@@ -6,6 +6,7 @@ import { AuthController } from "./presentation/controllers/auth.controller";
 import { VerificationUsecase } from "./application/use-cases/verification.usecase";
 import { JwtService } from "./infrastructure/services/jwt.service";
 import { LoginUsecase } from "./application/use-cases/login.usecase";
+import { RefreshToken } from "./application/use-cases/refresh-token.usecase";
 
 export function AuthModule() {
   const userRepo = new UserRepositoryPrisma();
@@ -21,6 +22,7 @@ export function AuthModule() {
     hashService,
   );
   const login = new LoginUsecase(userRepo, tokenService, hashService);
+  const refreshToken = new RefreshToken(userRepo, tokenService);
 
-  return new AuthController(register, verification, login);
+  return new AuthController(register, verification, login, refreshToken);
 }

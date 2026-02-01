@@ -19,4 +19,5 @@ router.post(
 );
 router.post("/login", validate(loginSchema), authController.login);
 
+router.get("/refreshToken", authController.refreshToken);
 export { router as authRouter };

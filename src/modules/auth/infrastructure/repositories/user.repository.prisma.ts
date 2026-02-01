@@ -30,13 +30,12 @@ export class UserRepositoryPrisma implements UserRepository {
     return data ? this.returnData(data) : null;
   }
   async updateUser(user: User) {
-    const data = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: user.id,
       },
       data: user,
     });
-    return data ? this.returnData(data) : null;
   }
   async getAllUsers(): Promise<User[]> {
     const data = await prisma.user.findMany();
@@ -54,6 +53,7 @@ export class UserRepositoryPrisma implements UserRepository {
       data.createdAt,
       data.verificationCode,
       data.verificationCodeExpiry,
+      data.refreshToken,
     );
   }
 }

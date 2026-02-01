@@ -1,4 +1,4 @@
-import { AppError } from "../../../../shared/utils/AppError";
+import { AppError } from "../../../../shared/utils";
 import { UserRepository } from "../../domain/repositories/user.repository";
 import { HashService } from "../../domain/services/hash.service";
 import { JwtService } from "../../infrastructure/services/jwt.service";
@@ -27,6 +27,9 @@ export class LoginUsecase {
     // Generate token
     const accessToken = this.tokenService.generateAccessToken(user.id);
     const refreshToken = this.tokenService.generateRefreshToken(user.id);
+    // Save refresh token
+    user.refreshToken = refreshToken;
+    await this.userRepo.updateUser(user);
     return { accessToken, refreshToken };
   }
 }

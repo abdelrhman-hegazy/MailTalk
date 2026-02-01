@@ -23,6 +23,7 @@ model User {
   createdAt  DateTime @default(now())
   verificationCode String?
   verificationCodeExpiry DateTime?
+  refreshToken String?
 
   profile    Profile? @relation("userProfile")
 }
