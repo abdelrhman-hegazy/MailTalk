@@ -4,7 +4,7 @@ export class User {
     public email: string,
     public name: string,
     public password: string | null,
-    public provider: "EMAIL" | "GOOGLE" | "FACEBOOK" | "IPHONE",
+    public provider: string,
     public providerId: string | null,
     public isVerified: boolean,
     public createdAt: Date,

@@ -10,7 +10,8 @@ import { config } from "../../../../config";
 import { RegisterUsecase } from "../../application/use-cases/register.usecase";
 import { VerificationUsecase } from "../../application/use-cases/verification.usecase";
 import { LoginUsecase } from "../../application/use-cases/login.usecase";
-import { RefreshToken } from "../../application/use-cases/refresh-token.usecase";
+import { RefreshTokenUsecase } from "../../application/use-cases/refresh-token.usecase";
+import { OAuthLoginUsecase } from "../../application/use-cases/oauth-login.usecase";
 
 export class AuthController {
   private readonly REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -19,7 +20,11 @@ export class AuthController {
     private registerUsecase: RegisterUsecase,
     private verificationUsecase: VerificationUsecase,
     private loginUsecase: LoginUsecase,
-    private refreshTokenUsecase: RefreshToken,
+    private refreshTokenUsecase: RefreshTokenUsecase,
+    private oauthLoginUsecase: {
+      google: OAuthLoginUsecase;
+      facebook: OAuthLoginUsecase;
+    },
   ) {}
 
   register = catchAsync(async (req: Request, res: Response) => {
@@ -89,6 +94,23 @@ export class AuthController {
         isMobile,
       ),
       cookies: this.createRefreshTokenCookie(result.refreshToken, isMobile),
+    });
+  });
+
+  oauthLogin = catchAsync(async (req, res) => {
+    const { provider, accessToken } = req.body;
+    const isMobile = this.isMobileClient(req);
+
+    const tokens = await this.oauthLoginUsecase[provider].execute(accessToken);
+
+    sendResponse(res, {
+      message: "User logged in successfully",
+      tokens: this.formatTokenResponse(
+        tokens.accessToken,
+        tokens.refreshToken,
+        isMobile,
+      ),
+      cookies: this.createRefreshTokenCookie(tokens.refreshToken, isMobile),
     });
   });
 

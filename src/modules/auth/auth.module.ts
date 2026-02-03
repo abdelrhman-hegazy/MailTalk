@@ -6,7 +6,10 @@ import { AuthController } from "./presentation/controllers/auth.controller";
 import { VerificationUsecase } from "./application/use-cases/verification.usecase";
 import { JwtService } from "./infrastructure/services/jwt.service";
 import { LoginUsecase } from "./application/use-cases/login.usecase";
-import { RefreshToken } from "./application/use-cases/refresh-token.usecase";
+import { RefreshTokenUsecase } from "./application/use-cases/refresh-token.usecase";
+import { OAuthLoginUsecase } from "./application/use-cases/oauth-login.usecase";
+import { GoogleOauthProvider } from "./infrastructure/services/oauth/google.provider";
+import { FacebookOauthProvider } from "./infrastructure/services/oauth/facebook.provider";
 
 export function AuthModule() {
   const userRepo = new UserRepositoryPrisma();
@@ -22,7 +25,29 @@ export function AuthModule() {
     hashService,
   );
   const login = new LoginUsecase(userRepo, tokenService, hashService);
-  const refreshToken = new RefreshToken(userRepo, tokenService);
+  const refreshToken = new RefreshTokenUsecase(userRepo, tokenService);
 
-  return new AuthController(register, verification, login, refreshToken);
+  const oauthUseCases = () => {
+    return {
+      google: new OAuthLoginUsecase(
+        new GoogleOauthProvider(),
+        userRepo,
+        tokenService,
+      ),
+
+      facebook: new OAuthLoginUsecase(
+        new FacebookOauthProvider(),
+        userRepo,
+        tokenService,
+      ),
+    };
+  };
+
+  return new AuthController(
+    register,
+    verification,
+    login,
+    refreshToken,
+    oauthUseCases(),
+  );
 }

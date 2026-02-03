@@ -2,7 +2,7 @@ import { AppError } from "../../../../shared/utils";
 import { UserRepository } from "../../domain/repositories/user.repository";
 import { JwtService } from "../../infrastructure/services/jwt.service";
 
-export class RefreshToken {
+export class RefreshTokenUsecase {
   constructor(
     private userRepo: UserRepository,
     private tokenService: JwtService,

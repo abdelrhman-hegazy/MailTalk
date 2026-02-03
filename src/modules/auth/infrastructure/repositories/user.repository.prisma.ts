@@ -29,6 +29,24 @@ export class UserRepositoryPrisma implements UserRepository {
     });
     return data ? this.returnData(data) : null;
   }
+  async findByProvider(provider: string, providerId: string) {
+    const data = await prisma.user.findFirst({
+      where: {
+        provider,
+        providerId,
+      },
+    });
+    return data ? this.returnData(data) : null;
+  }
+  async findUserByEmailAndProvider(email: string, provider: string) {
+    const data = await prisma.user.findUnique({
+      where: {
+        email,
+        provider,
+      },
+    });
+    return data ? this.returnData(data) : null;
+  }
   async updateUser(user: User) {
     await prisma.user.update({
       where: {
