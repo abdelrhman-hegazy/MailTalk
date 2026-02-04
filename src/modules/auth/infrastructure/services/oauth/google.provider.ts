@@ -1,24 +1,26 @@
 import axios from "axios";
 import {
-  OAuthProvider,
-  OAuthProfile,
   AuthProvider,
+  OAuthProfile,
+  OAuthProvider,
 } from "../../../domain/services/oauth-provider.service";
+import { config } from "../../../../../config";
 
 export class GoogleOauthProvider implements OAuthProvider {
-  async getProfile(accessToken: string): Promise<OAuthProfile> {
+  async getProfile(idToken: string): Promise<OAuthProfile> {
     const { data } = await axios.get(
-      "https://www.googleapis.com/oauth2/v2/userinfo",
+      "https://oauth2.googleapis.com/tokeninfo",
       {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        params: { id_token: idToken },
       },
     );
+    if (data.aud !== config.oauth.GOOGLE_CLIENT_ID) {
+      throw new Error("Invalid Google audience");
+    }
 
     return {
       provider: AuthProvider.GOOGLE,
-      providerId: data.id,
+      providerId: data.sub,
       email: data.email,
       name: data.name,
       avatar: data.picture,

@@ -9,7 +9,7 @@ import { LoginUsecase } from "./application/use-cases/login.usecase";
 import { RefreshTokenUsecase } from "./application/use-cases/refresh-token.usecase";
 import { OAuthLoginUsecase } from "./application/use-cases/oauth-login.usecase";
 import { GoogleOauthProvider } from "./infrastructure/services/oauth/google.provider";
-import { FacebookOauthProvider } from "./infrastructure/services/oauth/facebook.provider";
+import { FacebookOAuthProvider } from "./infrastructure/services/oauth/facebook.provider";
 
 export function AuthModule() {
   const userRepo = new UserRepositoryPrisma();
@@ -36,7 +36,7 @@ export function AuthModule() {
       ),
 
       facebook: new OAuthLoginUsecase(
-        new FacebookOauthProvider(),
+        new FacebookOAuthProvider(),
         userRepo,
         tokenService,
       ),
