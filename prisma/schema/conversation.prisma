@@ -1,0 +1,18 @@
+
+model Conversation {
+    id String @id @default(cuid())
+    type ConversationType
+    name String?
+    imageUrl String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+   members   ConversationMember[]
+  messages  Message[]
+}
+
+enum ConversationType{
+  ONE_TO_ONE 
+  GROUP 
+}
+

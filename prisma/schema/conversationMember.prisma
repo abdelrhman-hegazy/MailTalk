@@ -1,0 +1,15 @@
+model ConversationMember {
+  id             String   @id @default(cuid())
+  conversationId String
+  userId         String
+  joinedAt       DateTime @default(now())
+  role           RoleType
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+
+  @@unique([conversationId, userId])
+}
+
+enum RoleType {
+  MEMBER
+  ADMIN
+}

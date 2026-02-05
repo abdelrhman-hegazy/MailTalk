@@ -1,15 +1,17 @@
 import { UserRepositoryPrisma } from "./infrastructure/repositories/user.repository.prisma";
 import { BcryptService } from "./infrastructure/services/bcrypt.service";
 import { NodemailerService } from "./infrastructure/services/nodemailer.service";
-import { RegisterUsecase } from "./application/use-cases/register.usecase";
-import { AuthController } from "./presentation/controllers/auth.controller";
-import { VerificationUsecase } from "./application/use-cases/verification.usecase";
+import { FacebookOAuthProvider } from "./infrastructure/services/oauth/facebook.provider";
+import { GoogleOauthProvider } from "./infrastructure/services/oauth/google.provider";
 import { JwtService } from "./infrastructure/services/jwt.service";
+
+import { RegisterUsecase } from "./application/use-cases/register.usecase";
+import { VerificationUsecase } from "./application/use-cases/verification.usecase";
 import { LoginUsecase } from "./application/use-cases/login.usecase";
 import { RefreshTokenUsecase } from "./application/use-cases/refresh-token.usecase";
 import { OAuthLoginUsecase } from "./application/use-cases/oauth-login.usecase";
-import { GoogleOauthProvider } from "./infrastructure/services/oauth/google.provider";
-import { FacebookOAuthProvider } from "./infrastructure/services/oauth/facebook.provider";
+
+import { AuthController } from "./presentation/controllers/auth.controller";
 
 export function AuthModule() {
   const userRepo = new UserRepositoryPrisma();

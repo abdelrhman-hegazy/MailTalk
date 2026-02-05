@@ -1,0 +1,22 @@
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String
+  password   String?
+  provider   Provider
+  providerId String?
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  verificationCode String?
+  verificationCodeExpiry DateTime?
+  refreshToken String?
+
+  profile    Profile? @relation("userProfile")
+}
+
+enum Provider {
+  EMAIL
+  GOOGLE
+  FACEBOOK
+}
