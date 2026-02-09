@@ -56,7 +56,7 @@ export class OAuthLoginUsecase {
       throw new AppError(
         `An account with this email already exists using ${existingUser.provider}`,
         409,
-        "email_already_registered",
+        "invalid_credentials",
       );
     }
   }

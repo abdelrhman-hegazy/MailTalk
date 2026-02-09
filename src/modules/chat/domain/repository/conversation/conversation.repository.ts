@@ -6,7 +6,7 @@ import {
 export interface ConversationRepository {
   create(data: {
     type: ConversationType;
-    title?: string | null;
+    name?: string | null;
   }): Promise<Conversation>;
 
   findById(conversationId: string): Promise<Conversation | null>;

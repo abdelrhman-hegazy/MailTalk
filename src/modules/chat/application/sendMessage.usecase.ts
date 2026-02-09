@@ -1,5 +1,5 @@
+import { MessageStatus } from "../../../../prisma/src/generated/prisma";
 import { AppError } from "../../../shared/utils";
-import { UserRepository } from "../../auth/domain/repositories/user.repository";
 import { ConversationType } from "../domain/entities/conversation/conversation.entity";
 import { MessageType } from "../domain/entities/message/message.entity";
 import { ConversationRepository } from "../domain/repository/conversation/conversation.repository";
@@ -8,7 +8,7 @@ import { MessageRepository } from "../domain/repository/message/message.reposito
 
 interface SendMessageInput {
   senderId: string;
-  receiver?: string;
+  receiverId?: string;
   conversationId?: string;
   content: string;
 }
@@ -18,20 +18,11 @@ export class SendMessageUseCase {
     private readonly conversationRepo: ConversationRepository,
     private readonly conversationMemberRepo: ConversationMemberRepository,
     private readonly messageRepo: MessageRepository,
-    private readonly userRepo: UserRepository,
   ) {}
 
   async execute(input: SendMessageInput) {
-    const { senderId, receiver, conversationId, content } = input;
+    const { senderId, receiverId, conversationId, content } = input;
     // get receiver id
-    let receiverId: string;
-    if (receiver) {
-      const existingReceiver = await this.userRepo.findUserByEmail(receiver);
-      if (!existingReceiver) {
-        throw new AppError("User not found", 404, "NOT_FOUND");
-      }
-      receiverId = existingReceiver.id;
-    }
     if (senderId === receiverId) {
       throw new AppError(
         "You cannot send message to yourself",
@@ -66,13 +57,13 @@ export class SendMessageUseCase {
       receiverId,
       finalConversationId,
     );
-
     // 🟢 Create message
     const message = await this.messageRepo.create({
       conversationId: finalConversationId!,
       senderId,
       content,
       type: MessageType.TEXT,
+      status: MessageStatus.SENT,
     });
 
     return message;
@@ -96,7 +87,6 @@ export class SendMessageUseCase {
         const conversation = await this.conversationRepo.create({
           type: ConversationType.ONE_TO_ONE,
         });
-
         await this.conversationMemberRepo.createMany({
           conversationId: conversation.id,
           members: [{ userId: senderId }, { userId: receiverId }],

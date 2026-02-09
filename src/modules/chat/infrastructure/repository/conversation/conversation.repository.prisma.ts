@@ -3,11 +3,11 @@ import { ConversationType } from "../../../domain/entities/conversation/conversa
 import { ConversationRepository } from "../../../domain/repository/conversation/conversation.repository";
 
 export class ConversationRepositoryPrisma implements ConversationRepository {
-  async create(data: { type: ConversationType; title?: string | null }) {
+  async create(data: { type: ConversationType; name?: string | null }) {
     return prisma.conversation.create({
       data: {
         type: data.type,
-        title: data.title ?? null,
+        name: data.name ?? null,
       },
     });
   }

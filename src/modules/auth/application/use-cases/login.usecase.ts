@@ -13,10 +13,19 @@ export class LoginUsecase {
   async execute(email: string, password: string) {
     // Find user by email
     const user = await this.userRepo.findUserByEmail(email);
+    console.log("user", user.id);
+    if (user.provider !== "EMAIL") {
+      throw new AppError(
+        `An account with this email already exists using ${user.provider}`,
+        409,
+        "invalid_credentials",
+      );
+    }
     if (!user) {
       throw new AppError("User Not Found", 404, "not_found");
     }
     // Check if password is correct
+
     const isPasswordCorrect = await this.hashService.compare(
       password,
       user.password,

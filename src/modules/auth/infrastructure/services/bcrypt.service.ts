@@ -6,6 +6,7 @@ export class BcryptService implements HashService {
   }
 
   compare(password: string, hash: string) {
+    console.log(`password: ${password}, hash: ${hash}`);
     return bcrypt.compare(password, hash);
   }
 }

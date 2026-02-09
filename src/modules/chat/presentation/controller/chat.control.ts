@@ -6,11 +6,11 @@ import { SendMessageDTO } from "../dtos/sendMessage.dto";
 export class ChatController {
   constructor(private sendMessageUseCase: SendMessageUseCase) {}
   sendMessage = catchAsync(async (req: Request, res: Response) => {
-    const { senderId, receiver, conversationId, content }: SendMessageDTO =
+    const { senderId, receiverId, conversationId, content }: SendMessageDTO =
       req.body;
     const result = await this.sendMessageUseCase.execute({
       senderId,
-      receiver,
+      receiverId,
       conversationId,
       content,
     });

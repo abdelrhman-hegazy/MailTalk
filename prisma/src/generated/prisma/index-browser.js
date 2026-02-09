@@ -144,6 +144,34 @@ exports.Prisma.ProfileScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  name: 'name',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ConversationMemberScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  userId: 'userId',
+  joinedAt: 'joinedAt',
+  role: 'role'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  senderId: 'senderId',
+  content: 'content',
+  type: 'type',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -161,13 +189,37 @@ exports.Prisma.NullsOrder = {
 exports.Provider = exports.$Enums.Provider = {
   EMAIL: 'EMAIL',
   GOOGLE: 'GOOGLE',
-  FACEBOOK: 'FACEBOOK',
-  IPHONE: 'IPHONE'
+  FACEBOOK: 'FACEBOOK'
+};
+
+exports.ConversationType = exports.$Enums.ConversationType = {
+  ONE_TO_ONE: 'ONE_TO_ONE',
+  GROUP: 'GROUP'
+};
+
+exports.RoleType = exports.$Enums.RoleType = {
+  MEMBER: 'MEMBER',
+  ADMIN: 'ADMIN'
+};
+
+exports.MessageType = exports.$Enums.MessageType = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  FILE: 'FILE'
+};
+
+exports.MessageStatus = exports.$Enums.MessageStatus = {
+  SENT: 'SENT',
+  DELIVERED: 'DELIVERED',
+  READ: 'READ'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Profile: 'Profile'
+  Profile: 'Profile',
+  Conversation: 'Conversation',
+  ConversationMember: 'ConversationMember',
+  Message: 'Message'
 };
 
 /**

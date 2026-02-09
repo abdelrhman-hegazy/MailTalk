@@ -1,8 +1,8 @@
+
+
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -11,4 +11,103 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+// model user
 
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String
+  password   String?
+  provider   Provider
+  providerId String?
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  verificationCode String?
+  verificationCodeExpiry DateTime?
+  refreshToken String?
+  profile    Profile? @relation("userProfile")
+  conversationMembers ConversationMember[]
+}
+
+enum Provider {
+  EMAIL
+  GOOGLE
+  FACEBOOK
+}
+
+// model profile
+model Profile {
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  avatarUrl   String?
+  bio         String?
+  lastSeen    DateTime  @default(now())
+  isOnline    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation("userProfile", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+
+// model conversation 
+
+model Conversation {
+    id String @id @default(cuid())
+    type ConversationType
+    name String?
+    imageUrl String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+   members   ConversationMember[]
+  messages  Message[]
+}
+
+enum ConversationType{
+  ONE_TO_ONE 
+  GROUP 
+}
+
+
+
+// model conversation member
+model ConversationMember {
+  id             String   @id @default(cuid())
+  conversationId String
+  userId         String
+  joinedAt       DateTime @default(now())
+  role           RoleType
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  user           User         @relation(fields: [userId], references: [id])
+ 
+  @@unique([conversationId, userId])
+}
+enum RoleType {
+  MEMBER
+  ADMIN
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  senderId       String
+  content        String
+  type           MessageType
+  status         MessageStatus
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+}

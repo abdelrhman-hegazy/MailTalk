@@ -6,6 +6,7 @@ export interface MessageRepository {
     senderId: string;
     content?: string;
     type: MessageType;
+    status: string;
   }): Promise<Message>;
 
   findByConversationId(

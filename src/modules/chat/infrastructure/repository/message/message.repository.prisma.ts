@@ -8,6 +8,7 @@ export class MessageRepositoryPrisma implements MessageRepository {
     senderId: string;
     content?: string;
     type: MessageType.TEXT;
+    status: string;
   }) {
     return prisma.message.create({
       data: {
@@ -15,6 +16,7 @@ export class MessageRepositoryPrisma implements MessageRepository {
         senderId: data.senderId,
         content: data.content ?? null,
         type: data.type,
+        status: data.status,
       },
     });
   }
