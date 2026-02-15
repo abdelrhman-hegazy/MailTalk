@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { ChatModule } from "../../chat.module";
+import { ChatModule } from "../../factories/sendMessage.factory";
 
 const router = Router();
 const ChatController = ChatModule();

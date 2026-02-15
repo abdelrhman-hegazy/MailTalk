@@ -3,8 +3,12 @@ import { catchAsync } from "../../../../shared/utils";
 import { Request, Response } from "express";
 import { sendResponse } from "../../../../shared/utils";
 import { SendMessageDTO } from "../dtos/sendMessage.dto";
-export class ChatController {
-  constructor(private sendMessageUseCase: SendMessageUseCase) {}
+import { ChatSocketService } from "../../infrastructure/services/socket/chat.socket.service";
+export class SendMessageController {
+  constructor(
+    private sendMessageUseCase: SendMessageUseCase,
+    private chatSocketService: ChatSocketService,
+  ) {}
   sendMessage = catchAsync(async (req: Request, res: Response) => {
     const { senderId, receiverId, conversationId, content }: SendMessageDTO =
       req.body;
@@ -14,6 +18,7 @@ export class ChatController {
       conversationId,
       content,
     });
+    this.chatSocketService.emitNewMessage(conversationId, result.content);
     sendResponse(res, {
       statusCode: 200,
       message: "Message sent successfully",

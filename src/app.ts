@@ -5,9 +5,15 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "./shared/middlewares/error.middleware";
 import { requestLogger } from "./shared/middlewares/requestLogger";
-// router
+import { initSocket } from "./shared/socket/socket.server";
+import http from "http";
 import { apiRouter } from "./shared/router";
+
 const app: Express = express();
+
+const server = http.createServer(app);
+
+initSocket(server);
 
 app.use(helmet());
 app.use(compression());
@@ -21,6 +27,8 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(requestLogger);
 
 app.use("/api/v1", apiRouter);
 
@@ -36,8 +44,6 @@ app.get("/api/v1/health", (req: Request, res: Response) => {
   });
 });
 
-app.use(requestLogger);
-
-// Error handling middleware should be the last middleware
 app.use(errorHandler);
-export default app;
+
+export { server };

@@ -1,14 +1,9 @@
-import app from "./app";
+import { server } from "./app";
 
 async function main() {
-  app.listen(3000);
+  server.listen(3000, () => {
+    console.log("Server started on port 3000");
+  });
 }
 
-main()
-  .then(() => {
-    console.log("Server started successfully");
-  })
-  .catch((error) => {
-    console.error("Failed to start server:", error);
-    process.exit(1);
-  });
+main();
