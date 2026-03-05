@@ -31,6 +31,20 @@ export class SendMessageUseCase {
       );
     }
 
+    // const conversationMember =
+    //   await this.conversationMemberRepo.findConversationIdsByUserId(senderId);
+    // console.log("conversations:", conversationMember);
+
+    // const conversation = await this.conversationRepo.findById(conversationId);
+    // console.log("conversation:", conversation);
+
+    // const getConversationMember = await this.conversationMemberRepo.createMany({
+    //   conversationId: conversation.id,
+    //   members: [{ userId: senderId }, { userId: receiverId }],
+    // });
+
+    // console.log("conversationMember:", getConversationMember);
+
     let finalConversationId = conversationId;
     let isMember = false;
 

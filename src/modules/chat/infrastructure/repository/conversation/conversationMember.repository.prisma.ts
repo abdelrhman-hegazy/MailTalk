@@ -13,7 +13,7 @@ export class ConversationMemberRepositoryPrisma implements ConversationMemberRep
       role?: ConversationMemberRole;
     }[];
   }) {
-    await prisma.conversationMember.createMany({
+    return await prisma.conversationMember.createMany({
       data: data.members.map((member) => ({
         conversationId: data.conversationId,
         userId: member.userId,
@@ -58,5 +58,13 @@ export class ConversationMemberRepositoryPrisma implements ConversationMemberRep
     });
 
     return count > 0;
+  }
+  //get all conversation member
+  async getAllConversation() {
+    const rows = await prisma.conversationMember.findMany({
+      select: { conversationId: true },
+    });
+
+    return rows.map((r) => r.conversationId);
   }
 }

@@ -7,3 +7,10 @@ export interface SendMessageDTO {
   content: string;
   type: MessageType;
 }
+
+export class MessageSocketDto {
+  id: string;
+  content: string;
+  senderId: string;
+  createdAt: Date;
+}
