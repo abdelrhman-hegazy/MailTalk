@@ -9,3 +9,5 @@ tests
 dist/
 /src/generated/prisma
 .gitNotes.text
+/src/test-client1.js
+/src/test-client2.js

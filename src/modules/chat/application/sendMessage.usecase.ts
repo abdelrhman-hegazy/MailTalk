@@ -31,25 +31,15 @@ export class SendMessageUseCase {
       );
     }
 
-    // const conversationMember =
-    //   await this.conversationMemberRepo.findConversationIdsByUserId(senderId);
-    // console.log("conversations:", conversationMember);
-
-    // const conversation = await this.conversationRepo.findById(conversationId);
-    // console.log("conversation:", conversation);
-
-    // const getConversationMember = await this.conversationMemberRepo.createMany({
-    //   conversationId: conversation.id,
-    //   members: [{ userId: senderId }, { userId: receiverId }],
-    // });
-
-    // console.log("conversationMember:", getConversationMember);
-
     let finalConversationId = conversationId;
     let isMember = false;
 
     // 🟢 CASE 1: Existing conversation
     if (conversationId) {
+      const conversation = await this.conversationRepo.findById(conversationId);
+      if (!conversation) {
+        throw new AppError("Conversation not found", 404, "NOT_FOUND");
+      }
       isMember = await this.conversationMemberRepo.isUserMemberOfConversation(
         conversationId,
         senderId,
@@ -85,9 +75,10 @@ export class SendMessageUseCase {
   // 🟢 CASE 2: create message
   private async createConversation(
     senderId: string,
-    receiverId: string,
-    finalConversationId: string,
+    receiverId: string | undefined,
+    finalConversationId: string | undefined,
   ) {
+    // send message to private conversation
     if (receiverId) {
       const existingConversationId =
         await this.conversationMemberRepo.findOneToOneConversationBetweenUsers(
@@ -108,6 +99,18 @@ export class SendMessageUseCase {
 
         finalConversationId = conversation.id;
       }
+    }
+    // send message to group
+    if (finalConversationId && !receiverId) {
+      const conversation = await this.conversationRepo.create({
+        type: ConversationType.GROUP,
+      });
+      await this.conversationMemberRepo.createMany({
+        conversationId: conversation.id,
+        members: [{ userId: senderId }],
+      });
+
+      finalConversationId = conversation.id;
     }
     return finalConversationId;
   }

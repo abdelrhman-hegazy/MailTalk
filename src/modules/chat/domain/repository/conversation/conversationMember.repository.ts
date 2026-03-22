@@ -1,3 +1,5 @@
+import { Conversation } from "../../entities/conversation/conversation.entity";
+
 export enum ConversationMemberRole {
   MEMBER = "MEMBER",
   ADMIN = "ADMIN",
@@ -11,7 +13,7 @@ export interface ConversationMemberRepository {
     }[];
   }): Promise<void>;
 
-  findConversationIdsByUserId(userId: string): Promise<string[]>;
+  findConversationIdsByUserId(userId: string): Promise<Conversation[]>;
 
   findOneToOneConversationBetweenUsers(
     userA: string,
