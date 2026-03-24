@@ -1,10 +1,15 @@
 import { GetProfileUseCase } from "../application/getProfile.usecase";
+import { UpdateProfileUseCase } from "../application/updateProfile.usecase";
 import { ProfileRepositoryPrisma } from "../infrastructure/repository/profile.repository.prisma";
-import { PrfileController } from "../presentation/controller/getProfile.controller";
+import { ProfileController } from "../presentation/controller/profile.controller";
 
 export function profileModule() {
   const profileRepo = new ProfileRepositoryPrisma();
   const getProfileUsecase = new GetProfileUseCase(profileRepo);
-  const getProfileController = new PrfileController(getProfileUsecase);
+  const updateProfileUsecase = new UpdateProfileUseCase(profileRepo);
+  const getProfileController = new ProfileController(
+    getProfileUsecase,
+    updateProfileUsecase,
+  );
   return getProfileController;
 }

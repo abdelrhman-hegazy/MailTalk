@@ -6,5 +6,6 @@ const router = Router();
 const ProfileController = profileModule();
 
 router.get("", authMiddleware, ProfileController.getProfile);
+router.put("", authMiddleware, ProfileController.updateProfile);
 
 export { router as profileRouter };
