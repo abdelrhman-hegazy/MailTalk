@@ -9,7 +9,7 @@ export class CloudinaryService implements AvatarCloudinaryService {
     const uplodedAvater = await uploadToCloudinary(file);
     return uplodedAvater.url;
   }
-  async delete(publicId: string): Promise<void> {
-    await deleteFromCloudinary(publicId);
+  async delete(imageUrl: string): Promise<void> {
+    await deleteFromCloudinary(imageUrl);
   }
 }

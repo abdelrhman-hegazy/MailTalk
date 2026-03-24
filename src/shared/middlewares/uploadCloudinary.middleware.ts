@@ -68,8 +68,13 @@ export const uploadToCloudinary = async (
   });
 };
 
-export const deleteFromCloudinary = async (publicId: string) => {
+export const deleteFromCloudinary = async (imageUrl: string) => {
   try {
+    const publicId = imageUrl
+      .split("/")
+      .slice(-2)
+      .join("/")
+      .replace(/\.[^/.]+$/, "");
     await cloudinary.uploader.destroy(publicId);
   } catch {
     throw new AppError(

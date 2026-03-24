@@ -1,5 +1,8 @@
 import { ProfileRepository } from "../../domain/repository/profile.repository";
-import { ProfileData } from "../../presentation/dtos/profile.dto";
+import {
+  ProfileData,
+  UpdateAvaterDto,
+} from "../../presentation/dtos/profile.dto";
 import prisma from "../../../../lib/prisma";
 import { UpdateProfileDto } from "../../presentation/dtos/profile.dto";
 
@@ -45,6 +48,17 @@ export class ProfileRepositoryPrisma implements ProfileRepository {
             name: updateProfile.name,
           },
         },
+      },
+      select: PROFILE_SELECT,
+    });
+  }
+  async updateAvater(
+    updateAvaterDto: UpdateAvaterDto,
+  ): Promise<ProfileData | null> {
+    return prisma.profile.update({
+      where: { userId: updateAvaterDto.userId },
+      data: {
+        avatarUrl: updateAvaterDto.avatarUrl,
       },
       select: PROFILE_SELECT,
     });

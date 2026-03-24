@@ -8,7 +8,7 @@ export class UpdateProfileUseCase {
     // TODO: Implement update profile logic
     const getProfile = await this.profileRepo.findProfileByUserId(data.id);
     if (!getProfile)
-      throw new AppError("Not Found user profile", 500, "not_found");
+      throw new AppError("Not Found user profile", 404, "not_found");
     return this.profileRepo.updateProfile(data);
   }
 }

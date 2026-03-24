@@ -4,12 +4,17 @@ export interface UpdateProfileDto {
   name?: string;
 }
 
+export interface UpdateAvaterDto {
+  avatarUrl: string;
+  userId: string;
+}
+
 export interface ProfileData {
   id: string;
   userId: string;
   name: string;
   bio: string;
-  avatar: string;
+  avatarUrl: string;
   createdAt: Date;
   updatedAt: Date;
 }
