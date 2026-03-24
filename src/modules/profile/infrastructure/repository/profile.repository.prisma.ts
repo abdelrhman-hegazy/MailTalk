@@ -6,11 +6,14 @@ import prisma from "../../../../lib/prisma";
 const PROFILE_SELECT = {
   id: true,
   userId: true,
-  name: true,
   bio: true,
   avatarUrl: true,
   createdAt: true,
-  updatedAt: true,
+  user: {
+    select: {
+      name: true,
+    },
+  },
 } as const;
 
 export class ProfileRepositoryPrisma implements ProfileRepository {
