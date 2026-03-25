@@ -19,10 +19,7 @@ export class UpdateAvaterUseCase {
         userId,
       });
     } else {
-      console.log("before delete /////", profile);
-
       if (profile.avatarUrl) {
-        console.log("deleting avatar", profile.avatarUrl);
         await this.updateAvaterService.delete(profile.avatarUrl);
       }
       return await this.profileRepo.updateAvater({

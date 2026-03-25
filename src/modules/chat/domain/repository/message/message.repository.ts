@@ -9,11 +9,11 @@ export interface MessageRepository {
     status: string;
   }): Promise<Message>;
 
-  findByConversationId(
+  getMessagesPagination(
     conversationId: string,
     limit?: number,
-    cursor?: string,
+    skip?: number,
   ): Promise<Message[]>;
-
+  getConversationMessagesCount(conversationId: string): Promise<number>;
   findById(messageId: string): Promise<Message | null>;
 }

@@ -3,7 +3,7 @@ import { UpdateAvaterUseCase } from "../application/updateAvater.usecase";
 import { UpdateProfileUseCase } from "../application/updateProfile.usecase";
 import { ProfileRepositoryPrisma } from "../infrastructure/repository/profile.repository.prisma";
 import { CloudinaryService } from "../infrastructure/services/cloudinary.service";
-import { ProfileController } from "../presentation/controller/profile.controller";
+import { ProfileController } from "../presentation/controllers/profile.controller";
 
 export function profileModule() {
   const profileRepo = new ProfileRepositoryPrisma();

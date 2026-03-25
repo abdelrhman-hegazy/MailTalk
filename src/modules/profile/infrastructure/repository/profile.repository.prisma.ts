@@ -1,10 +1,10 @@
 import { ProfileRepository } from "../../domain/repository/profile.repository";
-import {
-  ProfileData,
-  UpdateAvaterDto,
-} from "../../presentation/dtos/profile.dto";
+import { ProfileData } from "../../domain/repository/profile.repository";
 import prisma from "../../../../lib/prisma";
-import { UpdateProfileDto } from "../../presentation/dtos/profile.dto";
+import {
+  UpdateAvaterDto,
+  UpdateProfileDto,
+} from "../../presentation/dtos/profile.dto";
 
 const PROFILE_SELECT = {
   id: true,
@@ -14,6 +14,7 @@ const PROFILE_SELECT = {
   createdAt: true,
   user: {
     select: {
+      email: true,
       name: true,
     },
   },

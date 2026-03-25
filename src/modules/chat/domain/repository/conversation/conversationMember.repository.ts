@@ -1,9 +1,6 @@
 import { Conversation } from "../../entities/conversation/conversation.entity";
+import { ConversationMemberRole } from "../../entities/conversation/conversationMember.entity";
 
-export enum ConversationMemberRole {
-  MEMBER = "MEMBER",
-  ADMIN = "ADMIN",
-}
 export interface ConversationMemberRepository {
   createMany(data: {
     conversationId: string;
