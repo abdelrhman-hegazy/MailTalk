@@ -21,25 +21,23 @@ export class MessageRepositoryPrisma implements MessageRepository {
     });
   }
 
-  async findByConversationId(
-    conversationId: string,
-    limit = 20,
-    cursor?: string,
-  ) {
+  async getMessagesPagination(conversationId: string, limit = 20, skip = 0) {
     return prisma.message.findMany({
       where: { conversationId },
       orderBy: { createdAt: "desc" },
       take: limit,
-      ...(cursor && {
-        cursor: { id: cursor },
-        skip: 1,
-      }),
+      skip,
     });
   }
 
   async findById(messageId: string) {
     return prisma.message.findUnique({
       where: { id: messageId },
+    });
+  }
+  async getConversationMessagesCount(conversationId: string) {
+    return prisma.message.count({
+      where: { conversationId },
     });
   }
 }

@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { JwtService } from "../../modules/auth/infrastructure/services/jwt.service";
 import { AppError } from "../utils";
-
+import { UserRepositoryPrisma } from "../../modules/auth/infrastructure/repositories/user.repository.prisma";
+const userRepository = new UserRepositoryPrisma();
 export interface AuthRequest extends Request {
   user: {
     id: string;
   };
 }
 
-export const authMiddleware = (
+export const authMiddleware = async (
   req: AuthRequest,
-  _res: Response,
+  res: Response,
   next: NextFunction,
 ) => {
   try {
@@ -28,9 +29,12 @@ export const authMiddleware = (
 
     const decoded = new JwtService().verifyAccessToken(token);
     req.user = { id: decoded.userId };
-
+    const user = await userRepository.findById(decoded.userId);
+    if (!user) {
+      throw new AppError("User not found", 404, "Not Found");
+    }
     next();
   } catch (error) {
-    throw new AppError(error.message, 401, "Unauthorized");
+    next(error);
   }
 };

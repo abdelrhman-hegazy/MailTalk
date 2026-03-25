@@ -30,5 +30,5 @@ export const sendResponse = (
     tokens,
   });
 
-  return res.status(statusCode).json(responseBody);
+  res.status(statusCode).json(responseBody);
 };

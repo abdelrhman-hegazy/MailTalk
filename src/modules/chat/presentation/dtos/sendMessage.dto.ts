@@ -14,3 +14,9 @@ export class MessageSocketDto {
   senderId: string;
   createdAt: Date;
 }
+
+export interface GetMessageDto {
+  conversationId: string;
+  page?: number;
+  limit?: number;
+}
