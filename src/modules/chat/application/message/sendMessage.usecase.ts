@@ -1,11 +1,13 @@
-import { MessageStatus } from "../../../../prisma/src/generated/prisma";
-import { AppError } from "../../../shared/utils";
-import { ConversationType } from "../domain/entities/conversation/conversation.entity";
-import { MessageType } from "../domain/entities/message/message.entity";
-import { ConversationRepository } from "../domain/repository/conversation/conversation.repository";
-import { ConversationMemberRepository } from "../domain/repository/conversation/conversationMember.repository";
-import { MessageRepository } from "../domain/repository/message/message.repository";
-import { SendMessageDTO } from "../presentation/dtos/sendMessage.dto";
+import { AppError } from "../../../../shared/utils";
+import { ConversationType } from "../../domain/entities/conversation/conversation.entity";
+import {
+  MessageStatus,
+  MessageType,
+} from "../../domain/entities/message/message.entity";
+import { ConversationRepository } from "../../domain/repository/conversation/conversation.repository";
+import { ConversationMemberRepository } from "../../domain/repository/conversation/conversationMember.repository";
+import { MessageRepository } from "../../domain/repository/message/message.repository";
+import { SendMessageDTO } from "../../presentation/dtos/sendMessage.dto";
 
 export class SendMessageUseCase {
   constructor(

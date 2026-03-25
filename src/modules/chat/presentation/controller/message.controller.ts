@@ -1,11 +1,11 @@
-import { SendMessageUseCase } from "../../application/sendMessage.usecase";
+import { SendMessageUseCase } from "../../application/message/sendMessage.usecase";
 import { catchAsync } from "../../../../shared/utils";
 import { Request, Response } from "express";
 import { sendResponse } from "../../../../shared/utils";
 import { SendMessageDTO } from "../dtos/sendMessage.dto";
 import { ChatSocketService } from "../../infrastructure/services/socket/chat.socket.service";
 import { AuthRequest } from "../../../../shared/middlewares/auth.middleware";
-import { GetMessageUseCase } from "../../application/getMessage.usecase";
+import { GetMessageUseCase } from "../../application/message/getMessage.usecase";
 export class MessageController {
   constructor(
     private getMessageUseCase: GetMessageUseCase,

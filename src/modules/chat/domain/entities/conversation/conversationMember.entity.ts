@@ -1,5 +1,7 @@
-import { ConversationMemberRole } from "../../repository/conversation/conversationMember.repository";
-
+export enum ConversationMemberRole {
+  MEMBER = "MEMBER",
+  ADMIN = "ADMIN",
+}
 export class ConversationMember {
   constructor(
     public readonly id: string,

@@ -1,6 +1,6 @@
-import { AppError } from "../../../shared/utils";
-import { MessageRepository } from "../domain/repository/message/message.repository";
-import { GetMessageDto } from "../presentation/dtos/sendMessage.dto";
+import { AppError } from "../../../../shared/utils";
+import { MessageRepository } from "../../domain/repository/message/message.repository";
+import { GetMessageDto } from "../../presentation/dtos/sendMessage.dto";
 
 export class GetMessageUseCase {
   constructor(private readonly messageRepo: MessageRepository) {}

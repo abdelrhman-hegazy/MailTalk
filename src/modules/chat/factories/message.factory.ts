@@ -2,11 +2,11 @@ import { ConversationRepositoryPrisma } from "../infrastructure/repository/conve
 import { MessageRepositoryPrisma } from "../infrastructure/repository/message/message.repository.prisma";
 import { ConversationMemberRepositoryPrisma } from "../infrastructure/repository/conversation/conversationMember.repository.prisma";
 
-import { SendMessageUseCase } from "../application/sendMessage.usecase";
+import { SendMessageUseCase } from "../application/message/sendMessage.usecase";
 
 import { MessageController } from "../presentation/controller/message.controller";
 import { ChatSocketService } from "../infrastructure/services/socket/chat.socket.service";
-import { GetMessageUseCase } from "../application/getMessage.usecase";
+import { GetMessageUseCase } from "../application/message/getMessage.usecase";
 export function messageModule() {
   const conversationRepo = new ConversationRepositoryPrisma();
   const conversationMemberRepo = new ConversationMemberRepositoryPrisma();
