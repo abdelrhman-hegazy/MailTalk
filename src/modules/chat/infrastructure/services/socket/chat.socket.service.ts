@@ -1,5 +1,5 @@
 import { getIO } from "../../../../../shared/socket/socket.server";
-import { MessageSocketDto } from "../../../presentation/dtos/sendMessage.dto";
+import { MessageSocketDto } from "../../../presentation/dtos/message.dto";
 export class ChatSocketService {
   async emitNewMessage(
     conversationId: string,

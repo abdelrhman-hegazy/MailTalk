@@ -1,13 +1,8 @@
-import {
-  Conversation,
-  ConversationType,
-} from "../../entities/conversation/conversation.entity";
+import { CreateConversationDto } from "../../../presentation/dtos/conversation.dto";
+import { Conversation } from "../../entities/conversation/conversation.entity";
 
 export interface ConversationRepository {
-  create(data: {
-    type: ConversationType;
-    name?: string | null;
-  }): Promise<Conversation>;
+  create(data: CreateConversationDto): Promise<Conversation>;
 
   findById(conversationId: string): Promise<Conversation | null>;
 

@@ -1,14 +1,12 @@
 import prisma from "../../../../../lib/prisma";
 import { ConversationType } from "../../../domain/entities/conversation/conversation.entity";
 import { ConversationRepository } from "../../../domain/repository/conversation/conversation.repository";
+import { CreateConversationDto } from "../../../presentation/dtos/conversation.dto";
 
 export class ConversationRepositoryPrisma implements ConversationRepository {
-  async create(data: { type: ConversationType; name?: string | null }) {
+  async create(data: CreateConversationDto) {
     return prisma.conversation.create({
-      data: {
-        type: data.type,
-        name: data.name ?? null,
-      },
+      data,
     });
   }
 
