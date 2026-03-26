@@ -6,8 +6,8 @@ import {
 
 export class CloudinaryService implements AvatarCloudinaryService {
   async upload(file: Express.Multer.File): Promise<string> {
-    const uplodedAvater = await uploadToCloudinary(file);
-    return uplodedAvater.url;
+    const uplodedImage = await uploadToCloudinary(file);
+    return uplodedImage.url;
   }
   async delete(imageUrl: string): Promise<void> {
     await deleteFromCloudinary(imageUrl);

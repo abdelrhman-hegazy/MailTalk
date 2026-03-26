@@ -7,7 +7,7 @@ import {
 import { ConversationRepository } from "../../domain/repository/conversation/conversation.repository";
 import { ConversationMemberRepository } from "../../domain/repository/conversation/conversationMember.repository";
 import { MessageRepository } from "../../domain/repository/message/message.repository";
-import { SendMessageDTO } from "../../presentation/dtos/sendMessage.dto";
+import { SendMessageDTO } from "../../presentation/dtos/message.dto";
 
 export class SendMessageUseCase {
   constructor(

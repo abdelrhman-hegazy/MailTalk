@@ -1,9 +1,7 @@
 import prisma from "../../../../../lib/prisma";
 import { ConversationType } from "../../../domain/entities/conversation/conversation.entity";
-import {
-  ConversationMemberRepository,
-  ConversationMemberRole,
-} from "../../../domain/repository/conversation/conversationMember.repository";
+import { ConversationMemberRole } from "../../../domain/entities/conversation/conversationMember.entity";
+import { ConversationMemberRepository } from "../../../domain/repository/conversation/conversationMember.repository";
 
 export class ConversationMemberRepositoryPrisma implements ConversationMemberRepository {
   async createMany(data: {

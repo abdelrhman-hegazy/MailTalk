@@ -2,7 +2,7 @@ import { SendMessageUseCase } from "../../application/message/sendMessage.usecas
 import { catchAsync } from "../../../../shared/utils";
 import { Request, Response } from "express";
 import { sendResponse } from "../../../../shared/utils";
-import { SendMessageDTO } from "../dtos/sendMessage.dto";
+import { SendMessageDTO } from "../dtos/message.dto";
 import { ChatSocketService } from "../../infrastructure/services/socket/chat.socket.service";
 import { AuthRequest } from "../../../../shared/middlewares/auth.middleware";
 import { GetMessageUseCase } from "../../application/message/getMessage.usecase";
