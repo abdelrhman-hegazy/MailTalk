@@ -18,6 +18,13 @@ export class RefreshTokenUsecase {
     this.validateRefreshToken(refreshToken);
 
     const tokenPayload = this.tokenService.verifyRefreshToken(refreshToken);
+    if (!tokenPayload.userId) {
+      throw new AppError(
+        "Cannot read properties of undefined (reading 'id')",
+        401,
+        "invalid_token",
+      );
+    }
     const user = await this.getUserAndValidateToken(
       tokenPayload.userId,
       refreshToken,

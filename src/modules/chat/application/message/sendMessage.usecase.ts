@@ -97,16 +97,12 @@ export class SendMessageUseCase {
       }
     }
     // send message to group
-    if (finalConversationId && !receiverId) {
-      const conversation = await this.conversationRepo.create({
-        type: ConversationType.GROUP,
-      });
-      await this.conversationMemberRepo.createMany({
-        conversationId: conversation.id,
-        members: [{ userId: senderId }],
-      });
-
-      finalConversationId = conversation.id;
+    if (!finalConversationId && !receiverId) {
+      throw new AppError(
+        "Invalid request. Please check your input",
+        400,
+        "bad_request",
+      );
     }
     return finalConversationId;
   }
