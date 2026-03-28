@@ -38,6 +38,7 @@ export class JwtService implements TokenService {
         token,
         config.token.REFRESH_TOKEN_SECRET,
       ) as TokenPayload;
+      console.log("decoded", decoded);
       return decoded;
     } catch (error) {
       throw new AppError(error.message, 401, "invalid_token");

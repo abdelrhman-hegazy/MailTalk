@@ -9,4 +9,13 @@ export interface ConversationRepository {
   findOneToOneConversation(
     conversationId: string,
   ): Promise<Conversation | null>;
+
+  findConversationsByUserId(
+    userId: string,
+    limit?: number,
+    cursor?: string,
+  ): Promise<{
+    data: Conversation[];
+    nextCursor: string | null;
+  }>;
 }

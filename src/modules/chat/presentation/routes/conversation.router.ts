@@ -11,5 +11,10 @@ router.post(
   upload.single("image"),
   conversationController.createGroup,
 );
+router.get(
+  "/conversation",
+  authMiddleware,
+  conversationController.getConversations,
+);
 
 export { router as conversationRouter };
