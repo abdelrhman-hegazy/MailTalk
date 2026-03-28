@@ -34,7 +34,9 @@ export class MessageController {
   });
 
   getMessages = catchAsync(async (req: Request, res: Response) => {
-    const { conversationId, page, limit } = req.query;
+    const { conversationId, cursor, limit } = req.query;
+    const limitNum = typeof limit === "string" ? parseInt(limit, 10) : 10;
+    const cursorStr = typeof cursor === "string" ? cursor : undefined;
 
     if (!conversationId) {
       return sendResponse(res, {
@@ -45,8 +47,8 @@ export class MessageController {
 
     const result = await this.getMessageUseCase.execute({
       conversationId: conversationId as string,
-      page: page ? Number(page) : 1,
-      limit: limit ? Number(limit) : 10,
+      limit: limitNum,
+      cursor: cursorStr,
     });
     sendResponse(res, {
       statusCode: 200,

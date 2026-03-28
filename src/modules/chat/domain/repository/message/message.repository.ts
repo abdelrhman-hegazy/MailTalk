@@ -12,8 +12,11 @@ export interface MessageRepository {
   getMessagesPagination(
     conversationId: string,
     limit?: number,
-    skip?: number,
-  ): Promise<Message[]>;
+    cursor?: string,
+  ): Promise<{
+    data: Message[];
+    nextCursor: string | null;
+  }>;
   getConversationMessagesCount(conversationId: string): Promise<number>;
   findById(messageId: string): Promise<Message | null>;
 }

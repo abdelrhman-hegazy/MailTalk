@@ -10,8 +10,6 @@ export class GetConversationsUsecase {
       limit,
       cursor,
     );
-    console.log("conversations: ", conversations);
-
     return conversations;
   }
 }

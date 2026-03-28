@@ -25,7 +25,6 @@ export class ConversationRepositoryPrisma implements ConversationRepository {
       },
     });
   }
-  // select{name,image,end message (group|oneToone),}
   async findConversationsByUserId(
     userId: string,
     limit: number = 2,
@@ -91,6 +90,7 @@ export class ConversationRepositoryPrisma implements ConversationRepository {
           id: conv.id,
           name: conv.name,
           image: conv.imageUrl,
+          type: conv.type,
           lastMessage,
         };
       }
@@ -101,6 +101,7 @@ export class ConversationRepositoryPrisma implements ConversationRepository {
         id: conv.id,
         name: otherMember?.user.name,
         image: otherMember?.user.profile?.avatarUrl,
+        type: conv.type,
         lastMessage,
       };
     });
