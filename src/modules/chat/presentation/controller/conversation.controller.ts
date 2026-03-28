@@ -31,8 +31,7 @@ export class ConversationController {
     const { id } = req.user;
     const { limit, cursor } = req.query;
     const limitNum = typeof limit === "string" ? parseInt(limit, 10) : 10;
-    const cursorStr = typeof cursor === "string" ? cursor : undefined; // Convert to string or undefined
-
+    const cursorStr = typeof cursor === "string" ? cursor : undefined;
     const result = await this.getConversationsUsecase.execute(
       id,
       limitNum,

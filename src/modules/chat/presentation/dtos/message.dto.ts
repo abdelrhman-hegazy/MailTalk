@@ -17,6 +17,6 @@ export class MessageSocketDto {
 
 export interface GetMessageDto {
   conversationId: string;
-  page?: number;
+  cursor?: string;
   limit?: number;
 }
