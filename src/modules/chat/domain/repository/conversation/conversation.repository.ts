@@ -1,4 +1,7 @@
-import { CreateConversationDto } from "../../../presentation/dtos/conversation.dto";
+import {
+  CreateConversationDto,
+  GetGroupDto,
+} from "../../../presentation/dtos/conversation.dto";
 import { Conversation } from "../../entities/conversation/conversation.entity";
 
 export interface ConversationRepository {
@@ -18,4 +21,5 @@ export interface ConversationRepository {
     data: Conversation[];
     nextCursor: string | null;
   }>;
+  getGroup(conversationId: string): Promise<GetGroupDto | null>;
 }

@@ -1,7 +1,7 @@
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
-import { AppError } from "../utils";
-import { config } from "../../config";
+import { AppError } from "../../../../shared/utils";
+import { config } from "../../../../config";
 
 export interface CloudinaryUploadResponse {
   url: string;
@@ -107,5 +107,21 @@ export const uploadMultipleToCloudinary = async (
       500,
       "cloud_error",
     );
+  }
+};
+
+export const checkFileFromCloudinary = async (
+  url: string,
+): Promise<boolean> => {
+  try {
+    const publicId = url
+      .split("/")
+      .slice(-2)
+      .join("/")
+      .replace(/\.[^/.]+$/, "");
+    await cloudinary.api.resource(publicId);
+    return true;
+  } catch {
+    return false;
   }
 };

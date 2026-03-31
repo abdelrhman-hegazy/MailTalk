@@ -8,6 +8,8 @@ const jwtService = new JwtService();
 
 export const initSocket = (server: http.Server) => {
   if (io) {
+    console.log("io in condition:", io);
+
     return io;
   }
 
@@ -37,6 +39,7 @@ export const initSocket = (server: http.Server) => {
   });
 
   io.on("connection", (socket) => {
+    console.log("User connected:", socket.id);
     const userId = socket.data.user.id;
     socket.join(`user_${userId}`);
 

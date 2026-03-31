@@ -13,13 +13,13 @@ export class ConversationController {
   ) {}
   createGroup = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.user;
-    const { name, members }: CreateGroupDto = req.body;
-    const membersArray = Array.isArray(members) ? members : [];
-    membersArray.push({ userId: id, role: ConversationMemberRole.ADMIN });
-    const result = await this.createGroupUsecase.execute(
-      { name, members: membersArray },
-      req.file,
-    );
+    const { name, members, imageUrl }: CreateGroupDto = req.body;
+    members.push({ userId: id, role: ConversationMemberRole.ADMIN });
+    const result = await this.createGroupUsecase.execute({
+      name,
+      members,
+      imageUrl,
+    });
     sendResponse(res, {
       statusCode: 201,
       message: "Group created successfully",

@@ -2,7 +2,6 @@ import { ConversationRepository } from "../../domain/repository/conversation/con
 import { ConversationMemberRepository } from "../../domain/repository/conversation/conversationMember.repository";
 import { CreateGroupDto } from "../../presentation/dtos/conversation.dto";
 import { ConversationType } from "../../domain/entities/conversation/conversation.entity";
-import { CloudinaryService } from "../../../profile/infrastructure/services/cloudinary.service";
 import { UserRepository } from "../../../auth/domain/repositories/user.repository";
 import { AppError } from "../../../../shared/utils";
 
@@ -11,12 +10,8 @@ export class CreateGroupUsecase {
     private conversationRepo: ConversationRepository,
     private conversationMemberRepo: ConversationMemberRepository,
     private userRepo: UserRepository,
-    private uploadImage: CloudinaryService,
   ) {}
-  async execute(data: CreateGroupDto, file: Express.Multer.File) {
-    // TODO: Implement group creation logic
-    const imageUrl = file ? await this.uploadImage.upload(file) : "";
-    // check members
+  async execute(data: CreateGroupDto) {
     const members = data.members;
     for (const member of members) {
       const user = await this.userRepo.findById(member.userId);
@@ -32,7 +27,7 @@ export class CreateGroupUsecase {
     const conversation = await this.conversationRepo.create({
       type: ConversationType.GROUP,
       name: data.name,
-      imageUrl,
+      imageUrl: data.imageUrl,
     });
     // create conversation members
     await this.conversationMemberRepo.createMany({
@@ -42,7 +37,7 @@ export class CreateGroupUsecase {
         role: member.role,
       })),
     });
-
-    return conversation;
+    const getGroup = await this.conversationRepo.getGroup(conversation.id);
+    return getGroup;
   }
 }

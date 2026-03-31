@@ -1,11 +1,11 @@
 import z, { ZodObject, ZodRawShape } from "zod";
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils";
-
 export const validate =
   <T extends ZodRawShape>(schema: ZodObject<T>) =>
   (req: Request, _res: Response, next: NextFunction) => {
     try {
+      console.log("Received body:", req.body);
       schema.parse(req.body);
       next();
     } catch (error) {

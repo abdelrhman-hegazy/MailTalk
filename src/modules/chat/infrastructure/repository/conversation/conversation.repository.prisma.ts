@@ -1,5 +1,6 @@
 // import { RoleType } from "../../../../../../prisma/src/generated/prisma";
 import prisma from "../../../../../lib/prisma";
+import { AppError } from "../../../../../shared/utils";
 import { ConversationType } from "../../../domain/entities/conversation/conversation.entity";
 import { ConversationRepository } from "../../../domain/repository/conversation/conversation.repository";
 import { CreateConversationDto } from "../../../presentation/dtos/conversation.dto";
@@ -109,6 +110,49 @@ export class ConversationRepositoryPrisma implements ConversationRepository {
     return {
       data,
       nextCursor,
+    };
+  }
+
+  async getGroup(conversationId: string) {
+    const conversation = await prisma.conversation.findUnique({
+      where: { id: conversationId },
+      select: {
+        id: true,
+        name: true,
+        imageUrl: true,
+        type: true,
+        createdAt: true,
+        members: {
+          select: {
+            userId: true,
+            user: {
+              select: {
+                name: true,
+                profile: {
+                  select: {
+                    avatarUrl: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!conversation) {
+      throw new AppError("Conversation not found", 404, "not_found");
+    }
+
+    const { id, name, imageUrl, type, createdAt, members } = conversation;
+
+    return {
+      id,
+      name,
+      image: imageUrl,
+      type,
+      createdAt,
+      members,
     };
   }
 }

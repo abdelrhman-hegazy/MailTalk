@@ -1,5 +1,5 @@
 import { UserRepositoryPrisma } from "../../auth/infrastructure/repositories/user.repository.prisma";
-import { CloudinaryService } from "../../profile/infrastructure/services/cloudinary.service";
+import { CloudinaryService } from "../../upload/infrastructure/storage/cloudinary.storage";
 import { CreateGroupUsecase } from "../application/conversation/createGroup.usecase";
 import { GetConversationsUsecase } from "../application/conversation/getConversation.usecase";
 import { ConversationRepositoryPrisma } from "../infrastructure/repository/conversation/conversation.repository.prisma";

@@ -1,10 +1,10 @@
-import { AvatarCloudinaryService } from "../../domain/services/avaterCloudinary.service";
+import { UploadFileService } from "../../domain/services/upload-file.service";
 import {
   deleteFromCloudinary,
   uploadToCloudinary,
-} from "../../../../shared/middlewares/uploadCloudinary.middleware";
+} from "../../presentation/middleware/uploadCloudinary.middleware";
 
-export class CloudinaryService implements AvatarCloudinaryService {
+export class CloudinaryService implements UploadFileService {
   async upload(file: Express.Multer.File): Promise<string> {
     const uplodedImage = await uploadToCloudinary(file);
     return uplodedImage.url;
