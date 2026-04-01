@@ -1,10 +1,7 @@
 import { ProfileRepository } from "../../domain/repository/profile.repository";
 import { ProfileData } from "../../domain/repository/profile.repository";
 import prisma from "../../../../lib/prisma";
-import {
-  UpdateAvaterDto,
-  UpdateProfileDto,
-} from "../../presentation/dtos/profile.dto";
+import { UpdateProfileDto } from "../../presentation/dtos/profile.dto";
 
 const PROFILE_SELECT = {
   id: true,
@@ -44,22 +41,12 @@ export class ProfileRepositoryPrisma implements ProfileRepository {
       where: { userId: updateProfile.id },
       data: {
         bio: updateProfile.bio,
+        avatarUrl: updateProfile.avatarUrl,
         user: {
           update: {
             name: updateProfile.name,
           },
         },
-      },
-      select: PROFILE_SELECT,
-    });
-  }
-  async updateAvater(
-    updateAvaterDto: UpdateAvaterDto,
-  ): Promise<ProfileData | null> {
-    return prisma.profile.update({
-      where: { userId: updateAvaterDto.userId },
-      data: {
-        avatarUrl: updateAvaterDto.avatarUrl,
       },
       select: PROFILE_SELECT,
     });

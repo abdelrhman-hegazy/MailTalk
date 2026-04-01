@@ -125,6 +125,7 @@ export class ConversationRepositoryPrisma implements ConversationRepository {
         members: {
           select: {
             userId: true,
+            role: true,
             user: {
               select: {
                 name: true,
