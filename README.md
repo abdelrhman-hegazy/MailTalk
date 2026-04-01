@@ -227,6 +227,46 @@ MailTalk supports seamless social login, allowing users to authenticate securely
 
 ---
 
+### 1. 🔐 Authentication Module (`src/modules/auth/`)
+- Register with email/password (bcrypt, 12 salt rounds)
+- Login with email/password → return Access Token (15min) + Refresh Token (7 days)
+- OAuth login (Google & Facebook) via external token verification
+- Refresh token rotation endpoint
+- Logout (revoke refresh token)
+- Email verification with code + expiry
+- Redis-backed rate limiting (5 login attempts / 15min per IP)
+- JWT middleware for protected routes
+
+### 2. 👤 Profile Module (`src/modules/profile/`)
+- Get my profile (authenticated)
+- Update profile (avatarUrl, bio)
+- Get any user's profile by userId
+- Update online status & lastSeen automatically
+
+### 3. 💬 Chat Module (`src/modules/chat/`)
+- Create ONE_TO_ONE or GROUP conversation
+- Get all conversations for the current user
+- Get a single conversation by ID
+- Add/remove members (admin only for groups)
+- Send a message (TEXT / IMAGE / FILE)
+- Get messages with pagination (cursor-based)
+- Real-time events via Socket.IO:
+  - `message:send` → broadcast to conversation members
+  - `typing:start` / `typing:stop`
+  - `user:online` / `user:offline`
+  - Mark messages as DELIVERED / READ
+
+---
+
+### 🏗️ Architecture Requirements
+- Use **Repository Pattern** (separate data access from business logic)
+- Use **asyncWrapper** utility for error handling (no try/catch in controllers)  
+- All responses follow this shape:
+  { success: boolean, message: string, data?: any }
+- Use Zod for request validation
+- Add JSDoc comments on all service methods
+
+---
 ## 📁 Project Structure
 
 ```text
