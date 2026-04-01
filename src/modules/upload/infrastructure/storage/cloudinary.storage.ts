@@ -1,5 +1,6 @@
 import { UploadFileService } from "../../domain/services/upload-file.service";
 import {
+  checkFileFromCloudinary,
   deleteFromCloudinary,
   uploadToCloudinary,
 } from "../../presentation/middleware/uploadCloudinary.middleware";
@@ -11,5 +12,8 @@ export class CloudinaryService implements UploadFileService {
   }
   async delete(imageUrl: string): Promise<void> {
     await deleteFromCloudinary(imageUrl);
+  }
+  async exist(imageUrl: string): Promise<boolean> {
+    return await checkFileFromCloudinary(imageUrl);
   }
 }

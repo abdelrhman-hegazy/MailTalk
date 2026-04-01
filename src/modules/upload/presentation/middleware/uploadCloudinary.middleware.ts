@@ -70,11 +70,14 @@ export const uploadToCloudinary = async (
 
 export const deleteFromCloudinary = async (imageUrl: string) => {
   try {
+    // https://res.cloudinary.com/dj3wmknwu/image/upload/v1775032714/MailTalk/dyulprxbkqvdimjws0ah.jpg
     const publicId = imageUrl
       .split("/")
       .slice(-2)
       .join("/")
       .replace(/\.[^/.]+$/, "");
+    console.log("publicId", publicId);
+
     await cloudinary.uploader.destroy(publicId);
   } catch {
     throw new AppError(

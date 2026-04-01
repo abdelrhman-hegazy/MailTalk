@@ -2,11 +2,7 @@ export interface UpdateProfileDto {
   id: string;
   bio?: string;
   name?: string;
-}
-
-export interface UpdateAvaterDto {
-  avatarUrl: string;
-  userId: string;
+  avatarUrl?: string | null;
 }
 
 export interface ProfileData {
