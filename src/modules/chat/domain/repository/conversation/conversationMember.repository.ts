@@ -21,4 +21,9 @@ export interface ConversationMemberRepository {
     conversationId: string,
     userId: string,
   ): Promise<boolean>;
+
+  findMembersByConversationId(
+    conversationId: string,
+    senderId: string,
+  ): Promise<string[]>;
 }

@@ -65,4 +65,12 @@ export class ConversationMemberRepositoryPrisma implements ConversationMemberRep
 
     return rows.map((r) => r.conversationId);
   }
+  async findMembersByConversationId(conversationId: string, senderId: string) {
+    const rows = await prisma.conversationMember.findMany({
+      where: { conversationId, userId: { not: senderId } },
+      select: { userId: true },
+    });
+
+    return rows.map((r) => r.userId);
+  }
 }

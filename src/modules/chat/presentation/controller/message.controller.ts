@@ -24,8 +24,11 @@ export class MessageController {
       content,
       type,
     });
-    // send notification to user or group
-    this.chatSocketService.emitNewMessage(conversationId, receiverId, result);
+    this.chatSocketService.emitNewMessage(
+      result.message.conversationId,
+      result.message,
+    );
+    this.chatSocketService.emitNotification(result.receiversId, result.message);
     sendResponse(res, {
       statusCode: 200,
       message: "Message sent successfully",

@@ -4,13 +4,13 @@ import { AppError, catchAsync, sendResponse } from "../../../../shared/utils";
 import { CreateGroupUsecase } from "../../application/conversation/createGroup.usecase";
 import { CreateGroupDto } from "../dtos/conversation.dto";
 import { ConversationMemberRole } from "../../domain/entities/conversation/conversationMember.entity";
-import { GetConversationsUsecase } from "../../application/conversation/getConversation.usecase";
+import { GetConversationsUsecase } from "../../application/conversation/getConversations.usecase";
 
 export class ConversationController {
   constructor(
     private createGroupUsecase: CreateGroupUsecase,
     private getConversationsUsecase: GetConversationsUsecase,
-  ) { }
+  ) {}
   createGroup = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.user;
     const { name, members, imageUrl }: CreateGroupDto = req.body;
