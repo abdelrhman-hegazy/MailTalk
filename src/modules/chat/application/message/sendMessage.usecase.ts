@@ -65,8 +65,18 @@ export class SendMessageUseCase {
       type: MessageType.TEXT,
       status: MessageStatus.SENT,
     });
+    const conversationMember =
+      await this.conversationMemberRepo.findMembersByConversationId(
+        finalConversationId,
+        senderId,
+      );
 
-    return message;
+    return {
+      message: {
+        ...message,
+      },
+      receiversId: conversationMember,
+    };
   }
   // 🟢 CASE 2: create message
   private async createConversation(
@@ -81,6 +91,12 @@ export class SendMessageUseCase {
           senderId,
           receiverId,
         );
+      if (
+        finalConversationId &&
+        existingConversationId !== finalConversationId
+      ) {
+        throw new AppError("Conversation ID mismatch", 400, "INVALID_INPUT");
+      }
 
       if (existingConversationId) {
         finalConversationId = existingConversationId;

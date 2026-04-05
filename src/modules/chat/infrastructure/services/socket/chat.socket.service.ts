@@ -1,33 +1,29 @@
 import { getIO } from "../../../../../shared/socket/socket.server";
 import { MessageSocketDto } from "../../../presentation/dtos/message.dto";
 export class ChatSocketService {
-  async emitNewMessage(
-    conversationId: string,
-    receiverId: string,
-    message: MessageSocketDto,
-  ) {
+  async emitNewMessage(conversationId: string, message: MessageSocketDto) {
     const io = getIO();
-    io.to(`conversation_${conversationId}`)
-      .timeout(10000)
-      .emit(
-        "message:new",
-        message,
-        (
-          err: Error,
-          responses: Array<{ socketId: string; status: string }>,
-        ) => {
-          if (err) {
-            console.log("error", err);
-            console.log("❌ Not delivered");
-          } else {
-            console.log("✅ Delivered to:", responses.length);
-          }
-        },
-      );
 
-    io.to(`user_${receiverId}`).emit("notification:new", {
-      conversationId,
-      message,
+    try {
+      const responses = await io
+        .to(`conversation_${conversationId}`)
+        .timeout(5000)
+        .emitWithAck("message:new", message);
+
+      console.log("✅ Delivered to:", responses.length);
+
+      // 🔥 ممكن تحدث DB هنا
+      // await messageRepository.markAsDelivered(message.id);
+    } catch {
+      console.log("❌ Delivery failed");
+    }
+  }
+
+  emitNotification(usersId: string[], message: MessageSocketDto) {
+    const io = getIO();
+
+    usersId.forEach((userId) => {
+      io.to(`user_${userId}`).emit("notification:new", message);
     });
   }
 }
