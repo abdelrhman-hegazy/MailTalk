@@ -10,7 +10,7 @@ export class ConversationController {
   constructor(
     private createGroupUsecase: CreateGroupUsecase,
     private getConversationsUsecase: GetConversationsUsecase,
-  ) { }
+  ) {}
   createGroup = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.user;
     const { name, members, imageUrl }: CreateGroupDto = req.body;
