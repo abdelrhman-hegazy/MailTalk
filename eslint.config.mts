@@ -12,6 +12,8 @@ export default defineConfig([
       "prisma/src/generated/**",
       "**/generated/prisma/**",
       "**/.prisma/**",
+      "src/test-client1.js",
+      "src/test-client2.js",
     ],
   },
   {

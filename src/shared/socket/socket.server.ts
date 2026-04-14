@@ -2,6 +2,7 @@ import { Server } from "socket.io";
 import http from "http";
 import { JwtService } from "../../modules/auth/infrastructure/services/jwt.service";
 import { registerChatHandlers } from "./handlers/chat.handler";
+import { PresenceService } from "./presence.service";
 
 let io: Server;
 const jwtService = new JwtService();
@@ -35,20 +36,34 @@ export const initSocket = (server: http.Server) => {
       return next(new Error("Unauthorized"));
     }
   });
+  const presenceService = new PresenceService();
 
   io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
     const userId = socket.data.user.id;
+
+    console.log("User connected:", userId);
 
     socket.join(`user_${userId}`);
 
+    presenceService.addUser(userId, socket.id);
+
+    io.emit("user:online", { userId });
+
     registerChatHandlers(socket);
 
-    socket.on("disconnect", (reason) => {
-      console.log("User disconnected:", userId, reason);
+    socket.on("disconnect", async () => {
+      const isOffline = presenceService.removeUser(userId, socket.id);
+
+      if (isOffline) {
+        io.emit("user:offline", {
+          userId,
+          lastSeen: new Date(),
+        });
+
+        // TODO: update DB
+      }
     });
   });
-
   return io;
 };
 

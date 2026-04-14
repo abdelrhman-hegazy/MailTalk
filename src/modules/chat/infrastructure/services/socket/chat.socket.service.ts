@@ -1,5 +1,7 @@
 import { getIO } from "../../../../../shared/socket/socket.server";
 import { MessageSocketDto } from "../../../presentation/dtos/message.dto";
+import { MessageRepositoryPrisma } from "../../repository/message/message.repository.prisma";
+const messageRepositoryPrisma = new MessageRepositoryPrisma();
 export class ChatSocketService {
   async emitNewMessage(conversationId: string, message: MessageSocketDto) {
     const io = getIO();
@@ -11,9 +13,12 @@ export class ChatSocketService {
         .emitWithAck("message:new", message);
 
       console.log("✅ Delivered to:", responses.length);
-
-      // 🔥 ممكن تحدث DB هنا
-      // await messageRepository.markAsDelivered(message.id);
+      if (responses.length > 0) {
+        await messageRepositoryPrisma.markAsDelivered(message.id);
+        io.to(`conversation_${conversationId}`).emit("message:delivered", {
+          messageId: message.id,
+        });
+      }
     } catch {
       console.log("❌ Delivery failed");
     }
@@ -22,8 +27,8 @@ export class ChatSocketService {
   emitNotification(usersId: string[], message: MessageSocketDto) {
     const io = getIO();
 
-    usersId.forEach((userId) => {
+    for (const userId of usersId) {
       io.to(`user_${userId}`).emit("notification:new", message);
-    });
+    }
   }
 }

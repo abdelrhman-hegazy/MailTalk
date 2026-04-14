@@ -19,4 +19,6 @@ export interface MessageRepository {
   }>;
   getConversationMessagesCount(conversationId: string): Promise<number>;
   findById(messageId: string): Promise<Message | null>;
+  markAsDelivered(messageId: string): Promise<Message>;
+  markConversationAsRead(conversationId: string, userId: string): Promise<void>;
 }
