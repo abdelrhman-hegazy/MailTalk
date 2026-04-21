@@ -1,61 +1,127 @@
 import prisma from "../../../../lib/prisma";
 
-export class SearchRepository {
-  async searchMessages(query: string, limit = 20) {
-    return prisma.$queryRaw`
-      SELECT "id", "content", "user"."name", "createdAt"
-      FROM "Message"
-      WHERE to_tsvector("content") @@ plainto_tsquery(${query})
-      ORDER BY "createdAt" DESC
-      LIMIT ${limit}
-    `;
-  }
-
-  async searchUsers(query: string, limit = 10) {
-    return prisma.user.findMany({
+export class SearchRepositoryPrisma {
+  async searchMessages(query: string, limit = 5, cursor?: string) {
+    const messages = await prisma.message.findMany({
       where: {
-        name: {
+        content: {
           contains: query,
           mode: "insensitive",
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: limit,
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1,
+      }),
       select: {
         id: true,
-        name: true,
-        profile: {
+        content: true,
+        createdAt: true,
+        conversation: {
           select: {
-            bio: true,
-            image: true,
+            id: true,
+            name: true,
           },
         },
-      },
-      take: limit,
-    });
-  }
-
-  async searchConversations(query: string, limit = 10) {
-    return prisma.conversation.findMany({
-      where: {
-        name: {
-          contains: query,
-          mode: "insensitive",
-        },
-      },
-      take: limit,
-      select: {
-        id: true,
-        name: true,
-        members: {
+        sender: {
           select: {
             name: true,
           },
         },
-        messages: {
+      },
+    });
+
+    const nextCursor =
+      messages.length === limit ? messages[messages.length - 1].id : null;
+
+    return {
+      data: messages,
+      nextCursor,
+    };
+  }
+
+  async searchUsers(query: string, limit = 10, cursor?: string) {
+    const users = await prisma.user.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: "insensitive",
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: limit,
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1,
+      }),
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        profile: {
           select: {
-            content: true,
+            bio: true,
+            avatarUrl: true,
           },
         },
       },
     });
+
+    const nextCursor =
+      users.length === limit ? users[users.length - 1].id : null;
+
+    return {
+      data: users,
+      nextCursor,
+    };
+  }
+
+  async searchConversations(query: string, limit = 10, cursor?: string) {
+    const conversations = await prisma.conversation.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: "insensitive",
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+      take: limit,
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1,
+      }),
+      select: {
+        id: true,
+        name: true,
+        updatedAt: true,
+        members: {
+          select: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const nextCursor =
+      conversations.length === limit
+        ? conversations[conversations.length - 1].id
+        : null;
+
+    return {
+      data: conversations,
+      nextCursor,
+    };
   }
 }

@@ -12,9 +12,9 @@ export function profileModule() {
     profileRepo,
     uploadFileService,
   );
-  const getProfileController = new ProfileController(
+  const profileController = new ProfileController(
     getProfileUsecase,
     updateProfileUsecase,
   );
-  return getProfileController;
+  return profileController;
 }
