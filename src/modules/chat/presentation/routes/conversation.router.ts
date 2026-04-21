@@ -17,5 +17,9 @@ router.get(
   authMiddleware,
   conversationController.getConversations,
 );
-
+router.delete(
+  "/conversation/:conversationId",
+  authMiddleware,
+  conversationController.deleteConversation,
+);
 export { router as conversationRouter };

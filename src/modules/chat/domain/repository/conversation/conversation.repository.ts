@@ -22,4 +22,5 @@ export interface ConversationRepository {
     nextCursor: string | null;
   }>;
   getGroup(conversationId: string): Promise<GetGroupDto | null>;
+  deleteConversation(conversationId: string): Promise<void>;
 }
