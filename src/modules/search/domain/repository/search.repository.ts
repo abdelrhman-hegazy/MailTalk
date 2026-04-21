@@ -22,11 +22,30 @@ export interface searchConversationDto {
     content: string;
   }[];
 }
+export interface limitsDto {
+  users: number;
+  conversations: number;
+  messages: number;
+}
+export interface cursorsDto {
+  users: string;
+  conversations: string;
+  messages: string;
+}
 export interface SearchRepository {
-  searchMessages(query: string, limit: number): Promise<SearchMessageDto[]>;
-  searchUsers(query: string, limit: number): Promise<searchUserDto[]>;
+  searchMessages(
+    query: string,
+    limits: limitsDto,
+    cursors: cursorsDto,
+  ): Promise<SearchMessageDto[]>;
+  searchUsers(
+    query: string,
+    limits: limitsDto,
+    cursors: cursorsDto,
+  ): Promise<searchUserDto[]>;
   searchConversations(
     query: string,
-    limit: number,
+    limits: limitsDto,
+    cursors: cursorsDto,
   ): Promise<searchConversationDto>;
 }
