@@ -26,6 +26,7 @@ model User {
   refreshToken           String?
   profile                Profile?             @relation("userProfile")
   conversationMembers    ConversationMember[]
+  sentMessages           Message[]            @relation("messageSender")
 }
 
 enum Provider {
