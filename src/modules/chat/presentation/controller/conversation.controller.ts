@@ -1,15 +1,17 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AuthRequest } from "../../../../shared/middlewares/auth.middleware";
 import { AppError, catchAsync, sendResponse } from "../../../../shared/utils";
 import { CreateGroupUsecase } from "../../application/conversation/createGroup.usecase";
 import { CreateGroupDto } from "../dtos/conversation.dto";
 import { ConversationMemberRole } from "../../domain/entities/conversation/conversationMember.entity";
 import { GetConversationsUsecase } from "../../application/conversation/getConversations.usecase";
+import { DeleteConversationUsecase } from "../../application/conversation/deleteConversation";
 
 export class ConversationController {
   constructor(
     private createGroupUsecase: CreateGroupUsecase,
     private getConversationsUsecase: GetConversationsUsecase,
+    private deleteConversationUsecase: DeleteConversationUsecase,
   ) {}
   createGroup = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.user;
@@ -36,7 +38,6 @@ export class ConversationController {
     });
   });
   getConversations = catchAsync(async (req: AuthRequest, res: Response) => {
-    // TODO: Implement get conversations logic
     const { id } = req.user;
     const { limit, cursor } = req.query;
     const limitNum = typeof limit === "string" ? parseInt(limit, 10) : 10;
@@ -50,6 +51,14 @@ export class ConversationController {
       statusCode: 200,
       message: "Conversations retrieved successfully",
       data: result,
+    });
+  });
+  deleteConversation = catchAsync(async (req: Request, res: Response) => {
+    const { conversationId } = req.params;
+    await this.deleteConversationUsecase.execute(conversationId as string);
+    sendResponse(res, {
+      statusCode: 200,
+      message: "Conversation deleted successfully",
     });
   });
 }

@@ -13,6 +13,7 @@ export class LoginUsecase {
   async execute(email: string, password: string) {
     // Find user by email
     const user = await this.userRepo.findUserByEmail(email);
+    console.log(user.id);
     if (!user) {
       throw new AppError("User Not Found", 404, "not_found");
     }
