@@ -4,6 +4,7 @@ import { messageRouter } from "../../modules/chat/presentation/routes/message.ro
 import { profileRouter } from "../../modules/profile/presentation/routes/profile.router";
 import { conversationRouter } from "../../modules/chat/presentation/routes/conversation.router";
 import { uploadRouter } from "../../modules/upload/presentation/router/upload.router";
+import { contactRouter } from "../../modules/contact/presentation/routes/contact.router";
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.use("/auth", authRouter);
 router.use("/profile", profileRouter);
 router.use("/chat", messageRouter);
 router.use("/chat", conversationRouter);
+router.use("/contact", contactRouter);
 
 export const apiRouter = router;
