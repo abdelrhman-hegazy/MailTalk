@@ -20,7 +20,7 @@ model User {
   verificationCodeExpiry DateTime?
   refreshToken           String?
   conversationMembers    ConversationMember[]
-  profile                Profile?             @relation("userProfile")
+  sentMessages           Message[]            @relation("messageSender")
 }
 
 model Profile {
