@@ -1585,7 +1585,6 @@ export namespace Prisma {
     verificationCode?: boolean
     verificationCodeExpiry?: boolean
     refreshToken?: boolean
-    profile?: boolean | User$profileArgs<ExtArgs>
     conversationMembers?: boolean | User$conversationMembersArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1635,7 +1634,6 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "provider" | "providerId" | "isVerified" | "createdAt" | "verificationCode" | "verificationCodeExpiry" | "refreshToken", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    profile?: boolean | User$profileArgs<ExtArgs>
     conversationMembers?: boolean | User$conversationMembersArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1646,7 +1644,6 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      profile: Prisma.$ProfilePayload<ExtArgs> | null
       conversationMembers: Prisma.$ConversationMemberPayload<ExtArgs>[]
       sentMessages: Prisma.$MessagePayload<ExtArgs>[]
     }
@@ -2056,7 +2053,6 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    profile<T extends User$profileArgs<ExtArgs> = {}>(args?: Subset<T, User$profileArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     conversationMembers<T extends User$conversationMembersArgs<ExtArgs> = {}>(args?: Subset<T, User$conversationMembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -2484,25 +2480,6 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
-  }
-
-  /**
-   * User.profile
-   */
-  export type User$profileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Profile
-     */
-    select?: ProfileSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Profile
-     */
-    omit?: ProfileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProfileInclude<ExtArgs> | null
-    where?: ProfileWhereInput
   }
 
   /**
@@ -7185,7 +7162,6 @@ export namespace Prisma {
     verificationCode?: StringNullableFilter<"User"> | string | null
     verificationCodeExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     refreshToken?: StringNullableFilter<"User"> | string | null
-    profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     conversationMembers?: ConversationMemberListRelationFilter
     sentMessages?: MessageListRelationFilter
   }
@@ -7202,7 +7178,6 @@ export namespace Prisma {
     verificationCode?: SortOrderInput | SortOrder
     verificationCodeExpiry?: SortOrderInput | SortOrder
     refreshToken?: SortOrderInput | SortOrder
-    profile?: ProfileOrderByWithRelationInput
     conversationMembers?: ConversationMemberOrderByRelationAggregateInput
     sentMessages?: MessageOrderByRelationAggregateInput
   }
@@ -7222,7 +7197,6 @@ export namespace Prisma {
     verificationCode?: StringNullableFilter<"User"> | string | null
     verificationCodeExpiry?: DateTimeNullableFilter<"User"> | Date | string | null
     refreshToken?: StringNullableFilter<"User"> | string | null
-    profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     conversationMembers?: ConversationMemberListRelationFilter
     sentMessages?: MessageListRelationFilter
   }, "id" | "email">
@@ -7533,7 +7507,6 @@ export namespace Prisma {
     verificationCode?: string | null
     verificationCodeExpiry?: Date | string | null
     refreshToken?: string | null
-    profile?: ProfileCreateNestedOneWithoutUserInput
     conversationMembers?: ConversationMemberCreateNestedManyWithoutUserInput
     sentMessages?: MessageCreateNestedManyWithoutSenderInput
   }
@@ -7550,7 +7523,6 @@ export namespace Prisma {
     verificationCode?: string | null
     verificationCodeExpiry?: Date | string | null
     refreshToken?: string | null
-    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     conversationMembers?: ConversationMemberUncheckedCreateNestedManyWithoutUserInput
     sentMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
   }
@@ -7567,7 +7539,6 @@ export namespace Prisma {
     verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
     verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    profile?: ProfileUpdateOneWithoutUserNestedInput
     conversationMembers?: ConversationMemberUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUpdateManyWithoutSenderNestedInput
   }
@@ -7584,7 +7555,6 @@ export namespace Prisma {
     verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
     verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     conversationMembers?: ConversationMemberUncheckedUpdateManyWithoutUserNestedInput
     sentMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
   }
@@ -7964,11 +7934,6 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type ProfileNullableScalarRelationFilter = {
-    is?: ProfileWhereInput | null
-    isNot?: ProfileWhereInput | null
-  }
-
   export type ConversationMemberListRelationFilter = {
     every?: ConversationMemberWhereInput
     some?: ConversationMemberWhereInput
@@ -8315,12 +8280,6 @@ export namespace Prisma {
     _max?: NestedEnumMessageStatusFilter<$PrismaModel>
   }
 
-  export type ProfileCreateNestedOneWithoutUserInput = {
-    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
-    connect?: ProfileWhereUniqueInput
-  }
-
   export type ConversationMemberCreateNestedManyWithoutUserInput = {
     create?: XOR<ConversationMemberCreateWithoutUserInput, ConversationMemberUncheckedCreateWithoutUserInput> | ConversationMemberCreateWithoutUserInput[] | ConversationMemberUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ConversationMemberCreateOrConnectWithoutUserInput | ConversationMemberCreateOrConnectWithoutUserInput[]
@@ -8377,16 +8336,6 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
-  }
-
-  export type ProfileUpdateOneWithoutUserNestedInput = {
-    create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
-    upsert?: ProfileUpsertWithoutUserInput
-    disconnect?: ProfileWhereInput | boolean
-    delete?: ProfileWhereInput | boolean
-    connect?: ProfileWhereUniqueInput
-    update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutUserInput, ProfileUpdateWithoutUserInput>, ProfileUncheckedUpdateWithoutUserInput>
   }
 
   export type ConversationMemberUpdateManyWithoutUserNestedInput = {
@@ -8857,6 +8806,30 @@ export namespace Prisma {
     _max?: NestedEnumMessageStatusFilter<$PrismaModel>
   }
 
+  export type ConversationMemberCreateWithoutUserInput = {
+    id?: string
+    joinedAt?: Date | string
+    role: $Enums.RoleType
+    conversation: ConversationCreateNestedOneWithoutMembersInput
+  }
+
+  export type ConversationMemberUncheckedCreateWithoutUserInput = {
+    id?: string
+    conversationId: string
+    joinedAt?: Date | string
+    role: $Enums.RoleType
+  }
+
+  export type ConversationMemberCreateOrConnectWithoutUserInput = {
+    where: ConversationMemberWhereUniqueInput
+    create: XOR<ConversationMemberCreateWithoutUserInput, ConversationMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type ConversationMemberCreateManyUserInputEnvelope = {
+    data: ConversationMemberCreateManyUserInput | ConversationMemberCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProfileCreateWithoutUserInput = {
     id?: string
     avatarUrl?: string | null
@@ -8880,28 +8853,31 @@ export namespace Prisma {
     create: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
   }
 
-  export type ConversationMemberCreateWithoutUserInput = {
-    id?: string
-    joinedAt?: Date | string
-    role: $Enums.RoleType
-    conversation: ConversationCreateNestedOneWithoutMembersInput
-  }
-
-  export type ConversationMemberUncheckedCreateWithoutUserInput = {
-    id?: string
-    conversationId: string
-    joinedAt?: Date | string
-    role: $Enums.RoleType
-  }
-
-  export type ConversationMemberCreateOrConnectWithoutUserInput = {
+  export type ConversationMemberUpsertWithWhereUniqueWithoutUserInput = {
     where: ConversationMemberWhereUniqueInput
+    update: XOR<ConversationMemberUpdateWithoutUserInput, ConversationMemberUncheckedUpdateWithoutUserInput>
     create: XOR<ConversationMemberCreateWithoutUserInput, ConversationMemberUncheckedCreateWithoutUserInput>
   }
 
-  export type ConversationMemberCreateManyUserInputEnvelope = {
-    data: ConversationMemberCreateManyUserInput | ConversationMemberCreateManyUserInput[]
-    skipDuplicates?: boolean
+  export type ConversationMemberUpdateWithWhereUniqueWithoutUserInput = {
+    where: ConversationMemberWhereUniqueInput
+    data: XOR<ConversationMemberUpdateWithoutUserInput, ConversationMemberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ConversationMemberUpdateManyWithWhereWithoutUserInput = {
+    where: ConversationMemberScalarWhereInput
+    data: XOR<ConversationMemberUpdateManyMutationInput, ConversationMemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ConversationMemberScalarWhereInput = {
+    AND?: ConversationMemberScalarWhereInput | ConversationMemberScalarWhereInput[]
+    OR?: ConversationMemberScalarWhereInput[]
+    NOT?: ConversationMemberScalarWhereInput | ConversationMemberScalarWhereInput[]
+    id?: StringFilter<"ConversationMember"> | string
+    conversationId?: StringFilter<"ConversationMember"> | string
+    userId?: StringFilter<"ConversationMember"> | string
+    joinedAt?: DateTimeFilter<"ConversationMember"> | Date | string
+    role?: EnumRoleTypeFilter<"ConversationMember"> | $Enums.RoleType
   }
 
   export type MessageCreateWithoutSenderInput = {
