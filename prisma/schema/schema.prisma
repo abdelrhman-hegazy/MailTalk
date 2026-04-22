@@ -26,8 +26,9 @@ model User {
   refreshToken           String?
   profile                Profile?             @relation("userProfile")
   conversationMembers    ConversationMember[]
-  contactUser            Contact[]            @relation("UserContacted")
-  contactOf              Contact[]            @relation("ContactOfUser")
+  sendMessages           Message[]            @relation("messageSender")
+  userContact            Contact[]            @relation("UserContact")
+  contactsOf             Contact[]            @relation("ContactsOf")
 }
 
 enum Provider {
@@ -115,11 +116,11 @@ enum MessageStatus {
 model Contact {
   id        String   @id @default(cuid())
   userId    String
-  contactId String
+  contactUserId String
   createdAt DateTime @default(now())
 
-  user    User @relation("UserContacted", fields: [userId], references: [id], onDelete: Cascade)
-  contact User @relation("ContactOfUser", fields: [contactId], references: [id], onDelete: Cascade)
+  user    User @relation("UserContact", fields: [userId], references: [id], onDelete: Cascade)
+  contact User @relation("ContactsOf", fields: [contactUserId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, contactId])
+  @@unique([userId, contactUserId])
 }

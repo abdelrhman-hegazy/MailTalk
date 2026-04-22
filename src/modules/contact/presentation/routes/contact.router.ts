@@ -6,5 +6,7 @@ const router = Router();
 const contactController = contactModule();
 
 router.post("", authMiddleware, contactController.addContact);
+router.get("", authMiddleware, contactController.getContacts);
+router.delete("", authMiddleware, contactController.deleteContact);
 
 export { router as contactRouter };

@@ -175,7 +175,7 @@ exports.Prisma.MessageScalarFieldEnum = {
 exports.Prisma.ContactScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  contactId: 'contactId',
+  contactUserId: 'contactUserId',
   createdAt: 'createdAt'
 };
 

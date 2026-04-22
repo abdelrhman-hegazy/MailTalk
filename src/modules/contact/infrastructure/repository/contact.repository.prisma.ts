@@ -3,16 +3,16 @@ import prisma from "../../../../lib/prisma";
 export class ContactRepositoryPrisma {
   async addContact(userId: string, contactId: string) {
     return prisma.contact.create({
-      data: { userId, contactId },
+      data: { userId, contactUserId: contactId },
     });
   }
 
   async removeContact(userId: string, contactId: string) {
     return prisma.contact.delete({
       where: {
-        userId_contactId: {
+        userId_contactUserId: {
           userId,
-          contactId,
+          contactUserId: contactId,
         },
       },
     });
@@ -42,9 +42,9 @@ export class ContactRepositoryPrisma {
   async isContactExists(userId: string, contactId: string) {
     return prisma.contact.findUnique({
       where: {
-        userId_contactId: {
+        userId_contactUserId: {
           userId,
-          contactId,
+          contactUserId: contactId,
         },
       },
     });

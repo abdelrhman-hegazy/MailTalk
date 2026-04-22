@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -6,6 +9,8 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// model user
 
 model User {
   id                     String               @id @default(cuid())
@@ -19,9 +24,17 @@ model User {
   verificationCode       String?
   verificationCodeExpiry DateTime?
   refreshToken           String?
+  profile                Profile?             @relation("userProfile")
   conversationMembers    ConversationMember[]
-  contactUser            Contact[]            @relation("UserContacted")
-  contactOf              Contact[]            @relation("ContactOfUser")
+  sendMessages           Message[]            @relation("messageSender")
+  userContact            Contact[]            @relation("UserContact")
+  contactsOf             Contact[]            @relation("ContactsOf")
+}
+
+enum Provider {
+  EMAIL
+  GOOGLE
+  FACEBOOK
 }
 
 model Profile {
@@ -32,20 +45,30 @@ model Profile {
   lastSeen  DateTime @default(now())
   isOnline  Boolean  @default(false)
   createdAt DateTime @default(now())
-  user      User     @relation("userProfile", fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation("userProfile", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+// model conversation 
+
 model Conversation {
-  id        String               @id @default(cuid())
+  id        String           @id @default(cuid())
   type      ConversationType
   name      String?
   imageUrl  String?
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
-  members   ConversationMember[]
-  messages  Message[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  members  ConversationMember[]
+  messages Message[]
 }
 
+enum ConversationType {
+  ONE_TO_ONE
+  GROUP
+}
+
+// model conversation member
 model ConversationMember {
   id             String       @id @default(cuid())
   conversationId String
@@ -58,6 +81,11 @@ model ConversationMember {
   @@unique([conversationId, userId])
 }
 
+enum RoleType {
+  MEMBER
+  ADMIN
+}
+
 model Message {
   id             String        @id @default(cuid())
   conversationId String
@@ -67,16 +95,9 @@ model Message {
   status         MessageStatus
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
-  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-}
-
-enum Provider {
-  EMAIL
-  GOOGLE
-  FACEBOOK
-}
 
   conversation Conversation @relation(fields: [conversationId], references: [id])
+  sender       User         @relation("messageSender", fields: [senderId], references: [id], onDelete: Cascade)
 }
 
 enum MessageType {
@@ -92,13 +113,13 @@ enum MessageStatus {
 }
 
 model Contact {
-  id        String   @id @default(cuid())
-  userId    String
-  contactId String
-  createdAt DateTime @default(now())
+  id            String   @id @default(cuid())
+  userId        String
+  contactUserId String
+  createdAt     DateTime @default(now())
 
-  user    User @relation("UserContacted", fields: [userId], references: [id], onDelete: Cascade)
-  contact User @relation("ContactOfUser", fields: [contactId], references: [id], onDelete: Cascade)
+  user    User @relation("UserContact", fields: [userId], references: [id], onDelete: Cascade)
+  contact User @relation("ContactsOf", fields: [contactUserId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, contactId])
+  @@unique([userId, contactUserId])
 }

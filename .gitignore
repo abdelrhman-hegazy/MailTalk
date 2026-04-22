@@ -8,6 +8,7 @@ tsconfig.tsbuildinfo
 tests
 dist/
 /src/generated/prisma
+/prisma/migrations
 .gitNotes.text
 /src/test-client1.js
 /src/test-client2.js
