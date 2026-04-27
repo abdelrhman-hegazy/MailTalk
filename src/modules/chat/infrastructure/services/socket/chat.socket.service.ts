@@ -11,9 +11,6 @@ export class ChatSocketService {
         .emitWithAck("message:new", message);
 
       console.log("✅ Delivered to:", responses.length);
-
-      // 🔥 ممكن تحدث DB هنا
-      // await messageRepository.markAsDelivered(message.id);
     } catch {
       console.log("❌ Delivery failed");
     }

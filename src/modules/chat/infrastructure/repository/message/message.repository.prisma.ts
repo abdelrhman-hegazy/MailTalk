@@ -53,4 +53,16 @@ export class MessageRepositoryPrisma implements MessageRepository {
       where: { conversationId },
     });
   }
+  async markAsDelivered(messageId: string) {
+    return prisma.message.update({
+      where: { id: messageId },
+      data: { status: "delivered" },
+    });
+  }
+  async markAsRead(conversationId: string) {
+    return prisma.message.updateMany({
+      where: { conversationId },
+      data: { status: "read" },
+    });
+  }
 }
