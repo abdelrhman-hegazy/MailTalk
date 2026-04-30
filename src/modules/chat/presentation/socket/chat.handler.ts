@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { MessageRepositoryPrisma } from "../../../modules/chat/infrastructure/repository/message/message.repository.prisma";
+import { MessageRepositoryPrisma } from "../../infrastructure/repository/message/message.repository.prisma";
 
 const messageRepo = new MessageRepositoryPrisma();
 export function registerChatHandlers(socket: Socket) {
