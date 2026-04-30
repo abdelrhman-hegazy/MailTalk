@@ -5,6 +5,7 @@ import { profileRouter } from "../../modules/profile/presentation/routes/profile
 import { conversationRouter } from "../../modules/chat/presentation/routes/conversation.router";
 import { uploadRouter } from "../../modules/upload/presentation/router/upload.router";
 import { contactRouter } from "../../modules/contact/presentation/routes/contact.router";
+import { callRouter } from "../../modules/call/presentation/router/call.router";
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use("/profile", profileRouter);
 router.use("/chat", messageRouter);
 router.use("/chat", conversationRouter);
 router.use("/contact", contactRouter);
+router.use("/call", callRouter);
 
 export const apiRouter = router;

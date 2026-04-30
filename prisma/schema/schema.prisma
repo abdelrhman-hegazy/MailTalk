@@ -29,6 +29,8 @@ model User {
   sendMessages           Message[]            @relation("messageSender")
   userContact            Contact[]            @relation("UserContact")
   contactsOf             Contact[]            @relation("ContactsOf")
+  caller                 Call[]               @relation("caller")
+  receiver               Call[]               @relation("receiver")
 }
 
 enum Provider {
@@ -124,3 +126,40 @@ model Contact {
 
   @@unique([userId, contactUserId])
 }
+
+
+model Call {
+  id           String      @id @default(cuid())
+
+  callerId     String
+  receiverId   String
+
+  type         CallType
+  status       CallStatus
+
+  startedAt    DateTime?
+  endedAt      DateTime?
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  caller       User        @relation("caller", fields: [callerId], references: [id], onDelete: Cascade)
+  receiver     User        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([callerId])
+  @@index([receiverId])
+}
+
+enum CallStatus {
+  INITIATED
+  RINGING
+  ACCEPTED
+  REJECTED
+  ENDED
+}
+
+enum CallType {
+  AUDIO
+  VIDEO
+}
+

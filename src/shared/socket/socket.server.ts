@@ -1,7 +1,8 @@
 import { Server } from "socket.io";
 import http from "http";
 import { JwtService } from "../../modules/auth/infrastructure/services/jwt.service";
-import { registerChatHandlers } from "./handlers/chat.handler";
+import { registerChatHandlers } from "../../modules/chat/presentation/socket/chat.handler";
+import { registerCallHandlers } from "../../modules/call/presentation/socket/call.handler";
 
 let io: Server;
 const jwtService = new JwtService();
@@ -43,6 +44,7 @@ export const initSocket = (server: http.Server) => {
     socket.join(`user_${userId}`);
 
     registerChatHandlers(socket);
+    registerCallHandlers(socket);
 
     socket.on("disconnect", (reason) => {
       console.log("User disconnected:", userId, reason);
