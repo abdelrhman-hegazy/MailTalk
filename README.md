@@ -1,5 +1,4 @@
 # 💬 MailTalk - Enterprise Real-Time Chat Backend
-</div>
 
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
@@ -14,7 +13,7 @@ This project is currently under active development and serves as a solid foundat
 
 ## 🎯 Executive Summary
 
-**MailTalk** delivers a scalable foundation for modern chat applications, handling millions of concurrent connections through intelligent WebSocket management, Redis-backed pub/sub architecture, and optimized database indexing. The system supports real-time messaging, multi-provider authentication, and seamless media handling with sub-100ms latency guarantees.
+**MailTalk** delivers a scalable foundation for modern chat applications, handling millions of concurrent connections through intelligent WebSocket management, Redis-backed pub/sub architecture, and optimized database indexing. The system supports real-time messaging, multi-provider authentication, seamless media handling, contact management, and real-time audio/video calls — all with sub-100ms latency guarantees.
 
 ---
 
@@ -32,6 +31,7 @@ This project is currently under active development and serves as a solid foundat
 - **Real-time:** Full **Socket.IO** integration for messaging & typing indicators.
 - **Messaging:** One-to-one & group chats with message persistence.
 - **Media:** Support for images, audio, video, and documents via Cloudinary.
+- **Contacts:** Personal contact list management with search capabilities.
 - **Advanced:** Audio & video calls using **WebRTC**.
 - **DevOps:** Docker support, CI/CD pipelines, and Pino logging.
 
@@ -76,6 +76,9 @@ MailTalk uses **PostgreSQL** managed via **Prisma ORM**. Below is an overview of
 | `Conversation` → `ConversationMember` | One-to-Many | `ConversationMember.conversationId` |
 | `Conversation` → `Message` | One-to-Many | `Message.conversationId` |
 | `User` ↔ `Conversation` | **Many-to-Many** | Through `ConversationMember` join model |
+| `User` → `Contact` | One-to-Many | `Contact.userId` |
+| `User` → `Call` (as caller) | One-to-Many | `Call.callerId` |
+| `User` → `Call` (as receiver) | One-to-Many | `Call.receiverId` |
 
 ### Mermaid ERD
 
@@ -133,10 +136,29 @@ erDiagram
         DateTime      updatedAt
     }
 
+    Contact {
+        String   id        PK
+        String   userId    FK
+        String   contactId FK
+        DateTime createdAt
+    }
+
+    Call {
+        String     id         PK
+        String     callerId   FK
+        String     receiverId FK
+        CallType   type
+        CallStatus status
+        DateTime   startedAt
+        DateTime   endedAt
+    }
+
     User ||--o| Profile             : "has one"
     User ||--o{ ConversationMember  : "joins via"
     Conversation ||--o{ ConversationMember : "has members"
     Conversation ||--o{ Message     : "contains"
+    User ||--o{ Contact             : "owns contacts"
+    User ||--o{ Call                : "initiates/receives"
 ```
 
 ### Enums
@@ -148,6 +170,8 @@ erDiagram
 | `RoleType` | `MEMBER`, `ADMIN` |
 | `MessageType` | `TEXT`, `IMAGE`, `FILE` |
 | `MessageStatus` | `SENT`, `DELIVERED`, `READ` |
+| `CallType` | `AUDIO`, `VIDEO` |
+| `CallStatus` | `INITIATED`, `ACCEPTED`, `ENDED`, `MISSED` |
 
 > **Note:** `ConversationMember` acts as the join table for the `User` ↔ `Conversation` many-to-many relationship, and also carries role metadata (`MEMBER` / `ADMIN`) and a `joinedAt` timestamp.
 
@@ -227,6 +251,8 @@ MailTalk supports seamless social login, allowing users to authenticate securely
 
 ---
 
+## 📦 Modules
+
 ### 1. 🔐 Authentication Module (`src/modules/auth/`)
 - Register with email/password (bcrypt, 12 salt rounds)
 - Login with email/password → return Access Token (15min) + Refresh Token (7 days)
@@ -256,17 +282,144 @@ MailTalk supports seamless social login, allowing users to authenticate securely
   - `user:online` / `user:offline`
   - Mark messages as DELIVERED / READ
 
+### 4. 📇 Contact Module (`src/modules/contact/`)
+
+#### 🎯 Overview
+The Contact module enables users to manage their personal contact list, similar to modern messaging apps like WhatsApp. It allows quick access to frequent users and improves chat experience.
+
+#### ⚙️ Features
+- Add a user to contacts
+- Remove a contact
+- Get all contacts for the current user
+- Search within contacts (by name)
+- Prevent duplicate contacts
+
+#### 📡 API Endpoints
+
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/v1/contacts` | Add a new contact | ✅ |
+| `DELETE` | `/api/v1/contacts/:contactId` | Remove a contact | ✅ |
+| `GET` | `/api/v1/contacts` | Get all contacts | ✅ |
+| `GET` | `/api/v1/contacts/search?q=` | Search contacts | ✅ |
+
+#### 🧠 Data Model
+```
+User (owner) → Contact → User (target)
+├── userId    : owner of the contact list
+└── contactId : the added user
+```
+
+#### 🔒 Business Rules
+- A user cannot add themselves
+- Prevent duplicate contacts using a unique constraint
+- Optional: auto-create reverse contact
+
+#### 🚀 Use Cases
+- `AddContactUseCase`
+- `RemoveContactUseCase`
+- `GetContactsUseCase`
+- `SearchContactsUseCase`
+
 ---
 
-### 🏗️ Architecture Requirements
+### 5. 📞 Call Module (`src/modules/call/`)
+
+#### 🎯 Overview
+The Call module enables real-time audio and video communication using a hybrid architecture:
+- **Socket.IO** → signaling & real-time events
+- **WebRTC** → peer-to-peer media streaming
+- **PostgreSQL (Prisma)** → call persistence & history
+
+#### ⚙️ Features
+- Start audio/video call
+- Accept / Reject call
+- End call
+- Missed call detection
+- Call history (with pagination)
+- Call status tracking
+
+#### 📡 Real-Time Events (Socket.IO)
+
+| Event | Description |
+| :--- | :--- |
+| `call:start` | Initiate a call |
+| `call:incoming` | Notify receiver |
+| `call:accept` | Accept call |
+| `call:reject` | Reject call |
+| `call:end` | End call |
+| `call:signal` | WebRTC signaling (offer/answer/ICE) |
+
+#### 🔄 Call Flow
+
+```mermaid
+sequenceDiagram
+    participant A as Caller
+    participant B as Receiver
+    participant S as Server
+    A->>S: call:start
+    S->>B: call:incoming
+    B->>S: call:accept
+    S->>A: call:accepted
+    A->>B: WebRTC Offer
+    B->>A: WebRTC Answer
+    A->>S: call:end
+    S->>B: call:ended
+```
+
+#### 🗄️ Call Lifecycle
+
+```
+INITIATED → ACCEPTED → ENDED
+         ↘ MISSED
+```
+
+#### 📡 HTTP Endpoints
+
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/v1/calls` | Get call history | ✅ |
+| `GET` | `/api/v1/calls/:id` | Get call details | ✅ |
+| `GET` | `/api/v1/calls/missed` | Get missed calls | ✅ |
+
+#### 🧠 Data Model
+
+```
+Call
+ ├── callerId
+ ├── receiverId
+ ├── type     (AUDIO / VIDEO)
+ ├── status   (INITIATED / ACCEPTED / ENDED / MISSED)
+ ├── startedAt
+ └── endedAt
+```
+
+#### 🧩 Architecture
+- **Socket Layer** → Real-time signaling
+- **UseCase Layer** → Business logic
+- **Repository Layer** → Prisma (DB)
+
+#### 🚀 Use Cases
+- `InitiateCallUseCase`
+- `AcceptCallUseCase`
+- `RejectCallUseCase`
+- `EndCallUseCase`
+- `GetUserCallsUseCase`
+
+---
+
+## 🏗️ Architecture Requirements
 - Use **Repository Pattern** (separate data access from business logic)
-- Use **asyncWrapper** utility for error handling (no try/catch in controllers)  
+- Use **asyncWrapper** utility for error handling (no try/catch in controllers)
 - All responses follow this shape:
-  { success: boolean, message: string, data?: any }
-- Use Zod for request validation
-- Add JSDoc comments on all service methods
+  ```json
+  { "success": boolean, "message": string, "data": {} }
+  ```
+- Use **Zod** for request validation
+- Add **JSDoc** comments on all service methods
 
 ---
+
 ## 📁 Project Structure
 
 ```text
@@ -275,6 +428,12 @@ src/
 ├── controllers/    # API request handlers
 ├── middlewares/    # Auth, Validation, & Global Error handlers
 ├── models/         # Database schemas & Data models
+├── modules/
+│   ├── auth/       # Authentication & Authorization
+│   ├── profile/    # User profile management
+│   ├── chat/       # Conversations & messaging
+│   ├── contact/    # Contact list management
+│   └── call/       # Audio & video calls (WebRTC)
 ├── routes/         # REST API route definitions
 ├── services/       # Core business logic
 ├── sockets/        # WebSocket event listeners & emitters
