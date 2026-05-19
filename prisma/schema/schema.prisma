@@ -31,6 +31,7 @@ model User {
   contactsOf             Contact[]            @relation("ContactsOf")
   caller                 Call[]               @relation("caller")
   receiver               Call[]               @relation("receiver")
+  stories                Story[]              @relation("UserStories")
 }
 
 enum Provider {
@@ -163,3 +164,38 @@ enum CallType {
   VIDEO
 }
 
+model Story {
+  id          String   @id @default(uuid())
+  userId      String
+
+  type        StoryType
+  mediaUrl    String? 
+  text        String?
+
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime
+
+  views       StoryView[]
+
+  user        User        @relation("UserStories", fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model StoryView {
+  id        String   @id @default(uuid())
+  storyId   String
+  viewerId  String
+  viewedAt  DateTime @default(now())
+
+  Story     Story    @relation(fields: [storyId], references: [id])
+
+  @@unique([storyId, viewerId])
+}
+
+enum StoryType {
+  TEXT
+  IMAGE
+  VIDEO
+}
