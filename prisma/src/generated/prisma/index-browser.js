@@ -179,6 +179,35 @@ exports.Prisma.ContactScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CallScalarFieldEnum = {
+  id: 'id',
+  callerId: 'callerId',
+  receiverId: 'receiverId',
+  type: 'type',
+  status: 'status',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  mediaUrl: 'mediaUrl',
+  text: 'text',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt'
+};
+
+exports.Prisma.StoryViewScalarFieldEnum = {
+  id: 'id',
+  storyId: 'storyId',
+  viewerId: 'viewerId',
+  viewedAt: 'viewedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -221,13 +250,35 @@ exports.MessageStatus = exports.$Enums.MessageStatus = {
   READ: 'READ'
 };
 
+exports.CallType = exports.$Enums.CallType = {
+  AUDIO: 'AUDIO',
+  VIDEO: 'VIDEO'
+};
+
+exports.CallStatus = exports.$Enums.CallStatus = {
+  INITIATED: 'INITIATED',
+  RINGING: 'RINGING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  ENDED: 'ENDED'
+};
+
+exports.StoryType = exports.$Enums.StoryType = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Profile: 'Profile',
   Conversation: 'Conversation',
   ConversationMember: 'ConversationMember',
   Message: 'Message',
-  Contact: 'Contact'
+  Contact: 'Contact',
+  Call: 'Call',
+  Story: 'Story',
+  StoryView: 'StoryView'
 };
 
 /**
