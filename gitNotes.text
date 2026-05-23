@@ -6,6 +6,10 @@ style >> code formatting
 refactor >> code refactoring
 test >> adding tests
 
+prisma 
+npx prisma db push
+npx prisma generate
+
 الفلو الصح:
 master
   |

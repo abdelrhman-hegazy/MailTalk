@@ -43,6 +43,21 @@ export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
  * 
  */
 export type Contact = $Result.DefaultSelection<Prisma.$ContactPayload>
+/**
+ * Model Call
+ * 
+ */
+export type Call = $Result.DefaultSelection<Prisma.$CallPayload>
+/**
+ * Model Story
+ * 
+ */
+export type Story = $Result.DefaultSelection<Prisma.$StoryPayload>
+/**
+ * Model StoryView
+ * 
+ */
+export type StoryView = $Result.DefaultSelection<Prisma.$StoryViewPayload>
 
 /**
  * Enums
@@ -90,6 +105,34 @@ export const MessageStatus: {
 
 export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]
 
+
+export const CallStatus: {
+  INITIATED: 'INITIATED',
+  RINGING: 'RINGING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  ENDED: 'ENDED'
+};
+
+export type CallStatus = (typeof CallStatus)[keyof typeof CallStatus]
+
+
+export const CallType: {
+  AUDIO: 'AUDIO',
+  VIDEO: 'VIDEO'
+};
+
+export type CallType = (typeof CallType)[keyof typeof CallType]
+
+
+export const StoryType: {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+};
+
+export type StoryType = (typeof StoryType)[keyof typeof StoryType]
+
 }
 
 export type Provider = $Enums.Provider
@@ -111,6 +154,18 @@ export const MessageType: typeof $Enums.MessageType
 export type MessageStatus = $Enums.MessageStatus
 
 export const MessageStatus: typeof $Enums.MessageStatus
+
+export type CallStatus = $Enums.CallStatus
+
+export const CallStatus: typeof $Enums.CallStatus
+
+export type CallType = $Enums.CallType
+
+export const CallType: typeof $Enums.CallType
+
+export type StoryType = $Enums.StoryType
+
+export const StoryType: typeof $Enums.StoryType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -288,6 +343,36 @@ export class PrismaClient<
     * ```
     */
   get contact(): Prisma.ContactDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.call`: Exposes CRUD operations for the **Call** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Calls
+    * const calls = await prisma.call.findMany()
+    * ```
+    */
+  get call(): Prisma.CallDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.story`: Exposes CRUD operations for the **Story** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Stories
+    * const stories = await prisma.story.findMany()
+    * ```
+    */
+  get story(): Prisma.StoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.storyView`: Exposes CRUD operations for the **StoryView** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StoryViews
+    * const storyViews = await prisma.storyView.findMany()
+    * ```
+    */
+  get storyView(): Prisma.StoryViewDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -727,7 +812,10 @@ export namespace Prisma {
     Conversation: 'Conversation',
     ConversationMember: 'ConversationMember',
     Message: 'Message',
-    Contact: 'Contact'
+    Contact: 'Contact',
+    Call: 'Call',
+    Story: 'Story',
+    StoryView: 'StoryView'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -743,7 +831,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "profile" | "conversation" | "conversationMember" | "message" | "contact"
+      modelProps: "user" | "profile" | "conversation" | "conversationMember" | "message" | "contact" | "call" | "story" | "storyView"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1191,6 +1279,228 @@ export namespace Prisma {
           }
         }
       }
+      Call: {
+        payload: Prisma.$CallPayload<ExtArgs>
+        fields: Prisma.CallFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CallFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CallFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>
+          }
+          findFirst: {
+            args: Prisma.CallFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CallFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>
+          }
+          findMany: {
+            args: Prisma.CallFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>[]
+          }
+          create: {
+            args: Prisma.CallCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>
+          }
+          createMany: {
+            args: Prisma.CallCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CallCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>[]
+          }
+          delete: {
+            args: Prisma.CallDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>
+          }
+          update: {
+            args: Prisma.CallUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>
+          }
+          deleteMany: {
+            args: Prisma.CallDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CallUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CallUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>[]
+          }
+          upsert: {
+            args: Prisma.CallUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CallPayload>
+          }
+          aggregate: {
+            args: Prisma.CallAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCall>
+          }
+          groupBy: {
+            args: Prisma.CallGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CallGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CallCountArgs<ExtArgs>
+            result: $Utils.Optional<CallCountAggregateOutputType> | number
+          }
+        }
+      }
+      Story: {
+        payload: Prisma.$StoryPayload<ExtArgs>
+        fields: Prisma.StoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>
+          }
+          findFirst: {
+            args: Prisma.StoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>
+          }
+          findMany: {
+            args: Prisma.StoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>[]
+          }
+          create: {
+            args: Prisma.StoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>
+          }
+          createMany: {
+            args: Prisma.StoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>[]
+          }
+          delete: {
+            args: Prisma.StoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>
+          }
+          update: {
+            args: Prisma.StoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.StoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.StoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryPayload>
+          }
+          aggregate: {
+            args: Prisma.StoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStory>
+          }
+          groupBy: {
+            args: Prisma.StoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StoryCountArgs<ExtArgs>
+            result: $Utils.Optional<StoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      StoryView: {
+        payload: Prisma.$StoryViewPayload<ExtArgs>
+        fields: Prisma.StoryViewFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StoryViewFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StoryViewFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>
+          }
+          findFirst: {
+            args: Prisma.StoryViewFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StoryViewFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>
+          }
+          findMany: {
+            args: Prisma.StoryViewFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>[]
+          }
+          create: {
+            args: Prisma.StoryViewCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>
+          }
+          createMany: {
+            args: Prisma.StoryViewCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StoryViewCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>[]
+          }
+          delete: {
+            args: Prisma.StoryViewDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>
+          }
+          update: {
+            args: Prisma.StoryViewUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>
+          }
+          deleteMany: {
+            args: Prisma.StoryViewDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StoryViewUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StoryViewUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>[]
+          }
+          upsert: {
+            args: Prisma.StoryViewUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StoryViewPayload>
+          }
+          aggregate: {
+            args: Prisma.StoryViewAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStoryView>
+          }
+          groupBy: {
+            args: Prisma.StoryViewGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StoryViewGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StoryViewCountArgs<ExtArgs>
+            result: $Utils.Optional<StoryViewCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1305,6 +1615,9 @@ export namespace Prisma {
     conversationMember?: ConversationMemberOmit
     message?: MessageOmit
     contact?: ContactOmit
+    call?: CallOmit
+    story?: StoryOmit
+    storyView?: StoryViewOmit
   }
 
   /* Types for Logging */
@@ -1389,6 +1702,9 @@ export namespace Prisma {
     sendMessages: number
     userContact: number
     contactsOf: number
+    caller: number
+    receiver: number
+    stories: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1396,6 +1712,9 @@ export namespace Prisma {
     sendMessages?: boolean | UserCountOutputTypeCountSendMessagesArgs
     userContact?: boolean | UserCountOutputTypeCountUserContactArgs
     contactsOf?: boolean | UserCountOutputTypeCountContactsOfArgs
+    caller?: boolean | UserCountOutputTypeCountCallerArgs
+    receiver?: boolean | UserCountOutputTypeCountReceiverArgs
+    stories?: boolean | UserCountOutputTypeCountStoriesArgs
   }
 
   // Custom InputTypes
@@ -1437,6 +1756,27 @@ export namespace Prisma {
     where?: ContactWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCallerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CallWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReceiverArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CallWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountStoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoryWhereInput
+  }
+
 
   /**
    * Count Type ConversationCountOutputType
@@ -1475,6 +1815,37 @@ export namespace Prisma {
    */
   export type ConversationCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+
+  /**
+   * Count Type StoryCountOutputType
+   */
+
+  export type StoryCountOutputType = {
+    views: number
+  }
+
+  export type StoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    views?: boolean | StoryCountOutputTypeCountViewsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StoryCountOutputType without action
+   */
+  export type StoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryCountOutputType
+     */
+    select?: StoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StoryCountOutputType without action
+   */
+  export type StoryCountOutputTypeCountViewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoryViewWhereInput
   }
 
 
@@ -1699,6 +2070,9 @@ export namespace Prisma {
     sendMessages?: boolean | User$sendMessagesArgs<ExtArgs>
     userContact?: boolean | User$userContactArgs<ExtArgs>
     contactsOf?: boolean | User$contactsOfArgs<ExtArgs>
+    caller?: boolean | User$callerArgs<ExtArgs>
+    receiver?: boolean | User$receiverArgs<ExtArgs>
+    stories?: boolean | User$storiesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1751,6 +2125,9 @@ export namespace Prisma {
     sendMessages?: boolean | User$sendMessagesArgs<ExtArgs>
     userContact?: boolean | User$userContactArgs<ExtArgs>
     contactsOf?: boolean | User$contactsOfArgs<ExtArgs>
+    caller?: boolean | User$callerArgs<ExtArgs>
+    receiver?: boolean | User$receiverArgs<ExtArgs>
+    stories?: boolean | User$storiesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1764,6 +2141,9 @@ export namespace Prisma {
       sendMessages: Prisma.$MessagePayload<ExtArgs>[]
       userContact: Prisma.$ContactPayload<ExtArgs>[]
       contactsOf: Prisma.$ContactPayload<ExtArgs>[]
+      caller: Prisma.$CallPayload<ExtArgs>[]
+      receiver: Prisma.$CallPayload<ExtArgs>[]
+      stories: Prisma.$StoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2176,6 +2556,9 @@ export namespace Prisma {
     sendMessages<T extends User$sendMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sendMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userContact<T extends User$userContactArgs<ExtArgs> = {}>(args?: Subset<T, User$userContactArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contactsOf<T extends User$contactsOfArgs<ExtArgs> = {}>(args?: Subset<T, User$contactsOfArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    caller<T extends User$callerArgs<ExtArgs> = {}>(args?: Subset<T, User$callerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    receiver<T extends User$receiverArgs<ExtArgs> = {}>(args?: Subset<T, User$receiverArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    stories<T extends User$storiesArgs<ExtArgs> = {}>(args?: Subset<T, User$storiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2716,6 +3099,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ContactScalarFieldEnum | ContactScalarFieldEnum[]
+  }
+
+  /**
+   * User.caller
+   */
+  export type User$callerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    where?: CallWhereInput
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    cursor?: CallWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
+  }
+
+  /**
+   * User.receiver
+   */
+  export type User$receiverArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    where?: CallWhereInput
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    cursor?: CallWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
+  }
+
+  /**
+   * User.stories
+   */
+  export type User$storiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    where?: StoryWhereInput
+    orderBy?: StoryOrderByWithRelationInput | StoryOrderByWithRelationInput[]
+    cursor?: StoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StoryScalarFieldEnum | StoryScalarFieldEnum[]
   }
 
   /**
@@ -8157,6 +8612,3283 @@ export namespace Prisma {
 
 
   /**
+   * Model Call
+   */
+
+  export type AggregateCall = {
+    _count: CallCountAggregateOutputType | null
+    _min: CallMinAggregateOutputType | null
+    _max: CallMaxAggregateOutputType | null
+  }
+
+  export type CallMinAggregateOutputType = {
+    id: string | null
+    callerId: string | null
+    receiverId: string | null
+    type: $Enums.CallType | null
+    status: $Enums.CallStatus | null
+    startedAt: Date | null
+    endedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CallMaxAggregateOutputType = {
+    id: string | null
+    callerId: string | null
+    receiverId: string | null
+    type: $Enums.CallType | null
+    status: $Enums.CallStatus | null
+    startedAt: Date | null
+    endedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CallCountAggregateOutputType = {
+    id: number
+    callerId: number
+    receiverId: number
+    type: number
+    status: number
+    startedAt: number
+    endedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CallMinAggregateInputType = {
+    id?: true
+    callerId?: true
+    receiverId?: true
+    type?: true
+    status?: true
+    startedAt?: true
+    endedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CallMaxAggregateInputType = {
+    id?: true
+    callerId?: true
+    receiverId?: true
+    type?: true
+    status?: true
+    startedAt?: true
+    endedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CallCountAggregateInputType = {
+    id?: true
+    callerId?: true
+    receiverId?: true
+    type?: true
+    status?: true
+    startedAt?: true
+    endedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CallAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Call to aggregate.
+     */
+    where?: CallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Calls to fetch.
+     */
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Calls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Calls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Calls
+    **/
+    _count?: true | CallCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CallMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CallMaxAggregateInputType
+  }
+
+  export type GetCallAggregateType<T extends CallAggregateArgs> = {
+        [P in keyof T & keyof AggregateCall]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCall[P]>
+      : GetScalarType<T[P], AggregateCall[P]>
+  }
+
+
+
+
+  export type CallGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CallWhereInput
+    orderBy?: CallOrderByWithAggregationInput | CallOrderByWithAggregationInput[]
+    by: CallScalarFieldEnum[] | CallScalarFieldEnum
+    having?: CallScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CallCountAggregateInputType | true
+    _min?: CallMinAggregateInputType
+    _max?: CallMaxAggregateInputType
+  }
+
+  export type CallGroupByOutputType = {
+    id: string
+    callerId: string
+    receiverId: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt: Date | null
+    endedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CallCountAggregateOutputType | null
+    _min: CallMinAggregateOutputType | null
+    _max: CallMaxAggregateOutputType | null
+  }
+
+  type GetCallGroupByPayload<T extends CallGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CallGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CallGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CallGroupByOutputType[P]>
+            : GetScalarType<T[P], CallGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CallSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    callerId?: boolean
+    receiverId?: boolean
+    type?: boolean
+    status?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    caller?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["call"]>
+
+  export type CallSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    callerId?: boolean
+    receiverId?: boolean
+    type?: boolean
+    status?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    caller?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["call"]>
+
+  export type CallSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    callerId?: boolean
+    receiverId?: boolean
+    type?: boolean
+    status?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    caller?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["call"]>
+
+  export type CallSelectScalar = {
+    id?: boolean
+    callerId?: boolean
+    receiverId?: boolean
+    type?: boolean
+    status?: boolean
+    startedAt?: boolean
+    endedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CallOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "callerId" | "receiverId" | "type" | "status" | "startedAt" | "endedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["call"]>
+  export type CallInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caller?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CallIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caller?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CallIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caller?: boolean | UserDefaultArgs<ExtArgs>
+    receiver?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $CallPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Call"
+    objects: {
+      caller: Prisma.$UserPayload<ExtArgs>
+      receiver: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      callerId: string
+      receiverId: string
+      type: $Enums.CallType
+      status: $Enums.CallStatus
+      startedAt: Date | null
+      endedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["call"]>
+    composites: {}
+  }
+
+  type CallGetPayload<S extends boolean | null | undefined | CallDefaultArgs> = $Result.GetResult<Prisma.$CallPayload, S>
+
+  type CallCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CallFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CallCountAggregateInputType | true
+    }
+
+  export interface CallDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Call'], meta: { name: 'Call' } }
+    /**
+     * Find zero or one Call that matches the filter.
+     * @param {CallFindUniqueArgs} args - Arguments to find a Call
+     * @example
+     * // Get one Call
+     * const call = await prisma.call.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CallFindUniqueArgs>(args: SelectSubset<T, CallFindUniqueArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Call that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CallFindUniqueOrThrowArgs} args - Arguments to find a Call
+     * @example
+     * // Get one Call
+     * const call = await prisma.call.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CallFindUniqueOrThrowArgs>(args: SelectSubset<T, CallFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Call that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CallFindFirstArgs} args - Arguments to find a Call
+     * @example
+     * // Get one Call
+     * const call = await prisma.call.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CallFindFirstArgs>(args?: SelectSubset<T, CallFindFirstArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Call that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CallFindFirstOrThrowArgs} args - Arguments to find a Call
+     * @example
+     * // Get one Call
+     * const call = await prisma.call.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CallFindFirstOrThrowArgs>(args?: SelectSubset<T, CallFindFirstOrThrowArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Calls that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CallFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Calls
+     * const calls = await prisma.call.findMany()
+     * 
+     * // Get first 10 Calls
+     * const calls = await prisma.call.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const callWithIdOnly = await prisma.call.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CallFindManyArgs>(args?: SelectSubset<T, CallFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Call.
+     * @param {CallCreateArgs} args - Arguments to create a Call.
+     * @example
+     * // Create one Call
+     * const Call = await prisma.call.create({
+     *   data: {
+     *     // ... data to create a Call
+     *   }
+     * })
+     * 
+     */
+    create<T extends CallCreateArgs>(args: SelectSubset<T, CallCreateArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Calls.
+     * @param {CallCreateManyArgs} args - Arguments to create many Calls.
+     * @example
+     * // Create many Calls
+     * const call = await prisma.call.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CallCreateManyArgs>(args?: SelectSubset<T, CallCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Calls and returns the data saved in the database.
+     * @param {CallCreateManyAndReturnArgs} args - Arguments to create many Calls.
+     * @example
+     * // Create many Calls
+     * const call = await prisma.call.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Calls and only return the `id`
+     * const callWithIdOnly = await prisma.call.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CallCreateManyAndReturnArgs>(args?: SelectSubset<T, CallCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Call.
+     * @param {CallDeleteArgs} args - Arguments to delete one Call.
+     * @example
+     * // Delete one Call
+     * const Call = await prisma.call.delete({
+     *   where: {
+     *     // ... filter to delete one Call
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CallDeleteArgs>(args: SelectSubset<T, CallDeleteArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Call.
+     * @param {CallUpdateArgs} args - Arguments to update one Call.
+     * @example
+     * // Update one Call
+     * const call = await prisma.call.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CallUpdateArgs>(args: SelectSubset<T, CallUpdateArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Calls.
+     * @param {CallDeleteManyArgs} args - Arguments to filter Calls to delete.
+     * @example
+     * // Delete a few Calls
+     * const { count } = await prisma.call.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CallDeleteManyArgs>(args?: SelectSubset<T, CallDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Calls.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CallUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Calls
+     * const call = await prisma.call.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CallUpdateManyArgs>(args: SelectSubset<T, CallUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Calls and returns the data updated in the database.
+     * @param {CallUpdateManyAndReturnArgs} args - Arguments to update many Calls.
+     * @example
+     * // Update many Calls
+     * const call = await prisma.call.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Calls and only return the `id`
+     * const callWithIdOnly = await prisma.call.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CallUpdateManyAndReturnArgs>(args: SelectSubset<T, CallUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Call.
+     * @param {CallUpsertArgs} args - Arguments to update or create a Call.
+     * @example
+     * // Update or create a Call
+     * const call = await prisma.call.upsert({
+     *   create: {
+     *     // ... data to create a Call
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Call we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CallUpsertArgs>(args: SelectSubset<T, CallUpsertArgs<ExtArgs>>): Prisma__CallClient<$Result.GetResult<Prisma.$CallPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Calls.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CallCountArgs} args - Arguments to filter Calls to count.
+     * @example
+     * // Count the number of Calls
+     * const count = await prisma.call.count({
+     *   where: {
+     *     // ... the filter for the Calls we want to count
+     *   }
+     * })
+    **/
+    count<T extends CallCountArgs>(
+      args?: Subset<T, CallCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CallCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Call.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CallAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CallAggregateArgs>(args: Subset<T, CallAggregateArgs>): Prisma.PrismaPromise<GetCallAggregateType<T>>
+
+    /**
+     * Group by Call.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CallGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CallGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CallGroupByArgs['orderBy'] }
+        : { orderBy?: CallGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CallGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCallGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Call model
+   */
+  readonly fields: CallFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Call.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CallClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    caller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    receiver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Call model
+   */
+  interface CallFieldRefs {
+    readonly id: FieldRef<"Call", 'String'>
+    readonly callerId: FieldRef<"Call", 'String'>
+    readonly receiverId: FieldRef<"Call", 'String'>
+    readonly type: FieldRef<"Call", 'CallType'>
+    readonly status: FieldRef<"Call", 'CallStatus'>
+    readonly startedAt: FieldRef<"Call", 'DateTime'>
+    readonly endedAt: FieldRef<"Call", 'DateTime'>
+    readonly createdAt: FieldRef<"Call", 'DateTime'>
+    readonly updatedAt: FieldRef<"Call", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Call findUnique
+   */
+  export type CallFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * Filter, which Call to fetch.
+     */
+    where: CallWhereUniqueInput
+  }
+
+  /**
+   * Call findUniqueOrThrow
+   */
+  export type CallFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * Filter, which Call to fetch.
+     */
+    where: CallWhereUniqueInput
+  }
+
+  /**
+   * Call findFirst
+   */
+  export type CallFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * Filter, which Call to fetch.
+     */
+    where?: CallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Calls to fetch.
+     */
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Calls.
+     */
+    cursor?: CallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Calls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Calls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Calls.
+     */
+    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
+  }
+
+  /**
+   * Call findFirstOrThrow
+   */
+  export type CallFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * Filter, which Call to fetch.
+     */
+    where?: CallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Calls to fetch.
+     */
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Calls.
+     */
+    cursor?: CallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Calls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Calls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Calls.
+     */
+    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
+  }
+
+  /**
+   * Call findMany
+   */
+  export type CallFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * Filter, which Calls to fetch.
+     */
+    where?: CallWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Calls to fetch.
+     */
+    orderBy?: CallOrderByWithRelationInput | CallOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Calls.
+     */
+    cursor?: CallWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Calls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Calls.
+     */
+    skip?: number
+    distinct?: CallScalarFieldEnum | CallScalarFieldEnum[]
+  }
+
+  /**
+   * Call create
+   */
+  export type CallCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Call.
+     */
+    data: XOR<CallCreateInput, CallUncheckedCreateInput>
+  }
+
+  /**
+   * Call createMany
+   */
+  export type CallCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Calls.
+     */
+    data: CallCreateManyInput | CallCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Call createManyAndReturn
+   */
+  export type CallCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * The data used to create many Calls.
+     */
+    data: CallCreateManyInput | CallCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Call update
+   */
+  export type CallUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Call.
+     */
+    data: XOR<CallUpdateInput, CallUncheckedUpdateInput>
+    /**
+     * Choose, which Call to update.
+     */
+    where: CallWhereUniqueInput
+  }
+
+  /**
+   * Call updateMany
+   */
+  export type CallUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Calls.
+     */
+    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyInput>
+    /**
+     * Filter which Calls to update
+     */
+    where?: CallWhereInput
+    /**
+     * Limit how many Calls to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Call updateManyAndReturn
+   */
+  export type CallUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * The data used to update Calls.
+     */
+    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyInput>
+    /**
+     * Filter which Calls to update
+     */
+    where?: CallWhereInput
+    /**
+     * Limit how many Calls to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Call upsert
+   */
+  export type CallUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Call to update in case it exists.
+     */
+    where: CallWhereUniqueInput
+    /**
+     * In case the Call found by the `where` argument doesn't exist, create a new Call with this data.
+     */
+    create: XOR<CallCreateInput, CallUncheckedCreateInput>
+    /**
+     * In case the Call was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CallUpdateInput, CallUncheckedUpdateInput>
+  }
+
+  /**
+   * Call delete
+   */
+  export type CallDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+    /**
+     * Filter which Call to delete.
+     */
+    where: CallWhereUniqueInput
+  }
+
+  /**
+   * Call deleteMany
+   */
+  export type CallDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Calls to delete
+     */
+    where?: CallWhereInput
+    /**
+     * Limit how many Calls to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Call without action
+   */
+  export type CallDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Call
+     */
+    select?: CallSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Call
+     */
+    omit?: CallOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CallInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Story
+   */
+
+  export type AggregateStory = {
+    _count: StoryCountAggregateOutputType | null
+    _min: StoryMinAggregateOutputType | null
+    _max: StoryMaxAggregateOutputType | null
+  }
+
+  export type StoryMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.StoryType | null
+    mediaUrl: string | null
+    text: string | null
+    createdAt: Date | null
+    expiresAt: Date | null
+  }
+
+  export type StoryMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.StoryType | null
+    mediaUrl: string | null
+    text: string | null
+    createdAt: Date | null
+    expiresAt: Date | null
+  }
+
+  export type StoryCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    mediaUrl: number
+    text: number
+    createdAt: number
+    expiresAt: number
+    _all: number
+  }
+
+
+  export type StoryMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    mediaUrl?: true
+    text?: true
+    createdAt?: true
+    expiresAt?: true
+  }
+
+  export type StoryMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    mediaUrl?: true
+    text?: true
+    createdAt?: true
+    expiresAt?: true
+  }
+
+  export type StoryCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    mediaUrl?: true
+    text?: true
+    createdAt?: true
+    expiresAt?: true
+    _all?: true
+  }
+
+  export type StoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Story to aggregate.
+     */
+    where?: StoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stories to fetch.
+     */
+    orderBy?: StoryOrderByWithRelationInput | StoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Stories
+    **/
+    _count?: true | StoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StoryMaxAggregateInputType
+  }
+
+  export type GetStoryAggregateType<T extends StoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateStory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStory[P]>
+      : GetScalarType<T[P], AggregateStory[P]>
+  }
+
+
+
+
+  export type StoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoryWhereInput
+    orderBy?: StoryOrderByWithAggregationInput | StoryOrderByWithAggregationInput[]
+    by: StoryScalarFieldEnum[] | StoryScalarFieldEnum
+    having?: StoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StoryCountAggregateInputType | true
+    _min?: StoryMinAggregateInputType
+    _max?: StoryMaxAggregateInputType
+  }
+
+  export type StoryGroupByOutputType = {
+    id: string
+    userId: string
+    type: $Enums.StoryType
+    mediaUrl: string | null
+    text: string | null
+    createdAt: Date
+    expiresAt: Date
+    _count: StoryCountAggregateOutputType | null
+    _min: StoryMinAggregateOutputType | null
+    _max: StoryMaxAggregateOutputType | null
+  }
+
+  type GetStoryGroupByPayload<T extends StoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StoryGroupByOutputType[P]>
+            : GetScalarType<T[P], StoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    mediaUrl?: boolean
+    text?: boolean
+    createdAt?: boolean
+    expiresAt?: boolean
+    views?: boolean | Story$viewsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | StoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["story"]>
+
+  export type StorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    mediaUrl?: boolean
+    text?: boolean
+    createdAt?: boolean
+    expiresAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["story"]>
+
+  export type StorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    mediaUrl?: boolean
+    text?: boolean
+    createdAt?: boolean
+    expiresAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["story"]>
+
+  export type StorySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    mediaUrl?: boolean
+    text?: boolean
+    createdAt?: boolean
+    expiresAt?: boolean
+  }
+
+  export type StoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "mediaUrl" | "text" | "createdAt" | "expiresAt", ExtArgs["result"]["story"]>
+  export type StoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    views?: boolean | Story$viewsArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | StoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $StoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Story"
+    objects: {
+      views: Prisma.$StoryViewPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: $Enums.StoryType
+      mediaUrl: string | null
+      text: string | null
+      createdAt: Date
+      expiresAt: Date
+    }, ExtArgs["result"]["story"]>
+    composites: {}
+  }
+
+  type StoryGetPayload<S extends boolean | null | undefined | StoryDefaultArgs> = $Result.GetResult<Prisma.$StoryPayload, S>
+
+  type StoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StoryCountAggregateInputType | true
+    }
+
+  export interface StoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Story'], meta: { name: 'Story' } }
+    /**
+     * Find zero or one Story that matches the filter.
+     * @param {StoryFindUniqueArgs} args - Arguments to find a Story
+     * @example
+     * // Get one Story
+     * const story = await prisma.story.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StoryFindUniqueArgs>(args: SelectSubset<T, StoryFindUniqueArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Story that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StoryFindUniqueOrThrowArgs} args - Arguments to find a Story
+     * @example
+     * // Get one Story
+     * const story = await prisma.story.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StoryFindUniqueOrThrowArgs>(args: SelectSubset<T, StoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Story that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryFindFirstArgs} args - Arguments to find a Story
+     * @example
+     * // Get one Story
+     * const story = await prisma.story.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StoryFindFirstArgs>(args?: SelectSubset<T, StoryFindFirstArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Story that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryFindFirstOrThrowArgs} args - Arguments to find a Story
+     * @example
+     * // Get one Story
+     * const story = await prisma.story.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StoryFindFirstOrThrowArgs>(args?: SelectSubset<T, StoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Stories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Stories
+     * const stories = await prisma.story.findMany()
+     * 
+     * // Get first 10 Stories
+     * const stories = await prisma.story.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storyWithIdOnly = await prisma.story.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StoryFindManyArgs>(args?: SelectSubset<T, StoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Story.
+     * @param {StoryCreateArgs} args - Arguments to create a Story.
+     * @example
+     * // Create one Story
+     * const Story = await prisma.story.create({
+     *   data: {
+     *     // ... data to create a Story
+     *   }
+     * })
+     * 
+     */
+    create<T extends StoryCreateArgs>(args: SelectSubset<T, StoryCreateArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Stories.
+     * @param {StoryCreateManyArgs} args - Arguments to create many Stories.
+     * @example
+     * // Create many Stories
+     * const story = await prisma.story.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StoryCreateManyArgs>(args?: SelectSubset<T, StoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Stories and returns the data saved in the database.
+     * @param {StoryCreateManyAndReturnArgs} args - Arguments to create many Stories.
+     * @example
+     * // Create many Stories
+     * const story = await prisma.story.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Stories and only return the `id`
+     * const storyWithIdOnly = await prisma.story.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StoryCreateManyAndReturnArgs>(args?: SelectSubset<T, StoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Story.
+     * @param {StoryDeleteArgs} args - Arguments to delete one Story.
+     * @example
+     * // Delete one Story
+     * const Story = await prisma.story.delete({
+     *   where: {
+     *     // ... filter to delete one Story
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StoryDeleteArgs>(args: SelectSubset<T, StoryDeleteArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Story.
+     * @param {StoryUpdateArgs} args - Arguments to update one Story.
+     * @example
+     * // Update one Story
+     * const story = await prisma.story.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StoryUpdateArgs>(args: SelectSubset<T, StoryUpdateArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Stories.
+     * @param {StoryDeleteManyArgs} args - Arguments to filter Stories to delete.
+     * @example
+     * // Delete a few Stories
+     * const { count } = await prisma.story.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StoryDeleteManyArgs>(args?: SelectSubset<T, StoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Stories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Stories
+     * const story = await prisma.story.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StoryUpdateManyArgs>(args: SelectSubset<T, StoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Stories and returns the data updated in the database.
+     * @param {StoryUpdateManyAndReturnArgs} args - Arguments to update many Stories.
+     * @example
+     * // Update many Stories
+     * const story = await prisma.story.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Stories and only return the `id`
+     * const storyWithIdOnly = await prisma.story.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StoryUpdateManyAndReturnArgs>(args: SelectSubset<T, StoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Story.
+     * @param {StoryUpsertArgs} args - Arguments to update or create a Story.
+     * @example
+     * // Update or create a Story
+     * const story = await prisma.story.upsert({
+     *   create: {
+     *     // ... data to create a Story
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Story we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StoryUpsertArgs>(args: SelectSubset<T, StoryUpsertArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Stories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryCountArgs} args - Arguments to filter Stories to count.
+     * @example
+     * // Count the number of Stories
+     * const count = await prisma.story.count({
+     *   where: {
+     *     // ... the filter for the Stories we want to count
+     *   }
+     * })
+    **/
+    count<T extends StoryCountArgs>(
+      args?: Subset<T, StoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Story.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StoryAggregateArgs>(args: Subset<T, StoryAggregateArgs>): Prisma.PrismaPromise<GetStoryAggregateType<T>>
+
+    /**
+     * Group by Story.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StoryGroupByArgs['orderBy'] }
+        : { orderBy?: StoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Story model
+   */
+  readonly fields: StoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Story.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    views<T extends Story$viewsArgs<ExtArgs> = {}>(args?: Subset<T, Story$viewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Story model
+   */
+  interface StoryFieldRefs {
+    readonly id: FieldRef<"Story", 'String'>
+    readonly userId: FieldRef<"Story", 'String'>
+    readonly type: FieldRef<"Story", 'StoryType'>
+    readonly mediaUrl: FieldRef<"Story", 'String'>
+    readonly text: FieldRef<"Story", 'String'>
+    readonly createdAt: FieldRef<"Story", 'DateTime'>
+    readonly expiresAt: FieldRef<"Story", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Story findUnique
+   */
+  export type StoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Story to fetch.
+     */
+    where: StoryWhereUniqueInput
+  }
+
+  /**
+   * Story findUniqueOrThrow
+   */
+  export type StoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Story to fetch.
+     */
+    where: StoryWhereUniqueInput
+  }
+
+  /**
+   * Story findFirst
+   */
+  export type StoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Story to fetch.
+     */
+    where?: StoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stories to fetch.
+     */
+    orderBy?: StoryOrderByWithRelationInput | StoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Stories.
+     */
+    cursor?: StoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Stories.
+     */
+    distinct?: StoryScalarFieldEnum | StoryScalarFieldEnum[]
+  }
+
+  /**
+   * Story findFirstOrThrow
+   */
+  export type StoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Story to fetch.
+     */
+    where?: StoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stories to fetch.
+     */
+    orderBy?: StoryOrderByWithRelationInput | StoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Stories.
+     */
+    cursor?: StoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Stories.
+     */
+    distinct?: StoryScalarFieldEnum | StoryScalarFieldEnum[]
+  }
+
+  /**
+   * Story findMany
+   */
+  export type StoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * Filter, which Stories to fetch.
+     */
+    where?: StoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stories to fetch.
+     */
+    orderBy?: StoryOrderByWithRelationInput | StoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Stories.
+     */
+    cursor?: StoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stories.
+     */
+    skip?: number
+    distinct?: StoryScalarFieldEnum | StoryScalarFieldEnum[]
+  }
+
+  /**
+   * Story create
+   */
+  export type StoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Story.
+     */
+    data: XOR<StoryCreateInput, StoryUncheckedCreateInput>
+  }
+
+  /**
+   * Story createMany
+   */
+  export type StoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Stories.
+     */
+    data: StoryCreateManyInput | StoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Story createManyAndReturn
+   */
+  export type StoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many Stories.
+     */
+    data: StoryCreateManyInput | StoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Story update
+   */
+  export type StoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Story.
+     */
+    data: XOR<StoryUpdateInput, StoryUncheckedUpdateInput>
+    /**
+     * Choose, which Story to update.
+     */
+    where: StoryWhereUniqueInput
+  }
+
+  /**
+   * Story updateMany
+   */
+  export type StoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Stories.
+     */
+    data: XOR<StoryUpdateManyMutationInput, StoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Stories to update
+     */
+    where?: StoryWhereInput
+    /**
+     * Limit how many Stories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Story updateManyAndReturn
+   */
+  export type StoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * The data used to update Stories.
+     */
+    data: XOR<StoryUpdateManyMutationInput, StoryUncheckedUpdateManyInput>
+    /**
+     * Filter which Stories to update
+     */
+    where?: StoryWhereInput
+    /**
+     * Limit how many Stories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Story upsert
+   */
+  export type StoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Story to update in case it exists.
+     */
+    where: StoryWhereUniqueInput
+    /**
+     * In case the Story found by the `where` argument doesn't exist, create a new Story with this data.
+     */
+    create: XOR<StoryCreateInput, StoryUncheckedCreateInput>
+    /**
+     * In case the Story was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StoryUpdateInput, StoryUncheckedUpdateInput>
+  }
+
+  /**
+   * Story delete
+   */
+  export type StoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+    /**
+     * Filter which Story to delete.
+     */
+    where: StoryWhereUniqueInput
+  }
+
+  /**
+   * Story deleteMany
+   */
+  export type StoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Stories to delete
+     */
+    where?: StoryWhereInput
+    /**
+     * Limit how many Stories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Story.views
+   */
+  export type Story$viewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    where?: StoryViewWhereInput
+    orderBy?: StoryViewOrderByWithRelationInput | StoryViewOrderByWithRelationInput[]
+    cursor?: StoryViewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StoryViewScalarFieldEnum | StoryViewScalarFieldEnum[]
+  }
+
+  /**
+   * Story without action
+   */
+  export type StoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Story
+     */
+    select?: StorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Story
+     */
+    omit?: StoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StoryView
+   */
+
+  export type AggregateStoryView = {
+    _count: StoryViewCountAggregateOutputType | null
+    _min: StoryViewMinAggregateOutputType | null
+    _max: StoryViewMaxAggregateOutputType | null
+  }
+
+  export type StoryViewMinAggregateOutputType = {
+    id: string | null
+    storyId: string | null
+    viewerId: string | null
+    viewedAt: Date | null
+  }
+
+  export type StoryViewMaxAggregateOutputType = {
+    id: string | null
+    storyId: string | null
+    viewerId: string | null
+    viewedAt: Date | null
+  }
+
+  export type StoryViewCountAggregateOutputType = {
+    id: number
+    storyId: number
+    viewerId: number
+    viewedAt: number
+    _all: number
+  }
+
+
+  export type StoryViewMinAggregateInputType = {
+    id?: true
+    storyId?: true
+    viewerId?: true
+    viewedAt?: true
+  }
+
+  export type StoryViewMaxAggregateInputType = {
+    id?: true
+    storyId?: true
+    viewerId?: true
+    viewedAt?: true
+  }
+
+  export type StoryViewCountAggregateInputType = {
+    id?: true
+    storyId?: true
+    viewerId?: true
+    viewedAt?: true
+    _all?: true
+  }
+
+  export type StoryViewAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StoryView to aggregate.
+     */
+    where?: StoryViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryViews to fetch.
+     */
+    orderBy?: StoryViewOrderByWithRelationInput | StoryViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StoryViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryViews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StoryViews
+    **/
+    _count?: true | StoryViewCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StoryViewMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StoryViewMaxAggregateInputType
+  }
+
+  export type GetStoryViewAggregateType<T extends StoryViewAggregateArgs> = {
+        [P in keyof T & keyof AggregateStoryView]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStoryView[P]>
+      : GetScalarType<T[P], AggregateStoryView[P]>
+  }
+
+
+
+
+  export type StoryViewGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoryViewWhereInput
+    orderBy?: StoryViewOrderByWithAggregationInput | StoryViewOrderByWithAggregationInput[]
+    by: StoryViewScalarFieldEnum[] | StoryViewScalarFieldEnum
+    having?: StoryViewScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StoryViewCountAggregateInputType | true
+    _min?: StoryViewMinAggregateInputType
+    _max?: StoryViewMaxAggregateInputType
+  }
+
+  export type StoryViewGroupByOutputType = {
+    id: string
+    storyId: string
+    viewerId: string
+    viewedAt: Date
+    _count: StoryViewCountAggregateOutputType | null
+    _min: StoryViewMinAggregateOutputType | null
+    _max: StoryViewMaxAggregateOutputType | null
+  }
+
+  type GetStoryViewGroupByPayload<T extends StoryViewGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StoryViewGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StoryViewGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StoryViewGroupByOutputType[P]>
+            : GetScalarType<T[P], StoryViewGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StoryViewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storyId?: boolean
+    viewerId?: boolean
+    viewedAt?: boolean
+    Story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storyView"]>
+
+  export type StoryViewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storyId?: boolean
+    viewerId?: boolean
+    viewedAt?: boolean
+    Story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storyView"]>
+
+  export type StoryViewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    storyId?: boolean
+    viewerId?: boolean
+    viewedAt?: boolean
+    Story?: boolean | StoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["storyView"]>
+
+  export type StoryViewSelectScalar = {
+    id?: boolean
+    storyId?: boolean
+    viewerId?: boolean
+    viewedAt?: boolean
+  }
+
+  export type StoryViewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "storyId" | "viewerId" | "viewedAt", ExtArgs["result"]["storyView"]>
+  export type StoryViewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+  export type StoryViewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+  export type StoryViewIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Story?: boolean | StoryDefaultArgs<ExtArgs>
+  }
+
+  export type $StoryViewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StoryView"
+    objects: {
+      Story: Prisma.$StoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      storyId: string
+      viewerId: string
+      viewedAt: Date
+    }, ExtArgs["result"]["storyView"]>
+    composites: {}
+  }
+
+  type StoryViewGetPayload<S extends boolean | null | undefined | StoryViewDefaultArgs> = $Result.GetResult<Prisma.$StoryViewPayload, S>
+
+  type StoryViewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StoryViewFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StoryViewCountAggregateInputType | true
+    }
+
+  export interface StoryViewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StoryView'], meta: { name: 'StoryView' } }
+    /**
+     * Find zero or one StoryView that matches the filter.
+     * @param {StoryViewFindUniqueArgs} args - Arguments to find a StoryView
+     * @example
+     * // Get one StoryView
+     * const storyView = await prisma.storyView.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StoryViewFindUniqueArgs>(args: SelectSubset<T, StoryViewFindUniqueArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StoryView that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StoryViewFindUniqueOrThrowArgs} args - Arguments to find a StoryView
+     * @example
+     * // Get one StoryView
+     * const storyView = await prisma.storyView.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StoryViewFindUniqueOrThrowArgs>(args: SelectSubset<T, StoryViewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StoryView that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryViewFindFirstArgs} args - Arguments to find a StoryView
+     * @example
+     * // Get one StoryView
+     * const storyView = await prisma.storyView.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StoryViewFindFirstArgs>(args?: SelectSubset<T, StoryViewFindFirstArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StoryView that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryViewFindFirstOrThrowArgs} args - Arguments to find a StoryView
+     * @example
+     * // Get one StoryView
+     * const storyView = await prisma.storyView.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StoryViewFindFirstOrThrowArgs>(args?: SelectSubset<T, StoryViewFindFirstOrThrowArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StoryViews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryViewFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StoryViews
+     * const storyViews = await prisma.storyView.findMany()
+     * 
+     * // Get first 10 StoryViews
+     * const storyViews = await prisma.storyView.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storyViewWithIdOnly = await prisma.storyView.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StoryViewFindManyArgs>(args?: SelectSubset<T, StoryViewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StoryView.
+     * @param {StoryViewCreateArgs} args - Arguments to create a StoryView.
+     * @example
+     * // Create one StoryView
+     * const StoryView = await prisma.storyView.create({
+     *   data: {
+     *     // ... data to create a StoryView
+     *   }
+     * })
+     * 
+     */
+    create<T extends StoryViewCreateArgs>(args: SelectSubset<T, StoryViewCreateArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StoryViews.
+     * @param {StoryViewCreateManyArgs} args - Arguments to create many StoryViews.
+     * @example
+     * // Create many StoryViews
+     * const storyView = await prisma.storyView.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StoryViewCreateManyArgs>(args?: SelectSubset<T, StoryViewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StoryViews and returns the data saved in the database.
+     * @param {StoryViewCreateManyAndReturnArgs} args - Arguments to create many StoryViews.
+     * @example
+     * // Create many StoryViews
+     * const storyView = await prisma.storyView.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StoryViews and only return the `id`
+     * const storyViewWithIdOnly = await prisma.storyView.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StoryViewCreateManyAndReturnArgs>(args?: SelectSubset<T, StoryViewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StoryView.
+     * @param {StoryViewDeleteArgs} args - Arguments to delete one StoryView.
+     * @example
+     * // Delete one StoryView
+     * const StoryView = await prisma.storyView.delete({
+     *   where: {
+     *     // ... filter to delete one StoryView
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StoryViewDeleteArgs>(args: SelectSubset<T, StoryViewDeleteArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StoryView.
+     * @param {StoryViewUpdateArgs} args - Arguments to update one StoryView.
+     * @example
+     * // Update one StoryView
+     * const storyView = await prisma.storyView.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StoryViewUpdateArgs>(args: SelectSubset<T, StoryViewUpdateArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StoryViews.
+     * @param {StoryViewDeleteManyArgs} args - Arguments to filter StoryViews to delete.
+     * @example
+     * // Delete a few StoryViews
+     * const { count } = await prisma.storyView.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StoryViewDeleteManyArgs>(args?: SelectSubset<T, StoryViewDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StoryViews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryViewUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StoryViews
+     * const storyView = await prisma.storyView.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StoryViewUpdateManyArgs>(args: SelectSubset<T, StoryViewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StoryViews and returns the data updated in the database.
+     * @param {StoryViewUpdateManyAndReturnArgs} args - Arguments to update many StoryViews.
+     * @example
+     * // Update many StoryViews
+     * const storyView = await prisma.storyView.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StoryViews and only return the `id`
+     * const storyViewWithIdOnly = await prisma.storyView.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StoryViewUpdateManyAndReturnArgs>(args: SelectSubset<T, StoryViewUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StoryView.
+     * @param {StoryViewUpsertArgs} args - Arguments to update or create a StoryView.
+     * @example
+     * // Update or create a StoryView
+     * const storyView = await prisma.storyView.upsert({
+     *   create: {
+     *     // ... data to create a StoryView
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StoryView we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StoryViewUpsertArgs>(args: SelectSubset<T, StoryViewUpsertArgs<ExtArgs>>): Prisma__StoryViewClient<$Result.GetResult<Prisma.$StoryViewPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StoryViews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryViewCountArgs} args - Arguments to filter StoryViews to count.
+     * @example
+     * // Count the number of StoryViews
+     * const count = await prisma.storyView.count({
+     *   where: {
+     *     // ... the filter for the StoryViews we want to count
+     *   }
+     * })
+    **/
+    count<T extends StoryViewCountArgs>(
+      args?: Subset<T, StoryViewCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StoryViewCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StoryView.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryViewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StoryViewAggregateArgs>(args: Subset<T, StoryViewAggregateArgs>): Prisma.PrismaPromise<GetStoryViewAggregateType<T>>
+
+    /**
+     * Group by StoryView.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoryViewGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StoryViewGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StoryViewGroupByArgs['orderBy'] }
+        : { orderBy?: StoryViewGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StoryViewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStoryViewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StoryView model
+   */
+  readonly fields: StoryViewFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StoryView.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StoryViewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StoryView model
+   */
+  interface StoryViewFieldRefs {
+    readonly id: FieldRef<"StoryView", 'String'>
+    readonly storyId: FieldRef<"StoryView", 'String'>
+    readonly viewerId: FieldRef<"StoryView", 'String'>
+    readonly viewedAt: FieldRef<"StoryView", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StoryView findUnique
+   */
+  export type StoryViewFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryView to fetch.
+     */
+    where: StoryViewWhereUniqueInput
+  }
+
+  /**
+   * StoryView findUniqueOrThrow
+   */
+  export type StoryViewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryView to fetch.
+     */
+    where: StoryViewWhereUniqueInput
+  }
+
+  /**
+   * StoryView findFirst
+   */
+  export type StoryViewFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryView to fetch.
+     */
+    where?: StoryViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryViews to fetch.
+     */
+    orderBy?: StoryViewOrderByWithRelationInput | StoryViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StoryViews.
+     */
+    cursor?: StoryViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryViews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StoryViews.
+     */
+    distinct?: StoryViewScalarFieldEnum | StoryViewScalarFieldEnum[]
+  }
+
+  /**
+   * StoryView findFirstOrThrow
+   */
+  export type StoryViewFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryView to fetch.
+     */
+    where?: StoryViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryViews to fetch.
+     */
+    orderBy?: StoryViewOrderByWithRelationInput | StoryViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StoryViews.
+     */
+    cursor?: StoryViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryViews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StoryViews.
+     */
+    distinct?: StoryViewScalarFieldEnum | StoryViewScalarFieldEnum[]
+  }
+
+  /**
+   * StoryView findMany
+   */
+  export type StoryViewFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * Filter, which StoryViews to fetch.
+     */
+    where?: StoryViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StoryViews to fetch.
+     */
+    orderBy?: StoryViewOrderByWithRelationInput | StoryViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StoryViews.
+     */
+    cursor?: StoryViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StoryViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StoryViews.
+     */
+    skip?: number
+    distinct?: StoryViewScalarFieldEnum | StoryViewScalarFieldEnum[]
+  }
+
+  /**
+   * StoryView create
+   */
+  export type StoryViewCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StoryView.
+     */
+    data: XOR<StoryViewCreateInput, StoryViewUncheckedCreateInput>
+  }
+
+  /**
+   * StoryView createMany
+   */
+  export type StoryViewCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StoryViews.
+     */
+    data: StoryViewCreateManyInput | StoryViewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StoryView createManyAndReturn
+   */
+  export type StoryViewCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * The data used to create many StoryViews.
+     */
+    data: StoryViewCreateManyInput | StoryViewCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StoryView update
+   */
+  export type StoryViewUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StoryView.
+     */
+    data: XOR<StoryViewUpdateInput, StoryViewUncheckedUpdateInput>
+    /**
+     * Choose, which StoryView to update.
+     */
+    where: StoryViewWhereUniqueInput
+  }
+
+  /**
+   * StoryView updateMany
+   */
+  export type StoryViewUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StoryViews.
+     */
+    data: XOR<StoryViewUpdateManyMutationInput, StoryViewUncheckedUpdateManyInput>
+    /**
+     * Filter which StoryViews to update
+     */
+    where?: StoryViewWhereInput
+    /**
+     * Limit how many StoryViews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StoryView updateManyAndReturn
+   */
+  export type StoryViewUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * The data used to update StoryViews.
+     */
+    data: XOR<StoryViewUpdateManyMutationInput, StoryViewUncheckedUpdateManyInput>
+    /**
+     * Filter which StoryViews to update
+     */
+    where?: StoryViewWhereInput
+    /**
+     * Limit how many StoryViews to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StoryView upsert
+   */
+  export type StoryViewUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StoryView to update in case it exists.
+     */
+    where: StoryViewWhereUniqueInput
+    /**
+     * In case the StoryView found by the `where` argument doesn't exist, create a new StoryView with this data.
+     */
+    create: XOR<StoryViewCreateInput, StoryViewUncheckedCreateInput>
+    /**
+     * In case the StoryView was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StoryViewUpdateInput, StoryViewUncheckedUpdateInput>
+  }
+
+  /**
+   * StoryView delete
+   */
+  export type StoryViewDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+    /**
+     * Filter which StoryView to delete.
+     */
+    where: StoryViewWhereUniqueInput
+  }
+
+  /**
+   * StoryView deleteMany
+   */
+  export type StoryViewDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StoryViews to delete
+     */
+    where?: StoryViewWhereInput
+    /**
+     * Limit how many StoryViews to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StoryView without action
+   */
+  export type StoryViewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoryView
+     */
+    select?: StoryViewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoryView
+     */
+    omit?: StoryViewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoryViewInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8245,6 +11977,44 @@ export namespace Prisma {
   };
 
   export type ContactScalarFieldEnum = (typeof ContactScalarFieldEnum)[keyof typeof ContactScalarFieldEnum]
+
+
+  export const CallScalarFieldEnum: {
+    id: 'id',
+    callerId: 'callerId',
+    receiverId: 'receiverId',
+    type: 'type',
+    status: 'status',
+    startedAt: 'startedAt',
+    endedAt: 'endedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CallScalarFieldEnum = (typeof CallScalarFieldEnum)[keyof typeof CallScalarFieldEnum]
+
+
+  export const StoryScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    mediaUrl: 'mediaUrl',
+    text: 'text',
+    createdAt: 'createdAt',
+    expiresAt: 'expiresAt'
+  };
+
+  export type StoryScalarFieldEnum = (typeof StoryScalarFieldEnum)[keyof typeof StoryScalarFieldEnum]
+
+
+  export const StoryViewScalarFieldEnum: {
+    id: 'id',
+    storyId: 'storyId',
+    viewerId: 'viewerId',
+    viewedAt: 'viewedAt'
+  };
+
+  export type StoryViewScalarFieldEnum = (typeof StoryViewScalarFieldEnum)[keyof typeof StoryViewScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8382,6 +12152,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'CallType'
+   */
+  export type EnumCallTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CallType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CallType[]'
+   */
+  export type ListEnumCallTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CallType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CallStatus'
+   */
+  export type EnumCallStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CallStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CallStatus[]'
+   */
+  export type ListEnumCallStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CallStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'StoryType'
+   */
+  export type EnumStoryTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StoryType'>
+    
+
+
+  /**
+   * Reference to a field of type 'StoryType[]'
+   */
+  export type ListEnumStoryTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StoryType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -8418,6 +12230,9 @@ export namespace Prisma {
     sendMessages?: MessageListRelationFilter
     userContact?: ContactListRelationFilter
     contactsOf?: ContactListRelationFilter
+    caller?: CallListRelationFilter
+    receiver?: CallListRelationFilter
+    stories?: StoryListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8437,6 +12252,9 @@ export namespace Prisma {
     sendMessages?: MessageOrderByRelationAggregateInput
     userContact?: ContactOrderByRelationAggregateInput
     contactsOf?: ContactOrderByRelationAggregateInput
+    caller?: CallOrderByRelationAggregateInput
+    receiver?: CallOrderByRelationAggregateInput
+    stories?: StoryOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -8459,6 +12277,9 @@ export namespace Prisma {
     sendMessages?: MessageListRelationFilter
     userContact?: ContactListRelationFilter
     contactsOf?: ContactListRelationFilter
+    caller?: CallListRelationFilter
+    receiver?: CallListRelationFilter
+    stories?: StoryListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8809,6 +12630,203 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Contact"> | Date | string
   }
 
+  export type CallWhereInput = {
+    AND?: CallWhereInput | CallWhereInput[]
+    OR?: CallWhereInput[]
+    NOT?: CallWhereInput | CallWhereInput[]
+    id?: StringFilter<"Call"> | string
+    callerId?: StringFilter<"Call"> | string
+    receiverId?: StringFilter<"Call"> | string
+    type?: EnumCallTypeFilter<"Call"> | $Enums.CallType
+    status?: EnumCallStatusFilter<"Call"> | $Enums.CallStatus
+    startedAt?: DateTimeNullableFilter<"Call"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"Call"> | Date | string | null
+    createdAt?: DateTimeFilter<"Call"> | Date | string
+    updatedAt?: DateTimeFilter<"Call"> | Date | string
+    caller?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type CallOrderByWithRelationInput = {
+    id?: SortOrder
+    callerId?: SortOrder
+    receiverId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    endedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    caller?: UserOrderByWithRelationInput
+    receiver?: UserOrderByWithRelationInput
+  }
+
+  export type CallWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CallWhereInput | CallWhereInput[]
+    OR?: CallWhereInput[]
+    NOT?: CallWhereInput | CallWhereInput[]
+    callerId?: StringFilter<"Call"> | string
+    receiverId?: StringFilter<"Call"> | string
+    type?: EnumCallTypeFilter<"Call"> | $Enums.CallType
+    status?: EnumCallStatusFilter<"Call"> | $Enums.CallStatus
+    startedAt?: DateTimeNullableFilter<"Call"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"Call"> | Date | string | null
+    createdAt?: DateTimeFilter<"Call"> | Date | string
+    updatedAt?: DateTimeFilter<"Call"> | Date | string
+    caller?: XOR<UserScalarRelationFilter, UserWhereInput>
+    receiver?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type CallOrderByWithAggregationInput = {
+    id?: SortOrder
+    callerId?: SortOrder
+    receiverId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    endedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CallCountOrderByAggregateInput
+    _max?: CallMaxOrderByAggregateInput
+    _min?: CallMinOrderByAggregateInput
+  }
+
+  export type CallScalarWhereWithAggregatesInput = {
+    AND?: CallScalarWhereWithAggregatesInput | CallScalarWhereWithAggregatesInput[]
+    OR?: CallScalarWhereWithAggregatesInput[]
+    NOT?: CallScalarWhereWithAggregatesInput | CallScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Call"> | string
+    callerId?: StringWithAggregatesFilter<"Call"> | string
+    receiverId?: StringWithAggregatesFilter<"Call"> | string
+    type?: EnumCallTypeWithAggregatesFilter<"Call"> | $Enums.CallType
+    status?: EnumCallStatusWithAggregatesFilter<"Call"> | $Enums.CallStatus
+    startedAt?: DateTimeNullableWithAggregatesFilter<"Call"> | Date | string | null
+    endedAt?: DateTimeNullableWithAggregatesFilter<"Call"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Call"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Call"> | Date | string
+  }
+
+  export type StoryWhereInput = {
+    AND?: StoryWhereInput | StoryWhereInput[]
+    OR?: StoryWhereInput[]
+    NOT?: StoryWhereInput | StoryWhereInput[]
+    id?: StringFilter<"Story"> | string
+    userId?: StringFilter<"Story"> | string
+    type?: EnumStoryTypeFilter<"Story"> | $Enums.StoryType
+    mediaUrl?: StringNullableFilter<"Story"> | string | null
+    text?: StringNullableFilter<"Story"> | string | null
+    createdAt?: DateTimeFilter<"Story"> | Date | string
+    expiresAt?: DateTimeFilter<"Story"> | Date | string
+    views?: StoryViewListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type StoryOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    mediaUrl?: SortOrderInput | SortOrder
+    text?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    expiresAt?: SortOrder
+    views?: StoryViewOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type StoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StoryWhereInput | StoryWhereInput[]
+    OR?: StoryWhereInput[]
+    NOT?: StoryWhereInput | StoryWhereInput[]
+    userId?: StringFilter<"Story"> | string
+    type?: EnumStoryTypeFilter<"Story"> | $Enums.StoryType
+    mediaUrl?: StringNullableFilter<"Story"> | string | null
+    text?: StringNullableFilter<"Story"> | string | null
+    createdAt?: DateTimeFilter<"Story"> | Date | string
+    expiresAt?: DateTimeFilter<"Story"> | Date | string
+    views?: StoryViewListRelationFilter
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type StoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    mediaUrl?: SortOrderInput | SortOrder
+    text?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    expiresAt?: SortOrder
+    _count?: StoryCountOrderByAggregateInput
+    _max?: StoryMaxOrderByAggregateInput
+    _min?: StoryMinOrderByAggregateInput
+  }
+
+  export type StoryScalarWhereWithAggregatesInput = {
+    AND?: StoryScalarWhereWithAggregatesInput | StoryScalarWhereWithAggregatesInput[]
+    OR?: StoryScalarWhereWithAggregatesInput[]
+    NOT?: StoryScalarWhereWithAggregatesInput | StoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Story"> | string
+    userId?: StringWithAggregatesFilter<"Story"> | string
+    type?: EnumStoryTypeWithAggregatesFilter<"Story"> | $Enums.StoryType
+    mediaUrl?: StringNullableWithAggregatesFilter<"Story"> | string | null
+    text?: StringNullableWithAggregatesFilter<"Story"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Story"> | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"Story"> | Date | string
+  }
+
+  export type StoryViewWhereInput = {
+    AND?: StoryViewWhereInput | StoryViewWhereInput[]
+    OR?: StoryViewWhereInput[]
+    NOT?: StoryViewWhereInput | StoryViewWhereInput[]
+    id?: StringFilter<"StoryView"> | string
+    storyId?: StringFilter<"StoryView"> | string
+    viewerId?: StringFilter<"StoryView"> | string
+    viewedAt?: DateTimeFilter<"StoryView"> | Date | string
+    Story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+  }
+
+  export type StoryViewOrderByWithRelationInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    viewerId?: SortOrder
+    viewedAt?: SortOrder
+    Story?: StoryOrderByWithRelationInput
+  }
+
+  export type StoryViewWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    storyId_viewerId?: StoryViewStoryIdViewerIdCompoundUniqueInput
+    AND?: StoryViewWhereInput | StoryViewWhereInput[]
+    OR?: StoryViewWhereInput[]
+    NOT?: StoryViewWhereInput | StoryViewWhereInput[]
+    storyId?: StringFilter<"StoryView"> | string
+    viewerId?: StringFilter<"StoryView"> | string
+    viewedAt?: DateTimeFilter<"StoryView"> | Date | string
+    Story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
+  }, "id" | "storyId_viewerId">
+
+  export type StoryViewOrderByWithAggregationInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    viewerId?: SortOrder
+    viewedAt?: SortOrder
+    _count?: StoryViewCountOrderByAggregateInput
+    _max?: StoryViewMaxOrderByAggregateInput
+    _min?: StoryViewMinOrderByAggregateInput
+  }
+
+  export type StoryViewScalarWhereWithAggregatesInput = {
+    AND?: StoryViewScalarWhereWithAggregatesInput | StoryViewScalarWhereWithAggregatesInput[]
+    OR?: StoryViewScalarWhereWithAggregatesInput[]
+    NOT?: StoryViewScalarWhereWithAggregatesInput | StoryViewScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StoryView"> | string
+    storyId?: StringWithAggregatesFilter<"StoryView"> | string
+    viewerId?: StringWithAggregatesFilter<"StoryView"> | string
+    viewedAt?: DateTimeWithAggregatesFilter<"StoryView"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -8826,6 +12844,9 @@ export namespace Prisma {
     sendMessages?: MessageCreateNestedManyWithoutSenderInput
     userContact?: ContactCreateNestedManyWithoutUserInput
     contactsOf?: ContactCreateNestedManyWithoutContactInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+    stories?: StoryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8845,6 +12866,9 @@ export namespace Prisma {
     sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
     contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -8864,6 +12888,9 @@ export namespace Prisma {
     sendMessages?: MessageUpdateManyWithoutSenderNestedInput
     userContact?: ContactUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8883,6 +12910,9 @@ export namespace Prisma {
     sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -9243,6 +13273,209 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CallCreateInput = {
+    id?: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    caller: UserCreateNestedOneWithoutCallerInput
+    receiver: UserCreateNestedOneWithoutReceiverInput
+  }
+
+  export type CallUncheckedCreateInput = {
+    id?: string
+    callerId: string
+    receiverId: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CallUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caller?: UserUpdateOneRequiredWithoutCallerNestedInput
+    receiver?: UserUpdateOneRequiredWithoutReceiverNestedInput
+  }
+
+  export type CallUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    callerId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CallCreateManyInput = {
+    id?: string
+    callerId: string
+    receiverId: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CallUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CallUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    callerId?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryCreateInput = {
+    id?: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
+    views?: StoryViewCreateNestedManyWithoutStoryInput
+    user: UserCreateNestedOneWithoutStoriesInput
+  }
+
+  export type StoryUncheckedCreateInput = {
+    id?: string
+    userId: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
+    views?: StoryViewUncheckedCreateNestedManyWithoutStoryInput
+  }
+
+  export type StoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    views?: StoryViewUpdateManyWithoutStoryNestedInput
+    user?: UserUpdateOneRequiredWithoutStoriesNestedInput
+  }
+
+  export type StoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    views?: StoryViewUncheckedUpdateManyWithoutStoryNestedInput
+  }
+
+  export type StoryCreateManyInput = {
+    id?: string
+    userId: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type StoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryViewCreateInput = {
+    id?: string
+    viewerId: string
+    viewedAt?: Date | string
+    Story: StoryCreateNestedOneWithoutViewsInput
+  }
+
+  export type StoryViewUncheckedCreateInput = {
+    id?: string
+    storyId: string
+    viewerId: string
+    viewedAt?: Date | string
+  }
+
+  export type StoryViewUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
+    viewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Story?: StoryUpdateOneRequiredWithoutViewsNestedInput
+  }
+
+  export type StoryViewUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storyId?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
+    viewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryViewCreateManyInput = {
+    id?: string
+    storyId: string
+    viewerId: string
+    viewedAt?: Date | string
+  }
+
+  export type StoryViewUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
+    viewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryViewUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    storyId?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
+    viewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -9330,6 +13563,18 @@ export namespace Prisma {
     none?: ContactWhereInput
   }
 
+  export type CallListRelationFilter = {
+    every?: CallWhereInput
+    some?: CallWhereInput
+    none?: CallWhereInput
+  }
+
+  export type StoryListRelationFilter = {
+    every?: StoryWhereInput
+    some?: StoryWhereInput
+    none?: StoryWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -9344,6 +13589,14 @@ export namespace Prisma {
   }
 
   export type ContactOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CallOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9694,6 +13947,164 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumCallTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallType | EnumCallTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallTypeFilter<$PrismaModel> | $Enums.CallType
+  }
+
+  export type EnumCallStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallStatus | EnumCallStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallStatusFilter<$PrismaModel> | $Enums.CallStatus
+  }
+
+  export type CallCountOrderByAggregateInput = {
+    id?: SortOrder
+    callerId?: SortOrder
+    receiverId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CallMaxOrderByAggregateInput = {
+    id?: SortOrder
+    callerId?: SortOrder
+    receiverId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CallMinOrderByAggregateInput = {
+    id?: SortOrder
+    callerId?: SortOrder
+    receiverId?: SortOrder
+    type?: SortOrder
+    status?: SortOrder
+    startedAt?: SortOrder
+    endedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumCallTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallType | EnumCallTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallTypeWithAggregatesFilter<$PrismaModel> | $Enums.CallType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCallTypeFilter<$PrismaModel>
+    _max?: NestedEnumCallTypeFilter<$PrismaModel>
+  }
+
+  export type EnumCallStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallStatus | EnumCallStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallStatusWithAggregatesFilter<$PrismaModel> | $Enums.CallStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCallStatusFilter<$PrismaModel>
+    _max?: NestedEnumCallStatusFilter<$PrismaModel>
+  }
+
+  export type EnumStoryTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StoryType | EnumStoryTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStoryTypeFilter<$PrismaModel> | $Enums.StoryType
+  }
+
+  export type StoryViewListRelationFilter = {
+    every?: StoryViewWhereInput
+    some?: StoryViewWhereInput
+    none?: StoryViewWhereInput
+  }
+
+  export type StoryViewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    mediaUrl?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type StoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    mediaUrl?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type StoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    mediaUrl?: SortOrder
+    text?: SortOrder
+    createdAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type EnumStoryTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StoryType | EnumStoryTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStoryTypeWithAggregatesFilter<$PrismaModel> | $Enums.StoryType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStoryTypeFilter<$PrismaModel>
+    _max?: NestedEnumStoryTypeFilter<$PrismaModel>
+  }
+
+  export type StoryScalarRelationFilter = {
+    is?: StoryWhereInput
+    isNot?: StoryWhereInput
+  }
+
+  export type StoryViewStoryIdViewerIdCompoundUniqueInput = {
+    storyId: string
+    viewerId: string
+  }
+
+  export type StoryViewCountOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    viewerId?: SortOrder
+    viewedAt?: SortOrder
+  }
+
+  export type StoryViewMaxOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    viewerId?: SortOrder
+    viewedAt?: SortOrder
+  }
+
+  export type StoryViewMinOrderByAggregateInput = {
+    id?: SortOrder
+    storyId?: SortOrder
+    viewerId?: SortOrder
+    viewedAt?: SortOrder
+  }
+
   export type ProfileCreateNestedOneWithoutUserInput = {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
@@ -9728,6 +14139,27 @@ export namespace Prisma {
     connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
   }
 
+  export type CallCreateNestedManyWithoutCallerInput = {
+    create?: XOR<CallCreateWithoutCallerInput, CallUncheckedCreateWithoutCallerInput> | CallCreateWithoutCallerInput[] | CallUncheckedCreateWithoutCallerInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutCallerInput | CallCreateOrConnectWithoutCallerInput[]
+    createMany?: CallCreateManyCallerInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  }
+
+  export type CallCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<CallCreateWithoutReceiverInput, CallUncheckedCreateWithoutReceiverInput> | CallCreateWithoutReceiverInput[] | CallUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiverInput | CallCreateOrConnectWithoutReceiverInput[]
+    createMany?: CallCreateManyReceiverInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  }
+
+  export type StoryCreateNestedManyWithoutUserInput = {
+    create?: XOR<StoryCreateWithoutUserInput, StoryUncheckedCreateWithoutUserInput> | StoryCreateWithoutUserInput[] | StoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StoryCreateOrConnectWithoutUserInput | StoryCreateOrConnectWithoutUserInput[]
+    createMany?: StoryCreateManyUserInputEnvelope
+    connect?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+  }
+
   export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
@@ -9760,6 +14192,27 @@ export namespace Prisma {
     connectOrCreate?: ContactCreateOrConnectWithoutContactInput | ContactCreateOrConnectWithoutContactInput[]
     createMany?: ContactCreateManyContactInputEnvelope
     connect?: ContactWhereUniqueInput | ContactWhereUniqueInput[]
+  }
+
+  export type CallUncheckedCreateNestedManyWithoutCallerInput = {
+    create?: XOR<CallCreateWithoutCallerInput, CallUncheckedCreateWithoutCallerInput> | CallCreateWithoutCallerInput[] | CallUncheckedCreateWithoutCallerInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutCallerInput | CallCreateOrConnectWithoutCallerInput[]
+    createMany?: CallCreateManyCallerInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  }
+
+  export type CallUncheckedCreateNestedManyWithoutReceiverInput = {
+    create?: XOR<CallCreateWithoutReceiverInput, CallUncheckedCreateWithoutReceiverInput> | CallCreateWithoutReceiverInput[] | CallUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiverInput | CallCreateOrConnectWithoutReceiverInput[]
+    createMany?: CallCreateManyReceiverInputEnvelope
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+  }
+
+  export type StoryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<StoryCreateWithoutUserInput, StoryUncheckedCreateWithoutUserInput> | StoryCreateWithoutUserInput[] | StoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StoryCreateOrConnectWithoutUserInput | StoryCreateOrConnectWithoutUserInput[]
+    createMany?: StoryCreateManyUserInputEnvelope
+    connect?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -9852,6 +14305,48 @@ export namespace Prisma {
     deleteMany?: ContactScalarWhereInput | ContactScalarWhereInput[]
   }
 
+  export type CallUpdateManyWithoutCallerNestedInput = {
+    create?: XOR<CallCreateWithoutCallerInput, CallUncheckedCreateWithoutCallerInput> | CallCreateWithoutCallerInput[] | CallUncheckedCreateWithoutCallerInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutCallerInput | CallCreateOrConnectWithoutCallerInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutCallerInput | CallUpsertWithWhereUniqueWithoutCallerInput[]
+    createMany?: CallCreateManyCallerInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutCallerInput | CallUpdateWithWhereUniqueWithoutCallerInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutCallerInput | CallUpdateManyWithWhereWithoutCallerInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
+  }
+
+  export type CallUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<CallCreateWithoutReceiverInput, CallUncheckedCreateWithoutReceiverInput> | CallCreateWithoutReceiverInput[] | CallUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiverInput | CallCreateOrConnectWithoutReceiverInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutReceiverInput | CallUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: CallCreateManyReceiverInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutReceiverInput | CallUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutReceiverInput | CallUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
+  }
+
+  export type StoryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StoryCreateWithoutUserInput, StoryUncheckedCreateWithoutUserInput> | StoryCreateWithoutUserInput[] | StoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StoryCreateOrConnectWithoutUserInput | StoryCreateOrConnectWithoutUserInput[]
+    upsert?: StoryUpsertWithWhereUniqueWithoutUserInput | StoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StoryCreateManyUserInputEnvelope
+    set?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    disconnect?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    delete?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    connect?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    update?: StoryUpdateWithWhereUniqueWithoutUserInput | StoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StoryUpdateManyWithWhereWithoutUserInput | StoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StoryScalarWhereInput | StoryScalarWhereInput[]
+  }
+
   export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<ProfileCreateWithoutUserInput, ProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutUserInput
@@ -9916,6 +14411,48 @@ export namespace Prisma {
     update?: ContactUpdateWithWhereUniqueWithoutContactInput | ContactUpdateWithWhereUniqueWithoutContactInput[]
     updateMany?: ContactUpdateManyWithWhereWithoutContactInput | ContactUpdateManyWithWhereWithoutContactInput[]
     deleteMany?: ContactScalarWhereInput | ContactScalarWhereInput[]
+  }
+
+  export type CallUncheckedUpdateManyWithoutCallerNestedInput = {
+    create?: XOR<CallCreateWithoutCallerInput, CallUncheckedCreateWithoutCallerInput> | CallCreateWithoutCallerInput[] | CallUncheckedCreateWithoutCallerInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutCallerInput | CallCreateOrConnectWithoutCallerInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutCallerInput | CallUpsertWithWhereUniqueWithoutCallerInput[]
+    createMany?: CallCreateManyCallerInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutCallerInput | CallUpdateWithWhereUniqueWithoutCallerInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutCallerInput | CallUpdateManyWithWhereWithoutCallerInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
+  }
+
+  export type CallUncheckedUpdateManyWithoutReceiverNestedInput = {
+    create?: XOR<CallCreateWithoutReceiverInput, CallUncheckedCreateWithoutReceiverInput> | CallCreateWithoutReceiverInput[] | CallUncheckedCreateWithoutReceiverInput[]
+    connectOrCreate?: CallCreateOrConnectWithoutReceiverInput | CallCreateOrConnectWithoutReceiverInput[]
+    upsert?: CallUpsertWithWhereUniqueWithoutReceiverInput | CallUpsertWithWhereUniqueWithoutReceiverInput[]
+    createMany?: CallCreateManyReceiverInputEnvelope
+    set?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    disconnect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    delete?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    connect?: CallWhereUniqueInput | CallWhereUniqueInput[]
+    update?: CallUpdateWithWhereUniqueWithoutReceiverInput | CallUpdateWithWhereUniqueWithoutReceiverInput[]
+    updateMany?: CallUpdateManyWithWhereWithoutReceiverInput | CallUpdateManyWithWhereWithoutReceiverInput[]
+    deleteMany?: CallScalarWhereInput | CallScalarWhereInput[]
+  }
+
+  export type StoryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<StoryCreateWithoutUserInput, StoryUncheckedCreateWithoutUserInput> | StoryCreateWithoutUserInput[] | StoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: StoryCreateOrConnectWithoutUserInput | StoryCreateOrConnectWithoutUserInput[]
+    upsert?: StoryUpsertWithWhereUniqueWithoutUserInput | StoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: StoryCreateManyUserInputEnvelope
+    set?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    disconnect?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    delete?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    connect?: StoryWhereUniqueInput | StoryWhereUniqueInput[]
+    update?: StoryUpdateWithWhereUniqueWithoutUserInput | StoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: StoryUpdateManyWithWhereWithoutUserInput | StoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: StoryScalarWhereInput | StoryScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutProfileInput = {
@@ -10114,6 +14651,116 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutContactsOfInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutContactsOfInput, UserUpdateWithoutContactsOfInput>, UserUncheckedUpdateWithoutContactsOfInput>
+  }
+
+  export type UserCreateNestedOneWithoutCallerInput = {
+    create?: XOR<UserCreateWithoutCallerInput, UserUncheckedCreateWithoutCallerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCallerInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReceiverInput = {
+    create?: XOR<UserCreateWithoutReceiverInput, UserUncheckedCreateWithoutReceiverInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceiverInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumCallTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CallType
+  }
+
+  export type EnumCallStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CallStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutCallerNestedInput = {
+    create?: XOR<UserCreateWithoutCallerInput, UserUncheckedCreateWithoutCallerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCallerInput
+    upsert?: UserUpsertWithoutCallerInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCallerInput, UserUpdateWithoutCallerInput>, UserUncheckedUpdateWithoutCallerInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReceiverNestedInput = {
+    create?: XOR<UserCreateWithoutReceiverInput, UserUncheckedCreateWithoutReceiverInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceiverInput
+    upsert?: UserUpsertWithoutReceiverInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceiverInput, UserUpdateWithoutReceiverInput>, UserUncheckedUpdateWithoutReceiverInput>
+  }
+
+  export type StoryViewCreateNestedManyWithoutStoryInput = {
+    create?: XOR<StoryViewCreateWithoutStoryInput, StoryViewUncheckedCreateWithoutStoryInput> | StoryViewCreateWithoutStoryInput[] | StoryViewUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryViewCreateOrConnectWithoutStoryInput | StoryViewCreateOrConnectWithoutStoryInput[]
+    createMany?: StoryViewCreateManyStoryInputEnvelope
+    connect?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutStoriesInput = {
+    create?: XOR<UserCreateWithoutStoriesInput, UserUncheckedCreateWithoutStoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStoriesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StoryViewUncheckedCreateNestedManyWithoutStoryInput = {
+    create?: XOR<StoryViewCreateWithoutStoryInput, StoryViewUncheckedCreateWithoutStoryInput> | StoryViewCreateWithoutStoryInput[] | StoryViewUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryViewCreateOrConnectWithoutStoryInput | StoryViewCreateOrConnectWithoutStoryInput[]
+    createMany?: StoryViewCreateManyStoryInputEnvelope
+    connect?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+  }
+
+  export type EnumStoryTypeFieldUpdateOperationsInput = {
+    set?: $Enums.StoryType
+  }
+
+  export type StoryViewUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<StoryViewCreateWithoutStoryInput, StoryViewUncheckedCreateWithoutStoryInput> | StoryViewCreateWithoutStoryInput[] | StoryViewUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryViewCreateOrConnectWithoutStoryInput | StoryViewCreateOrConnectWithoutStoryInput[]
+    upsert?: StoryViewUpsertWithWhereUniqueWithoutStoryInput | StoryViewUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: StoryViewCreateManyStoryInputEnvelope
+    set?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    disconnect?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    delete?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    connect?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    update?: StoryViewUpdateWithWhereUniqueWithoutStoryInput | StoryViewUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: StoryViewUpdateManyWithWhereWithoutStoryInput | StoryViewUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: StoryViewScalarWhereInput | StoryViewScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutStoriesNestedInput = {
+    create?: XOR<UserCreateWithoutStoriesInput, UserUncheckedCreateWithoutStoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStoriesInput
+    upsert?: UserUpsertWithoutStoriesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStoriesInput, UserUpdateWithoutStoriesInput>, UserUncheckedUpdateWithoutStoriesInput>
+  }
+
+  export type StoryViewUncheckedUpdateManyWithoutStoryNestedInput = {
+    create?: XOR<StoryViewCreateWithoutStoryInput, StoryViewUncheckedCreateWithoutStoryInput> | StoryViewCreateWithoutStoryInput[] | StoryViewUncheckedCreateWithoutStoryInput[]
+    connectOrCreate?: StoryViewCreateOrConnectWithoutStoryInput | StoryViewCreateOrConnectWithoutStoryInput[]
+    upsert?: StoryViewUpsertWithWhereUniqueWithoutStoryInput | StoryViewUpsertWithWhereUniqueWithoutStoryInput[]
+    createMany?: StoryViewCreateManyStoryInputEnvelope
+    set?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    disconnect?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    delete?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    connect?: StoryViewWhereUniqueInput | StoryViewWhereUniqueInput[]
+    update?: StoryViewUpdateWithWhereUniqueWithoutStoryInput | StoryViewUpdateWithWhereUniqueWithoutStoryInput[]
+    updateMany?: StoryViewUpdateManyWithWhereWithoutStoryInput | StoryViewUpdateManyWithWhereWithoutStoryInput[]
+    deleteMany?: StoryViewScalarWhereInput | StoryViewScalarWhereInput[]
+  }
+
+  export type StoryCreateNestedOneWithoutViewsInput = {
+    create?: XOR<StoryCreateWithoutViewsInput, StoryUncheckedCreateWithoutViewsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutViewsInput
+    connect?: StoryWhereUniqueInput
+  }
+
+  export type StoryUpdateOneRequiredWithoutViewsNestedInput = {
+    create?: XOR<StoryCreateWithoutViewsInput, StoryUncheckedCreateWithoutViewsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutViewsInput
+    upsert?: StoryUpsertWithoutViewsInput
+    connect?: StoryWhereUniqueInput
+    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutViewsInput, StoryUpdateWithoutViewsInput>, StoryUncheckedUpdateWithoutViewsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -10348,6 +14995,57 @@ export namespace Prisma {
     _max?: NestedEnumMessageStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumCallTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallType | EnumCallTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallTypeFilter<$PrismaModel> | $Enums.CallType
+  }
+
+  export type NestedEnumCallStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallStatus | EnumCallStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallStatusFilter<$PrismaModel> | $Enums.CallStatus
+  }
+
+  export type NestedEnumCallTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallType | EnumCallTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallType[] | ListEnumCallTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallTypeWithAggregatesFilter<$PrismaModel> | $Enums.CallType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCallTypeFilter<$PrismaModel>
+    _max?: NestedEnumCallTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCallStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CallStatus | EnumCallStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CallStatus[] | ListEnumCallStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCallStatusWithAggregatesFilter<$PrismaModel> | $Enums.CallStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCallStatusFilter<$PrismaModel>
+    _max?: NestedEnumCallStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStoryTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.StoryType | EnumStoryTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStoryTypeFilter<$PrismaModel> | $Enums.StoryType
+  }
+
+  export type NestedEnumStoryTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StoryType | EnumStoryTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StoryType[] | ListEnumStoryTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumStoryTypeWithAggregatesFilter<$PrismaModel> | $Enums.StoryType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStoryTypeFilter<$PrismaModel>
+    _max?: NestedEnumStoryTypeFilter<$PrismaModel>
+  }
+
   export type ProfileCreateWithoutUserInput = {
     id?: string
     avatarUrl?: string | null
@@ -10466,6 +15164,100 @@ export namespace Prisma {
 
   export type ContactCreateManyContactInputEnvelope = {
     data: ContactCreateManyContactInput | ContactCreateManyContactInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CallCreateWithoutCallerInput = {
+    id?: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    receiver: UserCreateNestedOneWithoutReceiverInput
+  }
+
+  export type CallUncheckedCreateWithoutCallerInput = {
+    id?: string
+    receiverId: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CallCreateOrConnectWithoutCallerInput = {
+    where: CallWhereUniqueInput
+    create: XOR<CallCreateWithoutCallerInput, CallUncheckedCreateWithoutCallerInput>
+  }
+
+  export type CallCreateManyCallerInputEnvelope = {
+    data: CallCreateManyCallerInput | CallCreateManyCallerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CallCreateWithoutReceiverInput = {
+    id?: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    caller: UserCreateNestedOneWithoutCallerInput
+  }
+
+  export type CallUncheckedCreateWithoutReceiverInput = {
+    id?: string
+    callerId: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CallCreateOrConnectWithoutReceiverInput = {
+    where: CallWhereUniqueInput
+    create: XOR<CallCreateWithoutReceiverInput, CallUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type CallCreateManyReceiverInputEnvelope = {
+    data: CallCreateManyReceiverInput | CallCreateManyReceiverInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StoryCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
+    views?: StoryViewCreateNestedManyWithoutStoryInput
+  }
+
+  export type StoryUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
+    views?: StoryViewUncheckedCreateNestedManyWithoutStoryInput
+  }
+
+  export type StoryCreateOrConnectWithoutUserInput = {
+    where: StoryWhereUniqueInput
+    create: XOR<StoryCreateWithoutUserInput, StoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type StoryCreateManyUserInputEnvelope = {
+    data: StoryCreateManyUserInput | StoryCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -10597,6 +15389,82 @@ export namespace Prisma {
     data: XOR<ContactUpdateManyMutationInput, ContactUncheckedUpdateManyWithoutContactInput>
   }
 
+  export type CallUpsertWithWhereUniqueWithoutCallerInput = {
+    where: CallWhereUniqueInput
+    update: XOR<CallUpdateWithoutCallerInput, CallUncheckedUpdateWithoutCallerInput>
+    create: XOR<CallCreateWithoutCallerInput, CallUncheckedCreateWithoutCallerInput>
+  }
+
+  export type CallUpdateWithWhereUniqueWithoutCallerInput = {
+    where: CallWhereUniqueInput
+    data: XOR<CallUpdateWithoutCallerInput, CallUncheckedUpdateWithoutCallerInput>
+  }
+
+  export type CallUpdateManyWithWhereWithoutCallerInput = {
+    where: CallScalarWhereInput
+    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutCallerInput>
+  }
+
+  export type CallScalarWhereInput = {
+    AND?: CallScalarWhereInput | CallScalarWhereInput[]
+    OR?: CallScalarWhereInput[]
+    NOT?: CallScalarWhereInput | CallScalarWhereInput[]
+    id?: StringFilter<"Call"> | string
+    callerId?: StringFilter<"Call"> | string
+    receiverId?: StringFilter<"Call"> | string
+    type?: EnumCallTypeFilter<"Call"> | $Enums.CallType
+    status?: EnumCallStatusFilter<"Call"> | $Enums.CallStatus
+    startedAt?: DateTimeNullableFilter<"Call"> | Date | string | null
+    endedAt?: DateTimeNullableFilter<"Call"> | Date | string | null
+    createdAt?: DateTimeFilter<"Call"> | Date | string
+    updatedAt?: DateTimeFilter<"Call"> | Date | string
+  }
+
+  export type CallUpsertWithWhereUniqueWithoutReceiverInput = {
+    where: CallWhereUniqueInput
+    update: XOR<CallUpdateWithoutReceiverInput, CallUncheckedUpdateWithoutReceiverInput>
+    create: XOR<CallCreateWithoutReceiverInput, CallUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type CallUpdateWithWhereUniqueWithoutReceiverInput = {
+    where: CallWhereUniqueInput
+    data: XOR<CallUpdateWithoutReceiverInput, CallUncheckedUpdateWithoutReceiverInput>
+  }
+
+  export type CallUpdateManyWithWhereWithoutReceiverInput = {
+    where: CallScalarWhereInput
+    data: XOR<CallUpdateManyMutationInput, CallUncheckedUpdateManyWithoutReceiverInput>
+  }
+
+  export type StoryUpsertWithWhereUniqueWithoutUserInput = {
+    where: StoryWhereUniqueInput
+    update: XOR<StoryUpdateWithoutUserInput, StoryUncheckedUpdateWithoutUserInput>
+    create: XOR<StoryCreateWithoutUserInput, StoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type StoryUpdateWithWhereUniqueWithoutUserInput = {
+    where: StoryWhereUniqueInput
+    data: XOR<StoryUpdateWithoutUserInput, StoryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StoryUpdateManyWithWhereWithoutUserInput = {
+    where: StoryScalarWhereInput
+    data: XOR<StoryUpdateManyMutationInput, StoryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type StoryScalarWhereInput = {
+    AND?: StoryScalarWhereInput | StoryScalarWhereInput[]
+    OR?: StoryScalarWhereInput[]
+    NOT?: StoryScalarWhereInput | StoryScalarWhereInput[]
+    id?: StringFilter<"Story"> | string
+    userId?: StringFilter<"Story"> | string
+    type?: EnumStoryTypeFilter<"Story"> | $Enums.StoryType
+    mediaUrl?: StringNullableFilter<"Story"> | string | null
+    text?: StringNullableFilter<"Story"> | string | null
+    createdAt?: DateTimeFilter<"Story"> | Date | string
+    expiresAt?: DateTimeFilter<"Story"> | Date | string
+  }
+
   export type UserCreateWithoutProfileInput = {
     id?: string
     email: string
@@ -10613,6 +15481,9 @@ export namespace Prisma {
     sendMessages?: MessageCreateNestedManyWithoutSenderInput
     userContact?: ContactCreateNestedManyWithoutUserInput
     contactsOf?: ContactCreateNestedManyWithoutContactInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+    stories?: StoryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -10631,6 +15502,9 @@ export namespace Prisma {
     sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
     contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -10665,6 +15539,9 @@ export namespace Prisma {
     sendMessages?: MessageUpdateManyWithoutSenderNestedInput
     userContact?: ContactUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -10683,6 +15560,9 @@ export namespace Prisma {
     sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ConversationMemberCreateWithoutConversationInput = {
@@ -10812,6 +15692,9 @@ export namespace Prisma {
     sendMessages?: MessageCreateNestedManyWithoutSenderInput
     userContact?: ContactCreateNestedManyWithoutUserInput
     contactsOf?: ContactCreateNestedManyWithoutContactInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+    stories?: StoryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversationMembersInput = {
@@ -10830,6 +15713,9 @@ export namespace Prisma {
     sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
     contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversationMembersInput = {
@@ -10895,6 +15781,9 @@ export namespace Prisma {
     sendMessages?: MessageUpdateManyWithoutSenderNestedInput
     userContact?: ContactUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversationMembersInput = {
@@ -10913,6 +15802,9 @@ export namespace Prisma {
     sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ConversationCreateWithoutMessagesInput = {
@@ -10956,6 +15848,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberCreateNestedManyWithoutUserInput
     userContact?: ContactCreateNestedManyWithoutUserInput
     contactsOf?: ContactCreateNestedManyWithoutContactInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+    stories?: StoryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSendMessagesInput = {
@@ -10974,6 +15869,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUncheckedCreateNestedManyWithoutUserInput
     userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
     contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSendMessagesInput = {
@@ -11039,6 +15937,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUpdateManyWithoutUserNestedInput
     userContact?: ContactUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSendMessagesInput = {
@@ -11057,6 +15958,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUncheckedUpdateManyWithoutUserNestedInput
     userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
     contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUserContactInput = {
@@ -11075,6 +15979,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberCreateNestedManyWithoutUserInput
     sendMessages?: MessageCreateNestedManyWithoutSenderInput
     contactsOf?: ContactCreateNestedManyWithoutContactInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+    stories?: StoryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserContactInput = {
@@ -11093,6 +16000,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUncheckedCreateNestedManyWithoutUserInput
     sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserContactInput = {
@@ -11116,6 +16026,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberCreateNestedManyWithoutUserInput
     sendMessages?: MessageCreateNestedManyWithoutSenderInput
     userContact?: ContactCreateNestedManyWithoutUserInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+    stories?: StoryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutContactsOfInput = {
@@ -11134,6 +16047,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUncheckedCreateNestedManyWithoutUserInput
     sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutContactsOfInput = {
@@ -11168,6 +16084,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUpdateManyWithoutUserNestedInput
     sendMessages?: MessageUpdateManyWithoutSenderNestedInput
     contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserContactInput = {
@@ -11186,6 +16105,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUncheckedUpdateManyWithoutUserNestedInput
     sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutContactsOfInput = {
@@ -11215,6 +16137,9 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUpdateManyWithoutUserNestedInput
     sendMessages?: MessageUpdateManyWithoutSenderNestedInput
     userContact?: ContactUpdateManyWithoutUserNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutContactsOfInput = {
@@ -11233,6 +16158,413 @@ export namespace Prisma {
     conversationMembers?: ConversationMemberUncheckedUpdateManyWithoutUserNestedInput
     sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutCallerInput = {
+    id?: string
+    email: string
+    name: string
+    password?: string | null
+    provider: $Enums.Provider
+    providerId?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    verificationCode?: string | null
+    verificationCodeExpiry?: Date | string | null
+    refreshToken?: string | null
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    conversationMembers?: ConversationMemberCreateNestedManyWithoutUserInput
+    sendMessages?: MessageCreateNestedManyWithoutSenderInput
+    userContact?: ContactCreateNestedManyWithoutUserInput
+    contactsOf?: ContactCreateNestedManyWithoutContactInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+    stories?: StoryCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCallerInput = {
+    id?: string
+    email: string
+    name: string
+    password?: string | null
+    provider: $Enums.Provider
+    providerId?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    verificationCode?: string | null
+    verificationCodeExpiry?: Date | string | null
+    refreshToken?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    conversationMembers?: ConversationMemberUncheckedCreateNestedManyWithoutUserInput
+    sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
+    contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCallerInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCallerInput, UserUncheckedCreateWithoutCallerInput>
+  }
+
+  export type UserCreateWithoutReceiverInput = {
+    id?: string
+    email: string
+    name: string
+    password?: string | null
+    provider: $Enums.Provider
+    providerId?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    verificationCode?: string | null
+    verificationCodeExpiry?: Date | string | null
+    refreshToken?: string | null
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    conversationMembers?: ConversationMemberCreateNestedManyWithoutUserInput
+    sendMessages?: MessageCreateNestedManyWithoutSenderInput
+    userContact?: ContactCreateNestedManyWithoutUserInput
+    contactsOf?: ContactCreateNestedManyWithoutContactInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    stories?: StoryCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReceiverInput = {
+    id?: string
+    email: string
+    name: string
+    password?: string | null
+    provider: $Enums.Provider
+    providerId?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    verificationCode?: string | null
+    verificationCodeExpiry?: Date | string | null
+    refreshToken?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    conversationMembers?: ConversationMemberUncheckedCreateNestedManyWithoutUserInput
+    sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
+    contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    stories?: StoryUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReceiverInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReceiverInput, UserUncheckedCreateWithoutReceiverInput>
+  }
+
+  export type UserUpsertWithoutCallerInput = {
+    update: XOR<UserUpdateWithoutCallerInput, UserUncheckedUpdateWithoutCallerInput>
+    create: XOR<UserCreateWithoutCallerInput, UserUncheckedCreateWithoutCallerInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCallerInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCallerInput, UserUncheckedUpdateWithoutCallerInput>
+  }
+
+  export type UserUpdateWithoutCallerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    conversationMembers?: ConversationMemberUpdateManyWithoutUserNestedInput
+    sendMessages?: MessageUpdateManyWithoutSenderNestedInput
+    userContact?: ContactUpdateManyWithoutUserNestedInput
+    contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCallerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    conversationMembers?: ConversationMemberUncheckedUpdateManyWithoutUserNestedInput
+    sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutReceiverInput = {
+    update: XOR<UserUpdateWithoutReceiverInput, UserUncheckedUpdateWithoutReceiverInput>
+    create: XOR<UserCreateWithoutReceiverInput, UserUncheckedCreateWithoutReceiverInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReceiverInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReceiverInput, UserUncheckedUpdateWithoutReceiverInput>
+  }
+
+  export type UserUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    conversationMembers?: ConversationMemberUpdateManyWithoutUserNestedInput
+    sendMessages?: MessageUpdateManyWithoutSenderNestedInput
+    userContact?: ContactUpdateManyWithoutUserNestedInput
+    contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    stories?: StoryUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    conversationMembers?: ConversationMemberUncheckedUpdateManyWithoutUserNestedInput
+    sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    stories?: StoryUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type StoryViewCreateWithoutStoryInput = {
+    id?: string
+    viewerId: string
+    viewedAt?: Date | string
+  }
+
+  export type StoryViewUncheckedCreateWithoutStoryInput = {
+    id?: string
+    viewerId: string
+    viewedAt?: Date | string
+  }
+
+  export type StoryViewCreateOrConnectWithoutStoryInput = {
+    where: StoryViewWhereUniqueInput
+    create: XOR<StoryViewCreateWithoutStoryInput, StoryViewUncheckedCreateWithoutStoryInput>
+  }
+
+  export type StoryViewCreateManyStoryInputEnvelope = {
+    data: StoryViewCreateManyStoryInput | StoryViewCreateManyStoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutStoriesInput = {
+    id?: string
+    email: string
+    name: string
+    password?: string | null
+    provider: $Enums.Provider
+    providerId?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    verificationCode?: string | null
+    verificationCodeExpiry?: Date | string | null
+    refreshToken?: string | null
+    profile?: ProfileCreateNestedOneWithoutUserInput
+    conversationMembers?: ConversationMemberCreateNestedManyWithoutUserInput
+    sendMessages?: MessageCreateNestedManyWithoutSenderInput
+    userContact?: ContactCreateNestedManyWithoutUserInput
+    contactsOf?: ContactCreateNestedManyWithoutContactInput
+    caller?: CallCreateNestedManyWithoutCallerInput
+    receiver?: CallCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserUncheckedCreateWithoutStoriesInput = {
+    id?: string
+    email: string
+    name: string
+    password?: string | null
+    provider: $Enums.Provider
+    providerId?: string | null
+    isVerified?: boolean
+    createdAt?: Date | string
+    verificationCode?: string | null
+    verificationCodeExpiry?: Date | string | null
+    refreshToken?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
+    conversationMembers?: ConversationMemberUncheckedCreateNestedManyWithoutUserInput
+    sendMessages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    userContact?: ContactUncheckedCreateNestedManyWithoutUserInput
+    contactsOf?: ContactUncheckedCreateNestedManyWithoutContactInput
+    caller?: CallUncheckedCreateNestedManyWithoutCallerInput
+    receiver?: CallUncheckedCreateNestedManyWithoutReceiverInput
+  }
+
+  export type UserCreateOrConnectWithoutStoriesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStoriesInput, UserUncheckedCreateWithoutStoriesInput>
+  }
+
+  export type StoryViewUpsertWithWhereUniqueWithoutStoryInput = {
+    where: StoryViewWhereUniqueInput
+    update: XOR<StoryViewUpdateWithoutStoryInput, StoryViewUncheckedUpdateWithoutStoryInput>
+    create: XOR<StoryViewCreateWithoutStoryInput, StoryViewUncheckedCreateWithoutStoryInput>
+  }
+
+  export type StoryViewUpdateWithWhereUniqueWithoutStoryInput = {
+    where: StoryViewWhereUniqueInput
+    data: XOR<StoryViewUpdateWithoutStoryInput, StoryViewUncheckedUpdateWithoutStoryInput>
+  }
+
+  export type StoryViewUpdateManyWithWhereWithoutStoryInput = {
+    where: StoryViewScalarWhereInput
+    data: XOR<StoryViewUpdateManyMutationInput, StoryViewUncheckedUpdateManyWithoutStoryInput>
+  }
+
+  export type StoryViewScalarWhereInput = {
+    AND?: StoryViewScalarWhereInput | StoryViewScalarWhereInput[]
+    OR?: StoryViewScalarWhereInput[]
+    NOT?: StoryViewScalarWhereInput | StoryViewScalarWhereInput[]
+    id?: StringFilter<"StoryView"> | string
+    storyId?: StringFilter<"StoryView"> | string
+    viewerId?: StringFilter<"StoryView"> | string
+    viewedAt?: DateTimeFilter<"StoryView"> | Date | string
+  }
+
+  export type UserUpsertWithoutStoriesInput = {
+    update: XOR<UserUpdateWithoutStoriesInput, UserUncheckedUpdateWithoutStoriesInput>
+    create: XOR<UserCreateWithoutStoriesInput, UserUncheckedCreateWithoutStoriesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStoriesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStoriesInput, UserUncheckedUpdateWithoutStoriesInput>
+  }
+
+  export type UserUpdateWithoutStoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUpdateOneWithoutUserNestedInput
+    conversationMembers?: ConversationMemberUpdateManyWithoutUserNestedInput
+    sendMessages?: MessageUpdateManyWithoutSenderNestedInput
+    userContact?: ContactUpdateManyWithoutUserNestedInput
+    contactsOf?: ContactUpdateManyWithoutContactNestedInput
+    caller?: CallUpdateManyWithoutCallerNestedInput
+    receiver?: CallUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    provider?: EnumProviderFieldUpdateOperationsInput | $Enums.Provider
+    providerId?: NullableStringFieldUpdateOperationsInput | string | null
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verificationCode?: NullableStringFieldUpdateOperationsInput | string | null
+    verificationCodeExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
+    conversationMembers?: ConversationMemberUncheckedUpdateManyWithoutUserNestedInput
+    sendMessages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    userContact?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    contactsOf?: ContactUncheckedUpdateManyWithoutContactNestedInput
+    caller?: CallUncheckedUpdateManyWithoutCallerNestedInput
+    receiver?: CallUncheckedUpdateManyWithoutReceiverNestedInput
+  }
+
+  export type StoryCreateWithoutViewsInput = {
+    id?: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
+    user: UserCreateNestedOneWithoutStoriesInput
+  }
+
+  export type StoryUncheckedCreateWithoutViewsInput = {
+    id?: string
+    userId: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type StoryCreateOrConnectWithoutViewsInput = {
+    where: StoryWhereUniqueInput
+    create: XOR<StoryCreateWithoutViewsInput, StoryUncheckedCreateWithoutViewsInput>
+  }
+
+  export type StoryUpsertWithoutViewsInput = {
+    update: XOR<StoryUpdateWithoutViewsInput, StoryUncheckedUpdateWithoutViewsInput>
+    create: XOR<StoryCreateWithoutViewsInput, StoryUncheckedCreateWithoutViewsInput>
+    where?: StoryWhereInput
+  }
+
+  export type StoryUpdateToOneWithWhereWithoutViewsInput = {
+    where?: StoryWhereInput
+    data: XOR<StoryUpdateWithoutViewsInput, StoryUncheckedUpdateWithoutViewsInput>
+  }
+
+  export type StoryUpdateWithoutViewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutStoriesNestedInput
+  }
+
+  export type StoryUncheckedUpdateWithoutViewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConversationMemberCreateManyUserInput = {
@@ -11262,6 +16594,37 @@ export namespace Prisma {
     id?: string
     userId: string
     createdAt?: Date | string
+  }
+
+  export type CallCreateManyCallerInput = {
+    id?: string
+    receiverId: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CallCreateManyReceiverInput = {
+    id?: string
+    callerId: string
+    type: $Enums.CallType
+    status: $Enums.CallStatus
+    startedAt?: Date | string | null
+    endedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StoryCreateManyUserInput = {
+    id?: string
+    type: $Enums.StoryType
+    mediaUrl?: string | null
+    text?: string | null
+    createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type ConversationMemberUpdateWithoutUserInput = {
@@ -11351,6 +16714,101 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CallUpdateWithoutCallerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    receiver?: UserUpdateOneRequiredWithoutReceiverNestedInput
+  }
+
+  export type CallUncheckedUpdateWithoutCallerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CallUncheckedUpdateManyWithoutCallerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CallUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caller?: UserUpdateOneRequiredWithoutCallerNestedInput
+  }
+
+  export type CallUncheckedUpdateWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    callerId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CallUncheckedUpdateManyWithoutReceiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    callerId?: StringFieldUpdateOperationsInput | string
+    type?: EnumCallTypeFieldUpdateOperationsInput | $Enums.CallType
+    status?: EnumCallStatusFieldUpdateOperationsInput | $Enums.CallStatus
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    views?: StoryViewUpdateManyWithoutStoryNestedInput
+  }
+
+  export type StoryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    views?: StoryViewUncheckedUpdateManyWithoutStoryNestedInput
+  }
+
+  export type StoryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumStoryTypeFieldUpdateOperationsInput | $Enums.StoryType
+    mediaUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    text?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ConversationMemberCreateManyConversationInput = {
     id?: string
     userId: string
@@ -11417,6 +16875,30 @@ export namespace Prisma {
     status?: EnumMessageStatusFieldUpdateOperationsInput | $Enums.MessageStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryViewCreateManyStoryInput = {
+    id?: string
+    viewerId: string
+    viewedAt?: Date | string
+  }
+
+  export type StoryViewUpdateWithoutStoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
+    viewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryViewUncheckedUpdateWithoutStoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
+    viewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoryViewUncheckedUpdateManyWithoutStoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    viewerId?: StringFieldUpdateOperationsInput | string
+    viewedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
