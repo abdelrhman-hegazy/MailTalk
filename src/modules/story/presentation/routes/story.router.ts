@@ -14,4 +14,10 @@ router.post(
   storyController.createStory,
 );
 
+router.delete(
+  "/delete/:id",
+  authMiddleware,
+  storyController.deleteStory,
+);
+
 export { router as storyRouter };

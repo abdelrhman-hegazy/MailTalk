@@ -5,8 +5,8 @@ import { authMiddleware } from "../../../../shared/middlewares/auth.middleware";
 const router = Router();
 const contactController = contactModule();
 
-router.post("", authMiddleware, contactController.addContact);
+router.post("/:contactId", authMiddleware, contactController.addContact);
 router.get("", authMiddleware, contactController.getContacts);
-router.delete("", authMiddleware, contactController.deleteContact);
+router.delete("/:contactId", authMiddleware, contactController.deleteContact);
 
 export { router as contactRouter };

@@ -13,7 +13,7 @@ export class ContactController {
   ) {}
   addContact = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.user;
-    const { contactId } = req.query;
+    const { contactId } = req.params;
     const result = await this.addContactUsecase.excute(id, contactId as string);
     sendResponse(res, {
       statusCode: 201,
@@ -32,7 +32,7 @@ export class ContactController {
   });
   deleteContact = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.user;
-    const { contactId } = req.query;
+    const { contactId } = req.params;
     await this.deleteContactUsecase.execute(id, contactId as string);
     sendResponse(res, {
       statusCode: 200,
