@@ -8,4 +8,19 @@ export class StoryRepositoryPrisma implements StoryRepository {
     });
     return createStory;
   }
+  async delete(storyId: string): Promise<void> {
+    await prisma.story.delete({
+      where: {
+        id: storyId,
+      },
+    });
+  }
+  async findById(storyId: string): Promise<StoryReturn | null> {
+    const story = await prisma.story.findUnique({
+      where: {
+        id: storyId,
+      },
+    });
+    return story;
+  }
 }

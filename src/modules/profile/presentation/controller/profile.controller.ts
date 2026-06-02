@@ -11,7 +11,7 @@ export class ProfileController {
   ) {}
 
   getProfile = catchAsync(async (req: Request, res: Response) => {
-    const { id } = req.query;
+    const { id } = req.params;
     const result = await this.getProfileUsecase.execute(id as string);
     sendResponse(res, {
       statusCode: 200,

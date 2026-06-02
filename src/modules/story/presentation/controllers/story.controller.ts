@@ -1,10 +1,14 @@
 import { AuthRequest } from "../../../../shared/middlewares/auth.middleware";
 import { catchAsync, sendResponse } from "../../../../shared/utils";
 import { CreateStoryUseCase } from "../../application/createStory.usecase";
-import { Response } from "express";
+import { DeleteStoryUsecase } from "../../application/deleteStory.usecase";
+import { Request, Response } from "express";
 
 export class StoryController {
-  constructor(private createStoryUsecase: CreateStoryUseCase) {}
+  constructor(
+    private createStoryUsecase: CreateStoryUseCase,
+    private deleteStoryUsecase: DeleteStoryUsecase,
+  ) {}
 
   createStory = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.user;
@@ -14,6 +18,17 @@ export class StoryController {
       statusCode: 201,
       message: "Story created successfully",
       data: result,
+    });
+  });
+  deleteStory = catchAsync(async (req: Request, res: Response) => {
+    const storyId = req.params.id;
+    if (typeof storyId !== "string") {
+      throw new Error("Story ID must be a string");
+    }
+    await this.deleteStoryUsecase.execute(storyId);
+    sendResponse(res, {
+      statusCode: 200,
+      message: "Story deleted successfully",
     });
   });
 }
