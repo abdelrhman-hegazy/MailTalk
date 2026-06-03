@@ -3,4 +3,5 @@ export interface ContactRepository {
   removeContact(userId: string, contactId: string): Promise<void>;
   isContactExists(userId: string, contactId: string): Promise<boolean>;
   getContacts(userId: string): Promise<string[]>;
+  getContactsMe(userId: string): Promise<string[]>;
 }

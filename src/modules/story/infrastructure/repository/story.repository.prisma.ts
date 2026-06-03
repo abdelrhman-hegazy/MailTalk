@@ -23,4 +23,34 @@ export class StoryRepositoryPrisma implements StoryRepository {
     });
     return story;
   }
+  async getStoriesByUserIds(userIds: string[]): Promise<StoryReturn[]> {
+    const stories = await prisma.story.findMany({
+      where: {
+        userId: {
+          in: userIds,
+        },
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        mediaUrl: true,
+        type: true,
+        text: true,
+        createdAt: true,
+        expiresAt: true,
+        user: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+      },
+    });
+    return stories;
+  }
 }
