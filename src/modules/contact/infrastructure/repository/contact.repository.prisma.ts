@@ -59,4 +59,3 @@ export class ContactRepositoryPrisma {
     return contacts.map((c: { contactUserId: string }) => c.contactUserId);
   }
 }
-
