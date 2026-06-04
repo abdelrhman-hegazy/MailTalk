@@ -4,8 +4,9 @@
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
 [![Socket.IO](https://img.shields.io/badge/Socket.IO-4.8-green)](https://socket.io/)
+[![Prisma](https://img.shields.io/badge/Prisma-7.x-2D3748)](https://www.prisma.io/)
 
-A scalable and modern **real-time chat backend** built with **Node.js, TypeScript, and Express**, designed with clean architecture and best practices in mind.
+A scalable and modern **real-time chat backend** built with **Node.js, TypeScript, and Express**, designed with clean modular architecture and best practices in mind.
 
 This project is currently under active development and serves as a solid foundation for building production-ready chat applications.
 
@@ -13,27 +14,37 @@ This project is currently under active development and serves as a solid foundat
 
 ## 🎯 Executive Summary
 
-**MailTalk** delivers a scalable foundation for modern chat applications, handling millions of concurrent connections through intelligent WebSocket management, Redis-backed pub/sub architecture, and optimized database indexing. The system supports real-time messaging, multi-provider authentication, seamless media handling, contact management, and real-time audio/video calls — all with sub-100ms latency guarantees.
+**MailTalk** delivers a scalable foundation for modern chat applications with real-time messaging via Socket.IO, multi-provider OAuth authentication, Cloudinary-backed media handling, contact management, WebRTC-based audio/video calls, and ephemeral Stories — all built on a clean **Domain-Driven modular architecture** with Prisma ORM on top of Neon serverless PostgreSQL.
 
 ---
 
-## 🚀 Features (Current & Planned)
+## 🚀 Features
 
 ### ✅ Implemented
-- **Project Structure:** Initialization with **TypeScript** and a scalable folder hierarchy.
-- **Core Server:** Express server setup with centralized **error handling**.
-- **Dev Experience:** Async error wrappers, ESLint, and Prettier integration.
-- **Config:** Environment-based configuration management.
-- **Infrastructure:** Basic horizontal scaling logic with **Redis**.
+
+- **Project Structure:** TypeScript with a modular DDD folder hierarchy (`domain → application → infrastructure → presentation`).
+- **Core Server:** Express server with `helmet`, `compression`, CORS, `cookie-parser`, Pino structured logging, and centralized error handling.
+- **Dev Experience:** `asyncWrapper` (`catchAsync`) for error-free controllers, ESLint + Prettier, `tsx --watch` dev server.
+- **Config:** Environment-based configuration via `dotenv`.
+- **Authentication:** Email/password register & login with JWT (access 15min + refresh 7 days), email verification with code + expiry, refresh token rotation, Google OAuth, and Facebook OAuth.
+- **Profile:** Get & update profile (name, bio, avatar via Cloudinary). Auto-create profile on first fetch.
+- **Chat:** Create GROUP conversations, list conversations (cursor pagination), delete conversation, send messages (TEXT / IMAGE / FILE), get messages (cursor pagination). Real-time typing indicators, message delivered/read via Socket.IO.
+- **Contacts:** Add/remove contacts, list all contacts (with profile), self-add and duplicate prevention.
+- **Calls:** Full WebRTC call signaling via Socket.IO (initiate, accept, reject, offer/answer/ICE candidates, end). Call history with cursor pagination.
+- **Stories:** Create/delete stories (TEXT, IMAGE, VIDEO), list active stories from contacts, view a single story, add a view (dedup + no self-view), get viewers (owner only). Stories auto-expire via `expiresAt` filter.
+- **Upload:** Multipart file upload to Cloudinary with exist/delete helpers. Used by Stories and Profile.
 
 ### 🛠️ In Progress / Planned
-- **Auth:** Secure Authentication (Email / Google / Facebook) using JWT.
-- **Real-time:** Full **Socket.IO** integration for messaging & typing indicators.
-- **Messaging:** One-to-one & group chats with message persistence.
-- **Media:** Support for images, audio, video, and documents via Cloudinary.
-- **Contacts:** Personal contact list management with search capabilities.
-- **Advanced:** Audio & video calls using **WebRTC**.
-- **DevOps:** Docker support, CI/CD pipelines, and Pino logging.
+
+- **Auth:** Logout / token revocation endpoint.
+- **Chat:** One-to-one conversation creation endpoint, add/remove group members (admin-only).
+- **Profile:** Realtime online/offline presence updates (`isOnline` / `lastSeen`).
+- **Contacts:** In-contact search by name (module is built; needs to be wired).
+- **Calls:** Missed-call detection, `GET /call/:id`, missed calls endpoint.
+- **Rate Limiting:** Redis-backed brute-force protection (login, register, global).
+- **Horizontal Scaling:** Redis Pub/Sub adapter for Socket.IO.
+- **DevOps:** Docker support, CI/CD pipelines, `.env.example`.
+- **Tests:** Unit and integration test suite.
 
 ---
 
@@ -49,23 +60,25 @@ graph TB
     LB --> WS1[Socket Server 1]
     LB --> WS2[Socket Server 2]
 
-    WS1 --> Redis[(Redis Pub/Sub)]
+    WS1 --> Redis[(Redis Pub/Sub — Planned)]
     WS2 --> Redis
 
-    Redis --> DB[(PostgreSQL)]
+    Redis --> DB[(PostgreSQL / Neon)]
 
     subgraph "Real-time Synchronization"
-        A[Message Sent] --> B[Redis Publish]
-        B --> C[All Nodes Subscribe]
-        C --> D[Broadcast to Recipient]
+        A[Message Sent] --> B[Socket Emit]
+        B --> C[Broadcast to Room]
+        C --> D[Deliver to Recipient]
     end
 ```
+
+> **Note:** Horizontal scaling via Redis Pub/Sub is planned. The current Socket.IO setup uses single-node in-memory rooms.
 
 ---
 
 ## 🗄️ Database Architecture
 
-MailTalk uses **PostgreSQL** managed via **Prisma ORM**. Below is an overview of all models, their fields, and relationships derived directly from the schema.
+MailTalk uses **PostgreSQL (Neon serverless)** managed via **Prisma ORM**.
 
 ### Entity Relationship Overview
 
@@ -75,26 +88,28 @@ MailTalk uses **PostgreSQL** managed via **Prisma ORM**. Below is an overview of
 | `User` → `ConversationMember` | One-to-Many | `ConversationMember.userId` |
 | `Conversation` → `ConversationMember` | One-to-Many | `ConversationMember.conversationId` |
 | `Conversation` → `Message` | One-to-Many | `Message.conversationId` |
-| `User` ↔ `Conversation` | **Many-to-Many** | Through `ConversationMember` join model |
+| `User` ↔ `Conversation` | Many-to-Many | Through `ConversationMember` |
 | `User` → `Contact` | One-to-Many | `Contact.userId` |
 | `User` → `Call` (as caller) | One-to-Many | `Call.callerId` |
 | `User` → `Call` (as receiver) | One-to-Many | `Call.receiverId` |
+| `User` → `Story` | One-to-Many | `Story.userId` |
+| `Story` → `StoryView` | One-to-Many | `StoryView.storyId` |
 
 ### Mermaid ERD
 
 ```mermaid
 erDiagram
     User {
-        String  id          PK
-        String  email
-        String  name
-        String  password
+        String   id               PK
+        String   email
+        String   name
+        String   password
         Provider provider
-        String  providerId
-        Boolean isVerified
-        String  verificationCode
+        String   providerId
+        Boolean  isVerified
+        String   verificationCode
         DateTime verificationCodeExpiry
-        String  refreshToken
+        String   refreshToken
         DateTime createdAt
     }
 
@@ -109,7 +124,7 @@ erDiagram
     }
 
     Conversation {
-        String           id       PK
+        String           id        PK
         ConversationType type
         String           name
         String           imageUrl
@@ -128,7 +143,7 @@ erDiagram
     Message {
         String        id             PK
         String        conversationId FK
-        String        senderId
+        String        senderId       FK
         String        content
         MessageType   type
         MessageStatus status
@@ -137,9 +152,9 @@ erDiagram
     }
 
     Contact {
-        String   id        PK
-        String   userId    FK
-        String   contactId FK
+        String   id            PK
+        String   userId        FK
+        String   contactUserId FK
         DateTime createdAt
     }
 
@@ -153,12 +168,31 @@ erDiagram
         DateTime   endedAt
     }
 
+    Story {
+        String    id        PK
+        String    userId    FK
+        StoryType type
+        String    mediaUrl
+        String    text
+        DateTime  createdAt
+        DateTime  expiresAt
+    }
+
+    StoryView {
+        String   id       PK
+        String   storyId  FK
+        String   viewerId
+        DateTime viewedAt
+    }
+
     User ||--o| Profile             : "has one"
     User ||--o{ ConversationMember  : "joins via"
     Conversation ||--o{ ConversationMember : "has members"
     Conversation ||--o{ Message     : "contains"
     User ||--o{ Contact             : "owns contacts"
     User ||--o{ Call                : "initiates/receives"
+    User ||--o{ Story               : "creates"
+    Story ||--o{ StoryView          : "has views"
 ```
 
 ### Enums
@@ -171,49 +205,45 @@ erDiagram
 | `MessageType` | `TEXT`, `IMAGE`, `FILE` |
 | `MessageStatus` | `SENT`, `DELIVERED`, `READ` |
 | `CallType` | `AUDIO`, `VIDEO` |
-| `CallStatus` | `INITIATED`, `ACCEPTED`, `ENDED`, `MISSED` |
-
-> **Note:** `ConversationMember` acts as the join table for the `User` ↔ `Conversation` many-to-many relationship, and also carries role metadata (`MEMBER` / `ADMIN`) and a `joinedAt` timestamp.
+| `CallStatus` | `INITIATED`, `RINGING`, `ACCEPTED`, `REJECTED`, `ENDED` |
+| `StoryType` | `TEXT`, `IMAGE`, `VIDEO` |
 
 ---
 
 ## 🔐 Authentication & Security Architecture
 
-MailTalk implements a **robust dual-token authentication** mechanism designed for high security and seamless user experience.
+MailTalk implements a **dual-token authentication** mechanism for high security and seamless UX.
 
 ### 🛡️ JWT Strategy
-* **Access Token:** Short-lived (15 min) for securing API requests.
-* **Refresh Token:** Long-lived (7 days) stored securely to rotate access tokens.
-* **Hashing:** Passwords are never stored in plain text; we use **Bcrypt** with **12 salt rounds**.
+
+- **Access Token:** Short-lived (15 min) for securing API requests.
+- **Refresh Token:** Long-lived (7 days), rotated on every refresh and stored in the database.
+- **Hashing:** Passwords are never stored in plain text; we use **Bcrypt** with **12 salt rounds**.
+- **Web clients:** Refresh token delivered via `HttpOnly` cookie.
+- **Mobile clients:** Refresh token delivered in response body (header-based).
 
 ### 📡 Auth Endpoints
 
-| Method | Endpoint | Description | Security |
+| Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/auth/register` | User registration | Public + Rate Limited |
-| `POST` | `/api/v1/auth/login` | Email/Password login | Public + Rate Limited |
-| `POST` | `/api/v1/auth/refresh` | Access token renewal | Public |
-| `POST` | `/api/v1/auth/logout` | Token revocation | Protected |
+| `POST` | `/api/v1/auth/register` | User registration | Public |
+| `POST` | `/api/v1/auth/verify` | Email verification with code | Public |
+| `POST` | `/api/v1/auth/login` | Email/Password login | Public |
+| `GET` | `/api/v1/auth/refreshToken` | Access token renewal | Public |
+| `POST` | `/api/v1/auth/oauth/login` | Social login (Google / Facebook) | Public |
 
-### 🚦 Rate Limiting & Protection
+> ⚠️ Logout / token revocation is not yet implemented.
 
-To prevent **Brute-Force** attacks, we've implemented Redis-backed rate limiting:
-* **Login:** Maximum 5 attempts per 15 minutes per IP.
-* **Registration:** Maximum 3 accounts per hour per IP.
-* **Global:** 1000 requests per 15 minutes per user.
-
-### 💻 Implementation Snippet (Middleware)
+### 💻 Auth Middleware
 
 ```typescript
 // Authorization Header: Bearer <token>
-export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader?.split(' ')[1];
-
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+  const token = extractToken(req);
   if (!token) return res.status(401).json({ message: 'Access token required' });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
     req.user = decoded;
     next();
   } catch (error) {
@@ -226,23 +256,23 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 
 ## 🌐 Multi-Provider OAuth 2.0 Integration
 
-MailTalk supports seamless social login, allowing users to authenticate securely using their existing accounts.
+MailTalk supports seamless social login via Google and Facebook.
 
 ### ✅ Supported Providers
-- **Google OAuth:** Verified via Google's token info API.
-- **Facebook OAuth:** Verified via Facebook Debug Token and Graph API.
 
-### 🔄 OAuth Flow Architecture
+- **Google OAuth:** Token verified via Google's token info API.
+- **Facebook OAuth:** Token verified via Facebook's Debug Token & Graph API.
+
+### 🔄 OAuth Flow
+
 1. **Client-side:** User authenticates via Google/Facebook SDK and receives an `accessToken`.
-2. **Server-side:** The `accessToken` is sent to `/api/v1/auth/oauth-login`.
+2. **Server-side:** The `accessToken` is sent to `POST /api/v1/auth/oauth/login`.
 3. **Validation:** MailTalk verifies the token directly with Google/Facebook servers.
-4. **Account Sync:** If the user exists, we log them in; otherwise, a new account is provisioned.
+4. **Account Sync:** Existing user → login. New user → account is auto-provisioned.
 5. **Session:** Server issues a standard **JWT (Access + Refresh)** to the client.
 
-### 📡 OAuth API Usage
-
 ```typescript
-// POST /api/v1/auth/oauth-login
+// POST /api/v1/auth/oauth/login
 {
   "provider": "google", // or "facebook"
   "accessToken": "oauth_token_from_client_sdk"
@@ -253,93 +283,55 @@ MailTalk supports seamless social login, allowing users to authenticate securely
 
 ## 📦 Modules
 
-### 1. 🔐 Authentication Module (`src/modules/auth/`)
-- Register with email/password (bcrypt, 12 salt rounds)
-- Login with email/password → return Access Token (15min) + Refresh Token (7 days)
-- OAuth login (Google & Facebook) via external token verification
-- Refresh token rotation endpoint
-- Logout (revoke refresh token)
-- Email verification with code + expiry
-- Redis-backed rate limiting (5 login attempts / 15min per IP)
-- JWT middleware for protected routes
+### 1. 🔐 Authentication (`src/modules/auth/`)
 
-### 2. 👤 Profile Module (`src/modules/profile/`)
-- Get my profile (authenticated)
-- Update profile (avatarUrl, bio)
-- Get any user's profile by userId
-- Update online status & lastSeen automatically
+- Register with email/password (bcrypt, 12 salt rounds).
+- Email verification with code + expiry.
+- Login → returns Access Token (15 min) + Refresh Token (7 days).
+- Refresh token rotation.
+- OAuth login (Google & Facebook).
+- JWT middleware for protected routes.
 
-### 3. 💬 Chat Module (`src/modules/chat/`)
-- Create ONE_TO_ONE or GROUP conversation
-- Get all conversations for the current user
-- Get a single conversation by ID
-- Add/remove members (admin only for groups)
-- Send a message (TEXT / IMAGE / FILE)
-- Get messages with pagination (cursor-based)
-- Real-time events via Socket.IO:
-  - `message:send` → broadcast to conversation members
+### 2. 👤 Profile (`src/modules/profile/`)
+
+- Get profile by `userId` (auto-creates if missing).
+- Update profile (`name`, `bio`, `avatarUrl` via Cloudinary — replaces old image).
+- `isOnline` / `lastSeen` columns exist; presence updates planned.
+
+### 3. 💬 Chat (`src/modules/chat/`)
+
+- Create GROUP conversation.
+- List all conversations for the current user (cursor pagination).
+- Delete a conversation.
+- Send a message (TEXT / IMAGE / FILE) — persists + emits socket events.
+- Get messages with cursor-based pagination.
+- Real-time Socket.IO events:
+  - `message:send` → broadcast to conversation room.
   - `typing:start` / `typing:stop`
-  - `user:online` / `user:offline`
-  - Mark messages as DELIVERED / READ
+  - `message:delivered` / `message:read`
 
-### 4. 📇 Contact Module (`src/modules/contact/`)
+### 4. 📇 Contact (`src/modules/contact/`)
 
-#### 🎯 Overview
-The Contact module enables users to manage their personal contact list, similar to modern messaging apps like WhatsApp. It allows quick access to frequent users and improves chat experience.
+- Add a user to contacts (blocks self-add and duplicates).
+- Remove a contact.
+- Get all contacts (with profile data).
 
-#### ⚙️ Features
-- Add a user to contacts
-- Remove a contact
-- Get all contacts for the current user
-- Search within contacts (by name)
-- Prevent duplicate contacts
-
-#### 📡 API Endpoints
+#### API Endpoints
 
 | Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/contacts` | Add a new contact | ✅ |
-| `DELETE` | `/api/v1/contacts/:contactId` | Remove a contact | ✅ |
-| `GET` | `/api/v1/contacts` | Get all contacts | ✅ |
-| `GET` | `/api/v1/contacts/search?q=` | Search contacts | ✅ |
+| `POST` | `/api/v1/contact/:contactId` | Add a new contact | ✅ |
+| `DELETE` | `/api/v1/contact/:contactId` | Remove a contact | ✅ |
+| `GET` | `/api/v1/contact` | Get all contacts | ✅ |
 
-#### 🧠 Data Model
-```
-User (owner) → Contact → User (target)
-├── userId    : owner of the contact list
-└── contactId : the added user
-```
+### 5. 📞 Call (`src/modules/call/`)
 
-#### 🔒 Business Rules
-- A user cannot add themselves
-- Prevent duplicate contacts using a unique constraint
-- Optional: auto-create reverse contact
+Real-time audio/video communication using a hybrid architecture:
+- **Socket.IO** → signaling & real-time events.
+- **WebRTC** → peer-to-peer media streaming.
+- **Prisma** → call persistence & history.
 
-#### 🚀 Use Cases
-- `AddContactUseCase`
-- `RemoveContactUseCase`
-- `GetContactsUseCase`
-- `SearchContactsUseCase`
-
----
-
-### 5. 📞 Call Module (`src/modules/call/`)
-
-#### 🎯 Overview
-The Call module enables real-time audio and video communication using a hybrid architecture:
-- **Socket.IO** → signaling & real-time events
-- **WebRTC** → peer-to-peer media streaming
-- **PostgreSQL (Prisma)** → call persistence & history
-
-#### ⚙️ Features
-- Start audio/video call
-- Accept / Reject call
-- End call
-- Missed call detection
-- Call history (with pagination)
-- Call status tracking
-
-#### 📡 Real-Time Events (Socket.IO)
+#### Real-Time Events (Socket.IO)
 
 | Event | Description |
 | :--- | :--- |
@@ -348,9 +340,9 @@ The Call module enables real-time audio and video communication using a hybrid a
 | `call:accept` | Accept call |
 | `call:reject` | Reject call |
 | `call:end` | End call |
-| `call:signal` | WebRTC signaling (offer/answer/ICE) |
+| `call:signal` | WebRTC signaling (offer / answer / ICE) |
 
-#### 🔄 Call Flow
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -367,56 +359,62 @@ sequenceDiagram
     S->>B: call:ended
 ```
 
-#### 🗄️ Call Lifecycle
+#### Call Lifecycle
 
 ```
-INITIATED → ACCEPTED → ENDED
-         ↘ MISSED
+INITIATED → RINGING → ACCEPTED → ENDED
+                    ↘ REJECTED
 ```
 
-#### 📡 HTTP Endpoints
+#### HTTP Endpoints
 
 | Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/calls` | Get call history | ✅ |
-| `GET` | `/api/v1/calls/:id` | Get call details | ✅ |
-| `GET` | `/api/v1/calls/missed` | Get missed calls | ✅ |
+| `POST` | `/api/v1/call` | Get call history (cursor pagination) | ✅ |
 
-#### 🧠 Data Model
+### 6. 📖 Story (`src/modules/story/`)
 
-```
-Call
- ├── callerId
- ├── receiverId
- ├── type     (AUDIO / VIDEO)
- ├── status   (INITIATED / ACCEPTED / ENDED / MISSED)
- ├── startedAt
- └── endedAt
-```
+Ephemeral stories visible only to contacts, similar to WhatsApp Status.
 
-#### 🧩 Architecture
-- **Socket Layer** → Real-time signaling
-- **UseCase Layer** → Business logic
-- **Repository Layer** → Prisma (DB)
+#### Features
 
-#### 🚀 Use Cases
-- `InitiateCallUseCase`
-- `AcceptCallUseCase`
-- `RejectCallUseCase`
-- `EndCallUseCase`
-- `GetUserCallsUseCase`
+- Create a story (TEXT, IMAGE, VIDEO via Cloudinary upload).
+- Delete a story (owner only).
+- Get all active stories from contacts (filtered by `expiresAt`).
+- Get a single story (contact-gated).
+- Add a view (dedup + blocks self-view).
+- Get viewers of a story (owner only).
+
+#### API Endpoints
+
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/v1/story` | Create a story | ✅ |
+| `DELETE` | `/api/v1/story/:storyId` | Delete a story | ✅ |
+| `GET` | `/api/v1/story` | Get active stories from contacts | ✅ |
+| `GET` | `/api/v1/story/:storyId` | Get a single story | ✅ |
+| `POST` | `/api/v1/viewStory/:storyId` | Add a view | ✅ |
+| `GET` | `/api/v1/viewStory/:storyId` | Get viewers | ✅ |
+
+### 7. 📤 Upload (`src/modules/upload/`)
+
+- Multipart file upload to **Cloudinary** (images, video, documents).
+- `exist` and `delete` helpers used by Story and Profile modules.
+- Multer middleware handles `multipart/form-data`.
 
 ---
 
-## 🏗️ Architecture Requirements
-- Use **Repository Pattern** (separate data access from business logic)
-- Use **asyncWrapper** utility for error handling (no try/catch in controllers)
-- All responses follow this shape:
+## 🏗️ Architecture Principles
+
+- **Repository Pattern** — data access is fully decoupled from business logic.
+- **`catchAsync` utility** — no try/catch in controllers; errors bubble to the centralized handler.
+- **Zod validation** — all request bodies are validated via schemas before hitting use cases.
+- **Uniform response shape:**
   ```json
-  { "success": boolean, "message": string, "data": {} }
+  { "success": boolean, "message": "string", "data": {} }
   ```
-- Use **Zod** for request validation
-- Add **JSDoc** comments on all service methods
+- **JSDoc comments** on all service methods.
+- **Per-module factory wiring** (`factories/`) for manual dependency injection.
 
 ---
 
@@ -424,21 +422,33 @@ Call
 
 ```text
 src/
-├── config/         # App configuration & Environment variables
-├── controllers/    # API request handlers
-├── middlewares/    # Auth, Validation, & Global Error handlers
-├── models/         # Database schemas & Data models
+├── app.ts                    # Express app setup (middleware, routes, socket init)
+├── server.ts                 # HTTP server entry point
+├── config/                   # Environment variable loading & typed config
+├── lib/
+│   └── prisma.ts             # Prisma client (Neon adapter)
 ├── modules/
-│   ├── auth/       # Authentication & Authorization
-│   ├── profile/    # User profile management
-│   ├── chat/       # Conversations & messaging
-│   ├── contact/    # Contact list management
-│   └── call/       # Audio & video calls (WebRTC)
-├── routes/         # REST API route definitions
-├── services/       # Core business logic
-├── sockets/        # WebSocket event listeners & emitters
-└── utils/          # Shared utility functions (Logger, Wrappers)
+│   ├── auth/                 # Authentication & Authorization
+│   │   ├── domain/           # User entity, repo interface, service interfaces
+│   │   ├── application/      # register, login, verify, refresh, oauth use cases
+│   │   ├── infrastructure/   # Prisma repo, bcrypt, JWT, nodemailer, OAuth providers
+│   │   └── presentation/     # Controller, router, DTOs, Zod schemas
+│   ├── profile/              # User profile management
+│   ├── chat/                 # Conversations & messaging + Socket.IO handler
+│   ├── contact/              # Contact list management
+│   ├── call/                 # Audio & video calls (WebRTC signaling)
+│   ├── story/                # Ephemeral stories & views
+│   ├── search/               # User / conversation / message search (built, not yet wired)
+│   └── upload/               # Cloudinary file uploads (multer middleware)
+└── shared/
+    ├── middlewares/          # authMiddleware, validate, error handler, requestLogger
+    ├── router/               # Aggregated API router
+    ├── socket/               # Socket.IO server init & JWT handshake
+    ├── types/                # ApiResponse<T> type
+    └── utils/                # AppError, catchAsync, cleanObject, extractToken, logger, sendResponse
 ```
+
+> Each module follows: `domain/` · `application/` · `infrastructure/` · `presentation/` · `factories/`
 
 ---
 
@@ -454,8 +464,52 @@ npm install
 
 # 3. Configure environment variables
 cp .env.example .env
-# Open .env and fill in your values (DB, Redis, JWT secrets, OAuth keys...)
+# Fill in your values (DATABASE_URL, JWT secrets, OAuth keys, Cloudinary, Email...)
 
-# 4. Start the development server
+# 4. Run Prisma migrations
+npx prisma migrate deploy
+
+# 5. Start the development server
 npm run dev
 ```
+
+### Required Environment Variables
+
+| Variable | Description |
+| :--- | :--- |
+| `NODE_ENV` | `development` or `production` |
+| `PORT` | HTTP server port |
+| `DATABASE_URL` | Neon PostgreSQL connection string |
+| `ACCESS_TOKEN_SECRET` | JWT access token secret |
+| `REFRESH_TOKEN_SECRET` | JWT refresh token secret |
+| `EMAIL_USER` | SMTP sender email |
+| `EMAIL_PASSWORD` | SMTP sender password |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+| `FACEBOOK_APP_ID` | Facebook App ID |
+| `FACEBOOK_APP_SECRET` | Facebook App secret |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
+
+---
+
+## 🔧 Tech Stack
+
+| Technology | Version | Role |
+| :--- | :--- | :--- |
+| Node.js | ≥ 18 | Runtime |
+| TypeScript | 5.9 | Language |
+| Express | 4.x | HTTP framework |
+| Socket.IO | 4.8 | Real-time events & signaling |
+| Prisma | 7.x | ORM |
+| PostgreSQL (Neon) | — | Database |
+| Zod | 4.x | Request validation |
+| JWT | 9.x | Auth tokens |
+| Bcrypt | 6.x | Password hashing |
+| Nodemailer | 7.x | Email delivery |
+| Cloudinary | 2.x | Media storage |
+| Multer | 2.x | File upload parsing |
+| Pino | 10.x | Structured logging |
+| Axios | 1.x | OAuth provider verification |
+| Helmet | 8.x | Security headers |
