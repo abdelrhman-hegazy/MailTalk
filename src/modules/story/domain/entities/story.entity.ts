@@ -35,12 +35,3 @@ export class StoryReturn {
     public expiresAt: Date,
   ) {}
 }
-
-export class StoryView {
-  constructor(
-    public id: string,
-    public storyId: string,
-    public viewerId: string,
-    public viewedAt: Date,
-  ) {}
-}

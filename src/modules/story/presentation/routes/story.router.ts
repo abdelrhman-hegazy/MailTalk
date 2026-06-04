@@ -14,10 +14,10 @@ router.post(
   storyController.createStory,
 );
 
-router.delete(
-  "/delete/:id",
-  authMiddleware,
-  storyController.deleteStory,
-);
+router.delete("/delete/:id", authMiddleware, storyController.deleteStory);
+
+router.get("/all", authMiddleware, storyController.getStories);
+
+router.get("/:id", authMiddleware, storyController.getStory);
 
 export { router as storyRouter };

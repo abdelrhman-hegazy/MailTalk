@@ -1,6 +1,6 @@
-import { AppError } from "../../../shared/utils";
-import { CloudinaryService } from "../../upload/infrastructure/storage/cloudinary.storage";
-import { StoryRepository } from "../domain/repository/story.repsitory";
+import { AppError } from "../../../../shared/utils";
+import { CloudinaryService } from "../../../upload/infrastructure/storage/cloudinary.storage";
+import { StoryRepository } from "../../domain/repository/story.repsitory";
 
 export class DeleteStoryUsecase {
   constructor(
@@ -15,7 +15,7 @@ export class DeleteStoryUsecase {
     if (story.mediaUrl) {
       await this.uploadFileService.delete(story.mediaUrl);
     }
-    
+
     await this.storyRepo.delete(storyId);
   }
 }

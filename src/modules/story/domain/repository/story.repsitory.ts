@@ -5,4 +5,5 @@ export interface StoryRepository {
   delete(storyId: string): Promise<void>;
   findById(storyId: string): Promise<StoryReturn | null>;
   getStoriesByUserIds(userIds: string[]): Promise<StoryReturn[]>;
+  getStoryByUserId(userId: string): Promise<StoryReturn | null>;
 }
