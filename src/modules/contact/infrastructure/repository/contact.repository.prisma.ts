@@ -49,4 +49,13 @@ export class ContactRepositoryPrisma {
       },
     });
   }
+  async getContactsMe(userId: string) {
+    const contacts = await prisma.contact.findMany({
+      where: { userId },
+      select: {
+        contactUserId: true,
+      },
+    });
+    return contacts.map((c: { contactUserId: string }) => c.contactUserId);
+  }
 }
