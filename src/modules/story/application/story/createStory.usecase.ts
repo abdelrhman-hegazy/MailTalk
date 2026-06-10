@@ -1,7 +1,7 @@
-import { AppError } from "../../../shared/utils";
-import { CloudinaryService } from "../../upload/infrastructure/storage/cloudinary.storage";
-import { CreateStoryDTO, Story } from "../domain/entities/story.entity";
-import { StoryRepository } from "../domain/repository/story.repsitory";
+import { AppError } from "../../../../shared/utils";
+import { CloudinaryService } from "../../../upload/infrastructure/storage/cloudinary.storage";
+import { CreateStoryDTO, Story } from "../../domain/entities/story.entity";
+import { StoryRepository } from "../../domain/repository/story.repsitory";
 
 export class CreateStoryUseCase {
   constructor(
